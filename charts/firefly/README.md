@@ -47,7 +47,7 @@ package manager. It can be used to deploy a FireFly node for a single organizati
 ## Get Repo Info
 
 Helm's [experimental OCI registry support](https://helm.sh/docs/topics/registries/) is used for publishing and retrieving
-the FireFly chart, as a result one must log into [GHCR](https://docs.github.com/en/packages/working-with-a-github-packages-registry/working-with-the-container-registry)
+the FireFly Helm chart, as a result one must log into [GHCR](https://docs.github.com/en/packages/working-with-a-github-packages-registry/working-with-the-container-registry)
 to download the chart:
 
 ```shell
