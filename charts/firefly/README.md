@@ -126,7 +126,7 @@ has several infrastructural dependencies:
   <img src="./../../../images/helm_chart_deployment_architecture.jpg" width="75%" />
 </p>
 
-As depicted above, the chart only aims to provide a means for deploying FireFly core, and then optionally [FireFly Ethconnect](ttps://github.com/hyperledger/firefly-ethconnect), [FireFly Fabconnect](ttps://github.com/hyperledger/firefly-fabconnect),
+As depicted above, the chart only aims to provide a means for deploying FireFly core, and then optionally [FireFly Ethconnect](https://github.com/hyperledger/firefly-ethconnect), [FireFly Fabconnect](https://github.com/hyperledger/firefly-fabconnect),
 [FireFly DataExchange HTTPS](https://github.com/hyperledger/firefly-dataexchange-https) and the [FireFly Tokens ERC1155](https://github.com/hyperledger/firefly-tokens-erc1155) microservices.
 
 > **NOTE**: support for deploying Ethconnect, Fabconnect, and Tokens ERC1155 is under development and will be included
@@ -176,7 +176,7 @@ config:
     # etc. ...
 ```
 
-See [`config.go`](../../../internal/config/config.go) for all available FireFly configuration options.
+See [`config.go`](https://github.com/hyperledger/firefly/blob/main/internal/config/config.go) for all available FireFly configuration options.
 
 ### Additional Environment Variables
 
