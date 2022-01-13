@@ -123,7 +123,7 @@ has several infrastructural dependencies:
 * Optional tokens connector (ERC1155)
 
 <p align="center">
-  <img src="./../../../images/helm_chart_deployment_architecture.jpg" width="75%" />
+  <img src="./../../img/helm_chart_deployment_architecture.jpg" width="75%" />
 </p>
 
 As depicted above, the chart only aims to provide a means for deploying FireFly core, and then optionally [FireFly Ethconnect](https://github.com/hyperledger/firefly-ethconnect), [FireFly Fabconnect](https://github.com/hyperledger/firefly-fabconnect),
