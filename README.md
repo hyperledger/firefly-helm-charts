@@ -1,5 +1,7 @@
 # Hyperledger FireFly Helm Charts
 
+<img src="https://github.com/hyperledger/firefly/raw/main/images/hyperledger_firefly_logo.png" />
+
 The official [Helm chart](https://helm.sh/) for [Hypeledger Firefly](https://hyperledger.github.io/firefly/) and its
 related connector microservices. See the [chart `README`](charts/firefly/README.md) for installation and
 configuration instructions.
