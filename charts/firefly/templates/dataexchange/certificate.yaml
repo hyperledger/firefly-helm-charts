@@ -1,0 +1,51 @@
+# Copyright © 2022 Kaleido, Inc.
+#
+# SPDX-License-Identifier: Apache-2.0
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://swww.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+{{- if and .Values.dataexchange.enabled .Values.dataexchange.certificate.enabled }}
+{{- if not (.Capabilities.APIVersions.Has "cert-manager.io/v1") }}
+# WARNING: cert-manager is not installed but certificate has been enabled, this will fail. Please either
+#          provide your own TLS certificate via tlsSecret.name or install cert-manager to resolve this.
+{{- end }}
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: "{{ include "firefly.fullname" . }}-dx"
+  labels:
+    {{- include "firefly.dataexchangeLabels" . | nindent 4 }}
+spec:
+  # NOTE: issuer should always be an internal / self-signed CA so that the subject is included
+  #       LetsEncrypt will not work w/ DX currently bc those certs cannot have subject, etc. configured.
+  #       Nor will a self-signed cert due to https://github.com/jetstack/cert-manager/issues/3651
+  issuerRef:
+    {{- toYaml .Values.dataexchange.certificate.issuerRef | nindent 4 }}
+  secretName: "{{ include "firefly.fullname" . }}-dx-tls"
+  subject:
+    organizations:
+      - {{ .Values.config.organizationName }}
+  commonName: {{ if .Values.dataexchange.ingress.enabled }}{{ (index .Values.dataexchange.ingress.hosts 0).host }}{{ else }}{{ include "firefly.fullname" . }}-dx{{ end }}
+  usages:
+    - server auth
+    - client auth
+  dnsNames:
+    {{- if .Values.dataexchange.ingress.enabled }}
+    {{- range .Values.dataexchange.ingress.hosts }}
+    - {{ .host }}
+    {{- end }}
+    {{- end }}
+    - {{ include "firefly.fullname" . }}-dx
+    - {{ include "firefly.fullname" . }}-dx.{{ .Release.Namespace }}.svc
+    - {{ include "firefly.fullname" . }}-dx.{{ .Release.Namespace }}.svc.cluster.local
+{{- end }}
