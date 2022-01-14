@@ -17,3 +17,50 @@ export HELM_EXPERIMENTAL_OCI=1
 
 helm registry login ghcr.io
 ```
+
+## Development
+
+### Prerequisites
+
+* [kind](https://kind.sigs.k8s.io/docs/user/quick-start/#installing-with-a-package-manager) 0.11+
+* [helm](https://helm.sh/docs/intro/install/) 3.7+
+* [ct](https://github.com/helm/chart-testing#installation) 3.4+
+
+### Linting
+
+Lint the chart using [`ct`](https://github.com/helm/chart-testing) and ensure it adheres to the project conventions:
+
+```shell
+make lint
+```
+
+### Testing
+
+Create a local Kubernetes cluster in Docker via [`kind`](https://kind.sigs.k8s.io/):
+
+```shell
+make kind
+```
+
+Then install FireFly dependencies to the cluster (i.e. PostgreSQL, cert-manager, Prometheus):
+
+```shell
+make deps
+```
+
+Lastly, deploy the chart using your customized `charts/firefly/local-values.yaml`:
+
+```shell
+make deploy
+```
+
+If you are unsure of what to initially put in your `charts/firefly/locall-values.yaml` file, we
+suggest using the [Ethereum CI values](charts/firefly/ci/eth-values.yaml) as a starting point
+and reading the [chart configuration documentation](charts/firefly/README.md#configuration):
+
+```shell
+make starter
+```
+
+If you are developing with a Fabric blockchain see the [Fabric CI values](charts/firefly/ci/fab-values.yaml) and
+[additional chart documentation](charts/firefly/README.md#fabric).
