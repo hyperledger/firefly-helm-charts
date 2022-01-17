@@ -127,7 +127,7 @@ org:
   key: {{ .Values.config.organizationKey }}
 {{- if .Values.config.blockchainOverride }}
 blockchain:
-  {{- toYaml (tpl .Values.config.blockchainOverride .) | nindent 2 }}
+  {{- tpl .Values.config.blockchainOverride . | nindent 2 }}
 {{- else if .Values.config.ethconnectUrl }}
 blockchain:
   type: ethereum
@@ -169,7 +169,7 @@ blockchain:
 {{- end }}
 {{- if .Values.config.databaseOverride }}
 database:
-  {{- toYaml (tpl .Values.config.databaseOverride .) | nindent 2 }}
+  {{- tpl .Values.config.databaseOverride . | nindent 2 }}
 {{- else if .Values.config.postgresUrl }}
 database:
   type: postgres
@@ -180,7 +180,7 @@ database:
 {{- end }}
 {{- if .Values.config.publicstorageOverride }}
 publicstorage:
-  {{- toYaml (tpl .Values.config.publicstorageOverride .) | nindent 2 }}
+  {{- tpl .Values.config.publicstorageOverride . | nindent 2 }}
 {{- else if and .Values.config.ipfsApiUrl .Values.config.ipfsGatewayUrl }}
 publicstorage:
   type: ipfs
@@ -202,7 +202,7 @@ publicstorage:
 {{- end }}
 {{- if and .Values.config.dataexchangeOverride (not .Values.dataexchange.enabled) }}
 dataexchange:
-  {{- toYaml (tpl .Values.config.dataexchangeOverride .) | nindent 2 }}
+  {{- tpl .Values.config.dataexchangeOverride . | nindent 2 }}
 {{- else }}
 dataexchange:
   {{- if .Values.dataexchange.enabled }}

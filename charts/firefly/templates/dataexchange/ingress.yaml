@@ -14,7 +14,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-{{- if and .Values.dataexchange.enabled .Values.dataexchange.ingress.enabled -}}
+{{- if and .Values.dataexchange.enabled .Values.dataexchange.ingress.enabled }}
 {{- $fullName := include "firefly.fullname" . -}}
 {{- $svcPort := .Values.dataexchange.service.p2pPort -}}
 {{- if and .Values.dataexchange.ingress.className (not (semverCompare ">=1.18-0" .Capabilities.KubeVersion.GitVersion)) }}

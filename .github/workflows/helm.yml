@@ -43,7 +43,7 @@ jobs:
         run: make deps
 
       - name: run chart integration test
-        run: ct install --charts charts/firefly
+        run: make test
 
       - name: debug k8s
         if: ${{ failure() }}
