@@ -120,7 +120,7 @@ config:
   erc1155ContractAddress: "/contracts/erc1155Addrress"
 
   # The Ethconnet topic to use for tokens event subscriptions
-  erc1155EthconnectTopic: ""
+  erc1155EthconnectTopic: "tokens"
 
   # The following values can be used to override the templating of specific plugin sections, in the case where
   # the user wants greater control to template the sections using global values, additional helpers, etc. OR if they

@@ -27,15 +27,14 @@ package manager. It can be used to deploy a FireFly node for a single organizati
   * [Database Migrations](#database-migrations)
   * [Auto-Registration](#auto-registration)
   * [DataExchange HTTPS and cert-manager](#dataexchange-https-and-cert-manager)
-  * [Tokens via ERC1155 Connector](#tokens-via-erc1155-connector)
+  * [Tokens Connectors](#tokens-connectors)
+    * [ERC1155](#erc1155)
   * [Prometheus Support](#prometheus-support)
 * [Automated Deployments](#automated-deployments)
   * [GitOps](#gitops)
     * [Flux V2](#flux-v2)
     * [ArgoCD](#argocd)
   * [Terraform](#terraform)
-
-
 
 ## Prerequisites
 
@@ -120,7 +119,7 @@ has several infrastructural dependencies:
 * [Private data exchange](https://hyperledger.github.io/firefly/keyconcepts/data_exchange.html) (HTTPS + mTLS)
 * Database (PostgreSQL)
 * [Shared storage](https://hyperledger.github.io/firefly/keyconcepts/broadcast.html#shared-data) (IPFS)
-* Optional tokens connector (ERC1155)
+* Optional tokens connectors (ERC1155, ERC20, etc.)
 
 <p align="center">
   <img src="./../../img/helm_chart_deployment_architecture.jpg" width="75%" />
@@ -441,10 +440,28 @@ annotation can be set on the `Ingress`:
 > it assumes the provided `hosts` must match the `tls[0].hosts` and that the secret is either pre-made or
 > provided by cert-manager.
 
-### Tokens via ERC1155 Connector
+### Tokens Connectors
 
-Chart support for the [ERC1155 token connector](https://github.com/hyperledger/firefly-tokens-erc1155) is coming soon.
-See [#272](https://github.com/hyperledger/firefly/issues/272) for updates on its progress.
+#### ERC1155
+
+By default, the chart comes with the [FireFly Tokens ERC1155 connector](https://github.com/hyperledger/firefly-tokens-erc1155)
+enabled.
+
+The ERC1155 connect requires its [ERC1155 smart contract](https://github.com/hyperledger/firefly-tokens-erc1155/blob/main/solidity/contracts/ERC1155MixedFungible.sol)
+to be deployed via Ethconnect. To do so, you can follow the same process for deploying the [FireFly smart contract](#smart-contract-deployment).
+Once its deployed, be sure to provide the contract address to the chart:
+
+```yaml
+config:
+  erc1155ContractAddress: "/instances/0xf778b86fa74e846c4f0a1fbd1335fe81c00a0c91"
+```
+
+If you would rather run FireFly without the ERC1155 connector, you can disable it:
+
+```yaml
+erc1155:
+  enabled: false
+```
 
 ### Prometheus Support
 
