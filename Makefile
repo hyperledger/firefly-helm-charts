@@ -9,6 +9,7 @@ lint:
 	ct lint \
 		--target-branch=main \
 		--exclude-deprecated \
+		--check-version-increment=false \
 		--lint-conf=./charts/lintconf.yaml
 	./hack/enforce-chart-conventions.sh
 
