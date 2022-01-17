@@ -31,6 +31,9 @@ jobs:
       - name: setup chart-testing tool
         uses: helm/chart-testing-action@v2.2.0
 
+      - name: test default chart templating
+        run: helm template charts/firefly
+
       - name: lint charts
         run: make lint
 

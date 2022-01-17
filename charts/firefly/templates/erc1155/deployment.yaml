@@ -1,0 +1,105 @@
+# Copyright © 2022 Kaleido, Inc.
+#
+# SPDX-License-Identifier: Apache-2.0
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://swww.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+{{- if .Values.erc1155.enabled }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "firefly.fullname" . }}-erc1155
+  labels:
+  {{- include "firefly.erc1155Labels" . | nindent 4 }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+  {{- include "firefly.erc1155SelectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      {{- with .Values.erc1155.podAnnotations }}
+      annotations:
+      {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+    {{- include "firefly.erc1155SelectorLabels" . | nindent 8 }}
+    spec:
+      {{- with .Values.erc1155.imagePullSecrets }}
+      imagePullSecrets:
+      {{- toYaml . | nindent 8 }}
+      {{- end }}
+      securityContext:
+      {{- toYaml .Values.erc1155.podSecurityContext | nindent 8 }}
+      containers:
+        - name: {{ .Chart.Name }}-erc1155
+          securityContext:
+          {{- toYaml .Values.erc1155.securityContext | nindent 12 }}
+          image: "{{ .Values.erc1155.image.repository }}:{{ .Values.erc1155.image.tag }}"
+          imagePullPolicy: {{ .Values.erc1155.image.pullPolicy }}
+          ports:
+            - name: http
+              containerPort: {{ .Values.erc1155.service.port }}
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /api/v1/health/liveness
+              port: http
+            successThreshold: 1
+            failureThreshold: 2
+            periodSeconds: 10
+            timeoutSeconds: 1
+            initialDelaySeconds: 5
+          readinessProbe:
+            httpGet:
+              path: /api/v1/health/readiness
+              port: http
+            successThreshold: 1
+            failureThreshold: 4
+            periodSeconds: 15
+            timeoutSeconds: 2
+            initialDelaySeconds: 15
+          env:
+            - name: PORT
+              value: {{ .Values.erc1155.service.port | quote }}
+            - name: ETHCONNECT_URL
+              value: {{ tpl .Values.config.ethconnectUrl . }}
+            - name: ETHCONNECT_INSTANCE
+              value: {{ .Values.config.erc1155ContractAddress }}
+            - name: ETHCONNECT_TOPIC
+              value: {{ .Values.config.erc1155EthconnectTopic | quote }}
+            - name: ETHCONNECT_PREFIX
+              value: {{ .Values.config.ethconnectPrefixShort | default "fly" }}
+            {{- if and .Values.config.ethconnectUsername .Values.config.ethconnectPassword }}
+            - name: ETHCONNECT_USERNAME
+              value: {{ .Values.config.ethconnectUsername | quote }}
+            - name: ETHCONNECT_PASSWORD
+              value: {{ .Values.config.ethconnectPassword | quote }}
+            {{- end }}
+            - name: AUTO_INIT
+              value: "true"
+          resources:
+      {{- toYaml .Values.erc1155.resources | nindent 12 }}
+      {{- with .Values.erc1155.nodeSelector }}
+      nodeSelector:
+      {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.erc1155.affinity }}
+      affinity:
+      {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.erc1155.tolerations }}
+      tolerations:
+      {{- toYaml . | nindent 8 }}
+      {{- end }}
+{{- end }}
