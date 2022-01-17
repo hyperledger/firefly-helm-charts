@@ -470,7 +470,7 @@ spec:
     tag: helm-v0.1.0
   ignore: |
     /*
-    !/deploy/charts/firefly
+    !/charts/firefly
 ```
 
 then within a [`HelmRelease`](https://fluxcd.io/docs/components/helm/helmreleases/) resource you can refer to the chart via the `GitRepostiory`:
@@ -483,7 +483,7 @@ metadata:
 spec:
   chart:
     spec:
-      chart: /deploy/charts/firefly
+      chart: /charts/firefly
       sourceRef:
         name: firefly-helm
         kind: GitRepository
