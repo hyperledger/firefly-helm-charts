@@ -1,18 +1,20 @@
-{{/* Copyright © 2022 Kaleido, Inc.*/}}
+{{/*
+  Copyright © 2022 Kaleido, Inc.
 
-{{/* SPDX-License-Identifier: Apache-2.0*/}}
+  SPDX-License-Identifier: Apache-2.0
 
-{{/* Licensed under the Apache License, Version 2.0 (the "License");*/}}
-{{/* you may not use this file except in compliance with the License.*/}}
-{{/* You may obtain a copy of the License at*/}}
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
 
-{{/*     http://swww.apache.org/licenses/LICENSE-2.0*/}}
+  http://swww.apache.org/licenses/LICENSE-2.0
 
-{{/* Unless required by applicable law or agreed to in writing, software*/}}
-{{/* distributed under the License is distributed on an "AS IS" BASIS,*/}}
-{{/* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.*/}}
-{{/* See the License for the specific language governing permissions and*/}}
-{{/* limitations under the License.*/}}
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+*/}}
 
 {{/*
 Expand the name of the chart.
@@ -127,7 +129,7 @@ org:
   key: {{ .Values.config.organizationKey }}
 {{- if .Values.config.blockchainOverride }}
 blockchain:
-  {{- toYaml (tpl .Values.config.blockchainOverride .) | nindent 2 }}
+  {{- tpl .Values.config.blockchainOverride . | nindent 2 }}
 {{- else if .Values.config.ethconnectUrl }}
 blockchain:
   type: ethereum
@@ -169,7 +171,7 @@ blockchain:
 {{- end }}
 {{- if .Values.config.databaseOverride }}
 database:
-  {{- toYaml (tpl .Values.config.databaseOverride .) | nindent 2 }}
+  {{- tpl .Values.config.databaseOverride . | nindent 2 }}
 {{- else if .Values.config.postgresUrl }}
 database:
   type: postgres
@@ -180,7 +182,7 @@ database:
 {{- end }}
 {{- if .Values.config.publicstorageOverride }}
 publicstorage:
-  {{- toYaml (tpl .Values.config.publicstorageOverride .) | nindent 2 }}
+  {{- tpl .Values.config.publicstorageOverride . | nindent 2 }}
 {{- else if and .Values.config.ipfsApiUrl .Values.config.ipfsGatewayUrl }}
 publicstorage:
   type: ipfs
@@ -202,7 +204,7 @@ publicstorage:
 {{- end }}
 {{- if and .Values.config.dataexchangeOverride (not .Values.dataexchange.enabled) }}
 dataexchange:
-  {{- toYaml (tpl .Values.config.dataexchangeOverride .) | nindent 2 }}
+  {{- tpl .Values.config.dataexchangeOverride . | nindent 2 }}
 {{- else }}
 dataexchange:
   {{- if .Values.dataexchange.enabled }}

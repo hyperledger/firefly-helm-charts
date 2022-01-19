@@ -203,6 +203,35 @@ core:
           key: password
 ```
 
+In the case of PostgreSQL credentials, environment variables will have to be set for FireFly and its [migrations `Job`](#database-migrations):
+
+```yaml
+# database section of the config needs to be set to indicate Postgres
+config:
+  databaseOverride: |-
+    type: postgres
+    postgres:
+      migrations:
+        auto: false
+# pass Postgres URL as a secret to both FireFly and the migrations job
+core:
+  extraEnv:
+    - name: FIREFLY_DATABASE_POSTGRES_URL
+      valueFrom:
+        secretKeyRef:
+          name: custom-psql-config
+          key: url
+  jobs:
+    postgresMigrations:
+      enabled: true
+      extraEnv:
+        - name: PSQL_URL
+          valueFrom:
+            secretKeyRef:
+              name: custom-psql-config
+              key: url
+```
+
 ### Ethereum
 
 Configuring FireFly to use an [Ethereum](https://ethereum.org/en/) blockchain such as [Geth](https://geth.ethereum.org/),

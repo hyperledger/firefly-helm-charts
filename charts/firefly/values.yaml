@@ -1,4 +1,4 @@
-# Copyright © 2021 Kaleido, Inc.
+# Copyright © 2022 Kaleido, Inc.
 #
 # SPDX-License-Identifier: Apache-2.0
 #
@@ -120,13 +120,13 @@ config:
   # the user wants greater control to template the sections using global values, additional helpers, etc. OR if they
   # want to use other plugin types i.e. `fabric` which currently do not exist at the time of writing.
 
-  dataexchangeOverride: {}
+  dataexchangeOverride: ""
 
-  databaseOverride: {}
+  databaseOverride: ""
 
-  publicstorageOverride: {}
+  publicstorageOverride: ""
 
-  blockchainOverride: {}
+  blockchainOverride: ""
    # type: ethereum
    # ethereum:
    #   ethconnect:
@@ -215,6 +215,12 @@ core:
     # Whether to create a migration job to perform migrations each time a new tag is pushed for the FireFly image (supports DB creation)
     postgresMigrations:
       enabled: false
+      extraEnv: []
+      #  - name: PSQL_URL
+      #    valueFrom:
+      #      secretKeyRef:
+      #        name: custom-psql-config
+      #        key: psql_url
 
     # Whether to use a Job to perform auto-registration of the FireFly runtime.
     # Note registration will not be successful until the new node has caught up with the head of the chain.
