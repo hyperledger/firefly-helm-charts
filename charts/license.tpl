@@ -15,20 +15,3 @@
   See the License for the specific language governing permissions and
   limitations under the License.
 */}}
-
-apiVersion: v1
-kind: Secret
-metadata:
-  name: {{ include "firefly.fullname" . }}-config
-  labels:
-    {{- include "firefly.coreLabels" . | nindent 4 }}
-stringData:
-  {{- if and .Values.config.postgresUrl .Values.core.jobs.postgresMigrations.enabled }}
-  psql_url: {{ tpl .Values.config.postgresUrl . }}
-  {{- end }}
-  firefly.core: |
-    {{- if .Values.config.templateOverride }}
-    {{- tpl .Values.config.templateOverride . | nindent 4 }}
-    {{- else }}
-    {{- include "firefly.coreConfig" . | nindent 4 }}
-    {{- end }}

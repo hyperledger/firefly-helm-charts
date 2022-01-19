@@ -8,7 +8,7 @@ for yamlTemplate in $(find ./charts -regex '^\.\/charts\/.*\/templates\/[^\/]*.*
     failed=$(($failed+1))
   fi
 
-  if ! cat $yamlTemplate | grep "$(cat ./charts/license.yaml)"  > /dev/null; then
+  if ! cat $yamlTemplate | grep "$(cat ./charts/license.tpl)"  > /dev/null; then
     echo "ERROR: $yamlTemplate filename does not start with the license"
     failed=$(($failed+1))
   fi
