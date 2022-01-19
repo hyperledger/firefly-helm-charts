@@ -4,7 +4,7 @@ The following is the list of current maintainers this repo:
 
 | Name              | GitHub          | Email                        | LFID              |
 | ----------------- | --------------- | ---------------------------- | ----------------- |
-| Andrew Richardson | awrichar        | andrew.richardson@kaleido.io | Andrew.Richardson |
+| Hayden Fuss       | hfuss           | hayden.fuss@kaleido.io       | hfuss             |
 | Peter Broadhurst  | peterbroadhurst | peter.broadhurst@kaleido.io  | peterbroadhurst   |
 | Nicko Guyer       | nguyer          | nicko.guyer@kaleido.io       | nguyer            |
 
