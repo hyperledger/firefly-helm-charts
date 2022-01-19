@@ -49,3 +49,6 @@ dataexchange:
 
   tlsSecret:
     enabled: false
+
+erc1155:
+  enabled: false
