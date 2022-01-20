@@ -445,22 +445,16 @@ annotation can be set on the `Ingress`:
 #### ERC1155
 
 By default, the chart comes with the [FireFly Tokens ERC1155 connector](https://github.com/hyperledger/firefly-tokens-erc1155)
-enabled.
+disabled.
 
 The ERC1155 connect requires its [ERC1155 smart contract](https://github.com/hyperledger/firefly-tokens-erc1155/blob/main/solidity/contracts/ERC1155MixedFungible.sol)
 to be deployed via Ethconnect. To do so, you can follow the same process for deploying the [FireFly smart contract](#smart-contract-deployment).
-Once its deployed, be sure to provide the contract address to the chart:
-
-```yaml
-config:
-  erc1155ContractAddress: "/instances/0xf778b86fa74e846c4f0a1fbd1335fe81c00a0c91"
-```
-
-If you would rather run FireFly without the ERC1155 connector, you can disable it:
+Once the smart contract is deployed, you can enable the ERC1155 connect and provide the contract address to the chart:
 
 ```yaml
 erc1155:
-  enabled: false
+  enabled: true
+  contractAddress: "/instances/0xf778b86fa74e846c4f0a1fbd1335fe81c00a0c91"
 ```
 
 ### Prometheus Support
