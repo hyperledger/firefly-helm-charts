@@ -77,9 +77,9 @@ spec:
             - name: ETHCONNECT_URL
               value: {{ tpl .Values.config.ethconnectUrl . }}
             - name: ETHCONNECT_INSTANCE
-              value: {{ .Values.config.erc1155ContractAddress }}
+              value: {{ .Values.erc1155.contractAddress }}
             - name: ETHCONNECT_TOPIC
-              value: {{ .Values.config.erc1155EthconnectTopic | quote }}
+              value: {{ .Values.erc1155.ethconnectTopic | quote }}
             - name: ETHCONNECT_PREFIX
               value: {{ .Values.config.ethconnectPrefixShort | default "fly" }}
             {{- if and .Values.config.ethconnectUsername .Values.config.ethconnectPassword }}

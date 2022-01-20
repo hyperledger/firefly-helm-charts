@@ -116,12 +116,6 @@ config:
   # The Fabric to use for signing transactions, must be pre-registered and enrolled
   fabconnectSigner: ""
 
-  # The Ethconnet URI representing the ERC1155 tokens contract
-  erc1155ContractAddress: "/contracts/erc1155Addrress"
-
-  # The Ethconnet topic to use for tokens event subscriptions
-  erc1155EthconnectTopic: "tokens"
-
   # The following values can be used to override the templating of specific plugin sections, in the case where
   # the user wants greater control to template the sections using global values, additional helpers, etc. OR if they
   # want to use other plugin types i.e. `fabric` which currently do not exist at the time of writing.
@@ -336,7 +330,13 @@ dataexchange:
       storageClass: ""
 
 erc1155:
-  enabled: true
+  enabled: false
+
+  # The Ethconnet URI representing the ERC1155 tokens contract
+  contractAddress: "/contracts/erc1155Address"
+
+  # The Ethconnet topic to use for tokens event subscriptions
+  ethconnectTopic: "tokens"
 
   image:
     repository: ghcr.io/hyperledger/firefly-tokens-erc1155

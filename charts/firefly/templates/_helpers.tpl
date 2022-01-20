@@ -239,7 +239,7 @@ dataexchange:
 {{- if and .Values.config.tokensOverride (not .Values.erc1155.enabled) }}
 tokens:
     {{- tpl .Values.config.tokensOverride . | nindent 2 }}
-{{- else if and .Values.erc1155.enabled }}
+{{- else if .Values.erc1155.enabled }}
 tokens:
   - plugin: fftokens
     name: erc1155
