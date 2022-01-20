@@ -1,6 +1,9 @@
 
+
+all: lint e2e
+
 kind:
-	kind create cluster
+	kind create cluster || true
 
 clean:
 	kind delete cluster
@@ -17,12 +20,12 @@ deps:
 	kubectl create ns cert-manager || true
 	kubectl apply -f https://github.com/jetstack/cert-manager/releases/download/v1.4.0/cert-manager.crds.yaml
 	helm repo add jetstack https://charts.jetstack.io || true
-	helm install --skip-crds -n cert-manager cert-manager jetstack/cert-manager --wait
+	helm upgrade --install --skip-crds -n cert-manager cert-manager jetstack/cert-manager --wait
 	kubectl apply -n cert-manager -f manifests/tls-issuers.yaml
 	helm repo add prometheus-community https://prometheus-community.github.io/helm-charts || true
-	helm install --set kubeStateMetrics.enabled=false --set nodeExporter.enabled=false --set grafana.enabled=false kube-prometheus prometheus-community/kube-prometheus-stack
+	helm upgrade --install --set kubeStateMetrics.enabled=false --set nodeExporter.enabled=false --set grafana.enabled=false kube-prometheus prometheus-community/kube-prometheus-stack
 	helm repo add bitnami https://charts.bitnami.com/bitnami || true
-	helm install --set postgresqlPassword=firef1y --set extraEnv[0].name=POSTGRES_DATABASE --set extraEnv[0].value=firefly postgresql bitnami/postgresql
+	helm upgrade --install --set postgresqlPassword=firef1y --set extraEnv[0].name=POSTGRES_DATABASE --set extraEnv[0].value=firefly postgresql bitnami/postgresql
 	kubectl create secret generic custom-psql-config --dry-run --from-literal="url=postgres://postgres:firef1y@postgresql.default.svc:5432/postgres?sslmode=disable" -o json | kubectl apply -f -
 
 starter: charts/firefly/local-values.yaml
@@ -35,3 +38,5 @@ deploy:
 
 test:
 	ct install --namespace default --helm-extra-args="--timeout 120s" --charts charts/firefly
+
+e2e: kind deps test
