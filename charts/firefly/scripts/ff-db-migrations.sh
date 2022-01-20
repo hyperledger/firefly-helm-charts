@@ -19,8 +19,6 @@
 # Install deps
 apk add postgresql-client curl jq
 
-echo "Provided connection string: '${PSQL_URL}'"
-
 # Extract the database name from the end of the PSQL URL, and check it's there
 DB_PARAMS=`echo ${PSQL_URL} | sed 's!^.*/!!'`
 DB_NAME=`echo ${DB_PARAMS} | sed 's!?.*!!'`
@@ -36,7 +34,6 @@ fi
 
 # Check we can connect to the PSQL server using the default "postgres" database
 PSQL_SERVER=`echo ${PSQL_URL} | sed "s!${DB_PARAMS}!!"`postgres
-echo "PSQL server URL: '${PSQL_SERVER}'"
 until psql -c "SELECT 1;" ${PSQL_SERVER}; do
   echo "Waiting for PSQL server connection..."
   sleep 1
