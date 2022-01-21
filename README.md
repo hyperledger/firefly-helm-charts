@@ -48,7 +48,13 @@ Then install FireFly dependencies to the cluster (i.e. PostgreSQL, cert-manager,
 make deps
 ```
 
-Lastly, deploy the chart using your customized `charts/firefly/local-values.yaml`:
+Run the E2E tests:
+
+```shell
+make test
+```
+
+Or deploy the chart using your own customized `charts/firefly/local-values.yaml`:
 
 ```shell
 make deploy
