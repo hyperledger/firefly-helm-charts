@@ -326,3 +326,58 @@ dataexchange:
       subPath: ""
       size: 2Gi
       storageClass: ""
+
+erc20:
+  enabled: true
+
+  # The Ethconnet URI representing the erc20 tokens contract
+  contractAddress: "/contracts/erc20Address"
+
+  # The Ethconnet topic to use for tokens event subscriptions
+  ethconnectTopic: "tokens"
+
+  ethconnectInstance: /instances/<Address of ERC20 Factory>
+
+  ethconnectContractURI: /gateways/<Gateway name of ERC20 contract>
+
+  image:
+    repository: ghcr.io/hyperledger/firefly-tokens-erc20
+    pullPolicy: IfNotPresent
+    tag: v0.1.1
+
+  imagePullSecrets: []
+
+  podAnnotations: {}
+
+  podSecurityContext: {}
+  # fsGroup: 2000
+
+  securityContext: {}
+    # capabilities:
+    #   drop:
+    #   - ALL
+  # readOnlyRootFilesystem: true
+  # runAsNonRoot: true
+  # runAsUser: 1000
+
+  service:
+    type: ClusterIP
+    port: 3000
+
+  resources: {}
+    # We usually recommend not to specify default resources and to leave this as a conscious
+    # choice for the user. This also increases chances charts run on environments with little
+    # resources, such as Minikube. If you do want to specify resources, uncomment the following
+    # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+    # limits:
+    #   cpu: 100m
+    #   memory: 128Mi
+  # requests:
+  #   cpu: 100m
+  #   memory: 128Mi
+
+  nodeSelector: {}
+
+  tolerations: []
+
+  affinity: {}

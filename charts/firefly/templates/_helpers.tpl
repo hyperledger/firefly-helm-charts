@@ -74,6 +74,16 @@ app.kubernetes.io/managed-by: {{ .Release.Service }}
 app.kuberentes.io/part-of: {{ .Chart.Name }}
 {{- end }}
 
+{{- define "firefly.erc20Labels" -}}
+helm.sh/chart: {{ include "firefly.chart" . }}
+{{ include "firefly.erc20SelectorLabels" . }}
+{{- if .Chart.AppVersion }}
+app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
+{{- end }}
+app.kubernetes.io/managed-by: {{ .Release.Service }}
+app.kuberentes.io/part-of: {{ .Chart.Name }}
+{{- end }}
+
 {{/*
 Selector labels
 */}}
@@ -90,6 +100,12 @@ Selector labels
 app.kubernetes.io/name: {{ include "firefly.name" . }}
 app.kubernetes.io/instance: {{ .Release.Name }}
 app.kubernetes.io/component: dx
+{{- end }}
+
+{{- define "firefly.erc20SelectorLabels" -}}
+app.kubernetes.io/name: {{ include "firefly.name" . }}
+app.kubernetes.io/instance: {{ .Release.Name }}
+app.kubernetes.io/component: erc20
 {{- end }}
 
 {{- define "firefly.dataexchangeP2PHost" -}}
@@ -222,5 +238,14 @@ dataexchange:
       x-api-key: {{ .Values.config.dataexchangeAPIKey | quote }}
     {{- end }}
   {{- end }}
+{{- end }}
+{{- if and .Values.config.tokensOverride (not .Values.erc20.enabled) }}
+tokens:
+    {{- tpl .Values.config.tokensOverride . | nindent 2 }}
+{{- else if .Values.erc20.enabled }}
+tokens:
+  - plugin: fftokens
+    name: erc20
+    url: http://{{ include "firefly.fullname" . }}-erc20.{{ .Release.Namespace }}.svc:{{ .Values.erc20.service.port }}
 {{- end }}
 {{- end }}
