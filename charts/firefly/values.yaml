@@ -89,7 +89,7 @@ config:
   # The Ethconnect topic to use for blockchain event subscriptions
   ethconnectTopic: 0
 
-  # The short prefix FireFly will prepend to certain headers it sends to Ethconnect i.e. ff or kld
+  # The short prefix FireFly will prepend to certain headers it sends to Ethconnect i.e. fly or kld
   ethconnectPrefixShort: ""
 
   # The long prefix FireFly will prepend to certain headers it sends to Ethconnect i.e. FireFly or Kaleido
@@ -126,6 +126,8 @@ config:
 
   publicstorageOverride: ""
 
+  tokensOverride: ""
+
   blockchainOverride: ""
    # type: ethereum
    # ethereum:
@@ -142,7 +144,7 @@ config:
 core:
   image:
     repository: ghcr.io/hyperledger/firefly
-    pullPolicy: Always
+    pullPolicy: IfNotPresent
     # Overrides the image tag whose default is the chart appVersion.
     # tag: latest
 
@@ -255,7 +257,7 @@ dataexchange:
 
   image:
     repository: ghcr.io/hyperledger/firefly-dataexchange-https
-    pullPolicy: Always
+    pullPolicy: IfNotPresent
     tag: v0.9.3
 
   imagePullSecrets: []
@@ -327,18 +329,65 @@ dataexchange:
       size: 2Gi
       storageClass: ""
 
-erc20:
-  enabled: true
+erc1155:
+  enabled: false
 
-  # The Ethconnet URI representing the erc20 tokens contract
-  contractAddress: "/contracts/erc20Address"
+  # The Ethconnet URI representing the ERC1155 tokens contract
+  contractAddress: "/contracts/erc1155Address"
 
   # The Ethconnet topic to use for tokens event subscriptions
   ethconnectTopic: "tokens"
 
-  ethconnectInstance: /instances/<Address of ERC20 Factory>
+  image:
+    repository: ghcr.io/hyperledger/firefly-tokens-erc1155
+    pullPolicy: IfNotPresent
+    tag: v0.10.3
 
-  ethconnectContractURI: /gateways/<Gateway name of ERC20 contract>
+  imagePullSecrets: []
+
+  podAnnotations: {}
+
+  podSecurityContext: {}
+  # fsGroup: 2000
+
+  securityContext: {}
+    # capabilities:
+    #   drop:
+    #   - ALL
+  # readOnlyRootFilesystem: true
+  # runAsNonRoot: true
+  # runAsUser: 1000
+
+  service:
+    type: ClusterIP
+    port: 3000
+
+  resources: {}
+    # We usually recommend not to specify default resources and to leave this as a conscious
+    # choice for the user. This also increases chances charts run on environments with little
+    # resources, such as Minikube. If you do want to specify resources, uncomment the following
+    # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+    # limits:
+    #   cpu: 100m
+    #   memory: 128Mi
+  # requests:
+  #   cpu: 100m
+  #   memory: 128Mi
+
+  nodeSelector: {}
+
+  tolerations: []
+
+  affinity: {}
+
+erc20:
+  enabled: false
+
+  # The Ethconnet URI representing the ERC20 tokens contract
+  contractAddress: "/contracts/erc20Address"
+
+  # The Ethconnet topic to use for tokens event subscriptions
+  ethconnectTopic: "tokens"
 
   image:
     repository: ghcr.io/hyperledger/firefly-tokens-erc20

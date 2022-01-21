@@ -31,6 +31,9 @@ jobs:
       - name: setup chart-testing tool
         uses: helm/chart-testing-action@v2.2.0
 
+      - name: test token connectors chart templating
+        run: helm template charts/firefly --set "erc1155.enabled=true"
+
       - name: lint charts
         run: make lint
 

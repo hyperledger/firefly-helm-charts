@@ -61,12 +61,19 @@ app.kubernetes.io/managed-by: {{ .Release.Service }}
 app.kuberentes.io/part-of: {{ .Chart.Name }}
 {{- end }}
 
-{{/*
-Common labels
-*/}}
 {{- define "firefly.dataexchangeLabels" -}}
 helm.sh/chart: {{ include "firefly.chart" . }}
 {{ include "firefly.dataexchangeSelectorLabels" . }}
+{{- if .Chart.AppVersion }}
+app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
+{{- end }}
+app.kubernetes.io/managed-by: {{ .Release.Service }}
+app.kuberentes.io/part-of: {{ .Chart.Name }}
+{{- end }}
+
+{{- define "firefly.erc1155Labels" -}}
+helm.sh/chart: {{ include "firefly.chart" . }}
+{{ include "firefly.erc1155SelectorLabels" . }}
 {{- if .Chart.AppVersion }}
 app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
 {{- end }}
@@ -93,13 +100,16 @@ app.kubernetes.io/instance: {{ .Release.Name }}
 app.kubernetes.io/component: core
 {{- end }}
 
-{{/*
-Selector labels
-*/}}
 {{- define "firefly.dataexchangeSelectorLabels" -}}
 app.kubernetes.io/name: {{ include "firefly.name" . }}
 app.kubernetes.io/instance: {{ .Release.Name }}
 app.kubernetes.io/component: dx
+{{- end }}
+
+{{- define "firefly.erc1155SelectorLabels" -}}
+app.kubernetes.io/name: {{ include "firefly.name" . }}
+app.kubernetes.io/instance: {{ .Release.Name }}
+app.kubernetes.io/component: erc1155
 {{- end }}
 
 {{- define "firefly.erc20SelectorLabels" -}}
@@ -108,6 +118,9 @@ app.kubernetes.io/instance: {{ .Release.Name }}
 app.kubernetes.io/component: erc20
 {{- end }}
 
+{{/*
+Config helpers
+*/}}
 {{- define "firefly.dataexchangeP2PHost" -}}
 {{- if .Values.dataexchange.ingress.enabled }}
 {{- (index .Values.dataexchange.ingress.hosts 0).host }}
@@ -239,6 +252,15 @@ dataexchange:
     {{- end }}
   {{- end }}
 {{- end }}
+{{- if and .Values.config.tokensOverride (not .Values.erc1155.enabled) }}
+tokens:
+    {{- tpl .Values.config.tokensOverride . | nindent 2 }}
+{{- else if .Values.erc1155.enabled }}
+tokens:
+  - plugin: fftokens
+    name: erc1155
+    url: http://{{ include "firefly.fullname" . }}-erc1155.{{ .Release.Namespace }}.svc:{{ .Values.erc1155.service.port }}
+{{- end }}
 {{- if and .Values.config.tokensOverride (not .Values.erc20.enabled) }}
 tokens:
     {{- tpl .Values.config.tokensOverride . | nindent 2 }}
@@ -247,5 +269,6 @@ tokens:
   - plugin: fftokens
     name: erc20
     url: http://{{ include "firefly.fullname" . }}-erc20.{{ .Release.Namespace }}.svc:{{ .Values.erc20.service.port }}
+{{- end }}
 {{- end }}
 {{- end }}
