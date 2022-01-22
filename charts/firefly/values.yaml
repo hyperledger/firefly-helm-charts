@@ -332,11 +332,11 @@ dataexchange:
 erc1155:
   enabled: false
 
-  # The Ethconnet URI representing the ERC1155 tokens contract
+  # The Ethconnect URI representing the ERC1155 tokens contract
   contractAddress: "/contracts/erc1155Address"
 
-  # The Ethconnet topic to use for tokens event subscriptions
-  ethconnectTopic: "tokens"
+  # The Ethconnect topic to use for tokens event subscriptions
+  ethconnectTopic: "tokensERC1155"
 
   image:
     repository: ghcr.io/hyperledger/firefly-tokens-erc1155
@@ -382,11 +382,14 @@ erc1155:
 erc20:
   enabled: false
 
-  # The Ethconnet URI representing the ERC20 tokens contract
-  contractAddress: "/contracts/erc20Address"
+  # The Ethconnect URI representing the deployed ERC20 tokens Factory contract
+  factoryContractAddress: "/contracts/erc20FactoryAddress"
 
-  # The Ethconnet topic to use for tokens event subscriptions
-  ethconnectTopic: "tokens"
+  # The Ethconnect URI representing the stage ERC20 tokens contract
+  contractUri: "/abis/erc20AbiId"
+
+  # The Ethconnect topic to use for tokens event subscriptions
+  ethconnectTopic: "tokensERC20"
 
   image:
     repository: ghcr.io/hyperledger/firefly-tokens-erc20
@@ -428,7 +431,4 @@ erc20:
 
   tolerations: []
 
-  affinity: {} 
-© 2022 GitHub, Inc.
-Terms
-Privacy
+  affinity: {}

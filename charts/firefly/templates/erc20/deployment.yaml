@@ -27,7 +27,7 @@ spec:
   replicas: 1
   selector:
     matchLabels:
-  {{- include "firefly.erc20SelectorLabels" . | nindent 6 }}
+      {{- include "firefly.erc20SelectorLabels" . | nindent 6 }}
   template:
     metadata:
       {{- with .Values.erc20.podAnnotations }}
@@ -77,7 +77,7 @@ spec:
             - name: ETHCONNECT_URL
               value: {{ tpl .Values.config.ethconnectUrl . }}
             - name: ETHCONNECT_INSTANCE
-              value: {{ .Values.erc20.contractAddress }}
+              value: {{ .Values.erc20.factoryContractAddress }}
             - name: ETHCONNECT_TOPIC
               value: {{ .Values.erc20.ethconnectTopic | quote }}
             - name: ETHCONNECT_PREFIX
@@ -89,7 +89,7 @@ spec:
               value: {{ .Values.config.ethconnectPassword | quote }}
             {{- end }}
             - name: ETHCONNECT_CONTRACT_URI
-              value: {{ .Values.erc20.ethconnectContractUri }}
+              value: {{ .Values.erc20.contractUri }}
             - name: AUTO_INIT
               value: "true"
           resources:

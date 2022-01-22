@@ -252,22 +252,20 @@ dataexchange:
     {{- end }}
   {{- end }}
 {{- end }}
-{{- if and .Values.config.tokensOverride (not .Values.erc1155.enabled) }}
+{{- if .Values.config.tokensOverride }}
 tokens:
     {{- tpl .Values.config.tokensOverride . | nindent 2 }}
-{{- else if .Values.erc1155.enabled }}
+{{- else if or .Values.erc1155.enabled .Values.erc20.enabled }}
 tokens:
+  {{- if .Values.erc1155.enabled }}
   - plugin: fftokens
     name: erc1155
     url: http://{{ include "firefly.fullname" . }}-erc1155.{{ .Release.Namespace }}.svc:{{ .Values.erc1155.service.port }}
-{{- end }}
-{{- if and .Values.config.tokensOverride (not .Values.erc20.enabled) }}
-tokens:
-    {{- tpl .Values.config.tokensOverride . | nindent 2 }}
-{{- else if .Values.erc20.enabled }}
-tokens:
-  - plugin: fftokens
+  {{- end }}
+  {{- if .Values.erc20.enabled }}
+    - plugin: fftokens
     name: erc20
     url: http://{{ include "firefly.fullname" . }}-erc20.{{ .Release.Namespace }}.svc:{{ .Values.erc20.service.port }}
+  {{- end }}
 {{- end }}
 {{- end }}
