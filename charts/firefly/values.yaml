@@ -332,16 +332,69 @@ dataexchange:
 erc1155:
   enabled: false
 
-  # The Ethconnet URI representing the ERC1155 tokens contract
+  # The Ethconnect URI representing the ERC1155 tokens contract
   contractAddress: "/contracts/erc1155Address"
 
-  # The Ethconnet topic to use for tokens event subscriptions
-  ethconnectTopic: "tokens"
+  # The Ethconnect topic to use for tokens event subscriptions
+  ethconnectTopic: "tokensERC1155"
 
   image:
     repository: ghcr.io/hyperledger/firefly-tokens-erc1155
     pullPolicy: IfNotPresent
     tag: v0.10.3
+
+  imagePullSecrets: []
+
+  podAnnotations: {}
+
+  podSecurityContext: {}
+  # fsGroup: 2000
+
+  securityContext: {}
+    # capabilities:
+    #   drop:
+    #   - ALL
+  # readOnlyRootFilesystem: true
+  # runAsNonRoot: true
+  # runAsUser: 1000
+
+  service:
+    type: ClusterIP
+    port: 3000
+
+  resources: {}
+    # We usually recommend not to specify default resources and to leave this as a conscious
+    # choice for the user. This also increases chances charts run on environments with little
+    # resources, such as Minikube. If you do want to specify resources, uncomment the following
+    # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+    # limits:
+    #   cpu: 100m
+    #   memory: 128Mi
+  # requests:
+  #   cpu: 100m
+  #   memory: 128Mi
+
+  nodeSelector: {}
+
+  tolerations: []
+
+  affinity: {}
+erc20:
+  enabled: false
+
+  # The Ethconnect URI representing the deployed ERC20 tokens Factory contract
+  factoryContractAddress: "/contracts/erc20FactoryAddress"
+
+  # The Ethconnect URI representing the stage ERC20 tokens contract
+  contractUri: "/abis/erc20AbiId"
+
+  # The Ethconnect topic to use for tokens event subscriptions
+  ethconnectTopic: "tokensERC20"
+
+  image:
+    repository: ghcr.io/hyperledger/firefly-tokens-erc20
+    pullPolicy: IfNotPresent
+    tag: v0.1.1
 
   imagePullSecrets: []
 

@@ -1,0 +1,107 @@
+{{/*
+  Copyright © 2022 Kaleido, Inc.
+
+  SPDX-License-Identifier: Apache-2.0
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+  http://swww.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+*/}}
+
+{{- if .Values.erc20.enabled }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "firefly.fullname" . }}-erc20
+  labels:
+  {{- include "firefly.erc20Labels" . | nindent 4 }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      {{- include "firefly.erc20SelectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      {{- with .Values.erc20.podAnnotations }}
+      annotations:
+      {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+    {{- include "firefly.erc20SelectorLabels" . | nindent 8 }}
+    spec:
+      {{- with .Values.erc20.imagePullSecrets }}
+      imagePullSecrets:
+      {{- toYaml . | nindent 8 }}
+      {{- end }}
+      securityContext:
+      {{- toYaml .Values.erc20.podSecurityContext | nindent 8 }}
+      containers:
+        - name: {{ .Chart.Name }}-erc20
+          securityContext:
+          {{- toYaml .Values.erc20.securityContext | nindent 12 }}
+          image: "{{ .Values.erc20.image.repository }}:{{ .Values.erc20.image.tag }}"
+          imagePullPolicy: {{ .Values.erc20.image.pullPolicy }}
+          ports:
+            - name: http
+              containerPort: {{ .Values.erc20.service.port }}
+              protocol: TCP
+          livenessProbe:
+            tcpSocket:
+              port: http
+            successThreshold: 1
+            failureThreshold: 2
+            periodSeconds: 10
+            timeoutSeconds: 1
+            initialDelaySeconds: 5
+          readinessProbe:
+            tcpSocket:
+              port: http
+            successThreshold: 1
+            failureThreshold: 4
+            periodSeconds: 15
+            timeoutSeconds: 2
+            initialDelaySeconds: 15
+          env:
+            - name: PORT
+              value: {{ .Values.erc20.service.port | quote }}
+            - name: ETHCONNECT_URL
+              value: {{ tpl .Values.config.ethconnectUrl . }}
+            - name: ETHCONNECT_INSTANCE
+              value: {{ .Values.erc20.factoryContractAddress }}
+            - name: ETHCONNECT_TOPIC
+              value: {{ .Values.erc20.ethconnectTopic | quote }}
+            - name: ETHCONNECT_PREFIX
+              value: {{ .Values.config.ethconnectPrefixShort | default "fly" }}
+            {{- if and .Values.config.ethconnectUsername .Values.config.ethconnectPassword }}
+            - name: ETHCONNECT_USERNAME
+              value: {{ .Values.config.ethconnectUsername | quote }}
+            - name: ETHCONNECT_PASSWORD
+              value: {{ .Values.config.ethconnectPassword | quote }}
+            {{- end }}
+            - name: ETHCONNECT_CONTRACT_URI
+              value: {{ .Values.erc20.contractUri }}
+            - name: AUTO_INIT
+              value: "true"
+          resources:
+      {{- toYaml .Values.erc20.resources | nindent 12 }}
+      {{- with .Values.erc20.nodeSelector }}
+      nodeSelector:
+      {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.erc20.affinity }}
+      affinity:
+      {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.erc20.tolerations }}
+      tolerations:
+      {{- toYaml . | nindent 8 }}
+      {{- end }}
+{{- end }}
