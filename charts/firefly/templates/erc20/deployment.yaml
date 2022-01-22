@@ -88,6 +88,8 @@ spec:
             - name: ETHCONNECT_PASSWORD
               value: {{ .Values.config.ethconnectPassword | quote }}
             {{- end }}
+            - name: ETHCONNECT_CONTRACT_URI
+              value: {{ .Values.erc20.ethconnectContractUri }}
             - name: AUTO_INIT
               value: "true"
           resources:
