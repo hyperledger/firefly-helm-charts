@@ -54,8 +54,7 @@ spec:
               containerPort: {{ .Values.erc20.service.port }}
               protocol: TCP
           livenessProbe:
-            httpGet:
-              path: /api/v1/health/liveness
+            tcpSocket:
               port: http
             successThreshold: 1
             failureThreshold: 2
@@ -63,8 +62,7 @@ spec:
             timeoutSeconds: 1
             initialDelaySeconds: 5
           readinessProbe:
-            httpGet:
-              path: /api/v1/health/readiness
+            tcpSocket:
               port: http
             successThreshold: 1
             failureThreshold: 4
