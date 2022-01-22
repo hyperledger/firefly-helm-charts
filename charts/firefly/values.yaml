@@ -432,3 +432,94 @@ erc20:
   tolerations: []
 
   affinity: {}
+
+# Configures the resources used to deploy the optional ethconnect Ethereum blockchain connector
+ethconnect:
+   # Indicates whether an ethconnect should be deployed
+  enabled: false
+
+  config:
+    rest:
+      rest-gateway:
+        rpc:
+          url: ""
+        openapi:
+          eventPollingIntervalSec: 1
+          storagePath: ./abis
+          eventsDB: ./events
+        http:
+          port: 8080
+        maxTXWaitTime: 60
+        maxInFlight: 10
+
+  ingress:
+    enabled: false
+    className: ""
+    annotations: {}
+    hosts:
+      - host: chart-example.local
+
+  imagePullSecrets: []
+
+  podAnnotations: {}
+
+  podSecurityContext: {}
+  # fsGroup: 2000
+
+  securityContext: {}
+    # capabilities:
+    #   drop:
+    #   - ALL
+    # readOnlyRootFilesystem: true
+    # runAsNonRoot: true
+    # runAsUser: 1000
+
+  image:
+    repository: ghcr.io/hyperledger/firefly-ethconnect
+    pullPolicy: Always
+    tag: v3.1.0-20220122-14
+  
+  extraEnv: []
+    # - name: LOG_LEVEL
+    #   value: DEBUG
+  
+  service:
+    type: ClusterIP
+    apiPort: 5102
+
+  resources: {}
+    # We usually recommend not to specify default resources and to leave this as a conscious
+    # choice for the user. This also increases chances charts run on environments with little
+    # resources, such as Minikube. If you do want to specify resources, uncomment the following
+    # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+    # limits:
+    #   cpu: 100m
+    #   memory: 128Mi
+  # requests:
+  #   cpu: 100m
+    # requests:
+    #   cpu: 100m
+  #   memory: 128Mi
+
+  nodeSelector: {}
+
+  tolerations: []
+
+  affinity: {}
+
+  # TODO: @Hayden should I just have one big volume here at /ethconnect? 
+  persistentVolumes:
+    # split into two mounts: /ethconnect/abis and /ethconnect/events
+    abis:
+      accessModes:
+        - ReadWriteOnce
+      annotations: {}
+      size: 2Gi
+      storageClass: ""
+    events:
+      accessModes:
+        - ReadWriteOnce
+      annotations: {}
+      subPath: ""
+      size: 2Gi
+      storageClass: ""

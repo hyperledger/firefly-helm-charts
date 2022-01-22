@@ -92,6 +92,19 @@ app.kuberentes.io/part-of: {{ .Chart.Name }}
 {{- end }}
 
 {{/*
+Common labels
+*/}}
+{{- define "firefly.ethconnectLabels" -}}
+helm.sh/chart: {{ include "firefly.chart" . }}
+{{ include "firefly.ethconnectSelectorLabels" . }}
+{{- if .Chart.AppVersion }}
+app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
+{{- end }}
+app.kubernetes.io/managed-by: {{ .Release.Service }}
+app.kuberentes.io/part-of: {{ .Chart.Name }}
+{{- end }}
+
+{{/*
 Selector labels
 */}}
 {{- define "firefly.coreSelectorLabels" -}}

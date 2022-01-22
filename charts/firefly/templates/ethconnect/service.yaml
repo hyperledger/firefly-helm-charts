@@ -1,0 +1,33 @@
+# Copyright © 2022 Kaleido, Inc.
+#
+# SPDX-License-Identifier: Apache-2.0
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://swww.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+{{- if .Values.ethconnect.enabled }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "firefly.fullname" . }}-ethconnect
+  labels:
+    {{- include "firefly.ethconnectLabels" . | nindent 4 }}
+spec:
+  type: {{ .Values.ethconnect.service.type }}
+  ports:
+    - port: {{ .Values.ethconnect.service.apiPort }}
+      targetPort: http
+      protocol: TCP
+      name: http
+  selector:
+    {{- include "firefly.ethconnectSelectorLabels" . | nindent 4 }}
+{{- end }}
