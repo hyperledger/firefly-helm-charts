@@ -177,7 +177,11 @@ blockchain:
   type: ethereum
   ethereum:
     ethconnect:
+      {{ if .Values.ethconnect.enabled }}
+      url: http://{{ include "firefly.fullname" . }}-ethconnect.{{ .Release.Namespace }}.svc:{{ .Values.ethconnect.service.apiPort }}
+      {{ else }}
       url: {{ tpl .Values.config.ethconnectUrl . }}
+      {{ end }}
       instance: {{ .Values.config.fireflyContractAddress }}
       topic: {{ .Values.config.ethconnectTopic | quote }}
       retry:
