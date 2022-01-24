@@ -46,6 +46,18 @@ spec:
               value: {{ .Values.config.ethconnectPrefixShort | default "fly" }}
             - name: FIREFLY_CONTRACT_ADDRESS
               value: {{ .Values.config.fireflyContractAddress | replace "/contracts/" "" }}
+            {{- if .Values.erc1155.enabled }}
+            - name: FIREFLY_ERC1155_ENABLED
+              value: "true"
+            - name: FIREFLY_ERC1155_CONTRACT_ADDRESS
+              value: {{ .Values.erc1155.contractAddress | replace "/contracts/" "" }}
+            {{- end }}
+            {{- if .Values.erc20.enabled }}
+            - name: FIREFLY_ERC20_ENABLED
+              value: "true"
+            - name: FIREFLY_ERC20_FACTORY_CONTRACT_ADDRESS
+              value: {{ .Values.erc20.factoryContractAddress | replace "/contracts/" "" }}
+            {{- end }}
           volumeMounts:
             - name: contracts
               mountPath: /var/lib/ethconnect/contracts

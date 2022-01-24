@@ -25,14 +25,33 @@ until STATUS=$(curl ${ETHCONNECT_URL}/contracts); do
   sleep 5
 done
 
-# TODO genercize for ERC contracts
-
-# PublishABI
-# POST /abis
-
-publishResponse=$(curl --fail -F "abi=$(cat /var/lib/ethconnect/contracts/firefly.json | jq -r '.abi')" -F bytecode=$(cat /var/lib/ethconnect/contracts/firefly.json | jq -r '.bytecode') "${ETHCONNECT_URL}/abis")
-
+# This script does the following for each pre-deployed contract:
+## PublishABI
+## POST /abis
+## then
 ## RegisterContract
 ## POST /abis/{id}/{address}
-## TODO whats the registered name?
+
+# NOTE: ERC20 is special since theres a pre-deployed Factory contract and then the ERC20 contract itself which must be published but not deployed
+
+# FF contract
+
+publishResponse=$(curl --fail -F "abi=$(cat /var/lib/ethconnect/contracts/firefly.json | jq -r '.abi')" -F bytecode=$(cat /var/lib/ethconnect/contracts/firefly.json | jq -r '.bytecode') "${ETHCONNECT_URL}/abis")
 curl --fail -H "Content-Type: application/json" -X POST -H "x-${ETHCONNECT_PREFIX}-sync: true"  -H "x-${ETHCONNECT_PREFIX}-register: firefly" "${ETHCONNECT_URL}$(echo -n $publishResponse | jq -r .path)/${FIREFLY_CONTRACT_ADDRESS}"
+
+# ERC1155 contract
+if [[ "${FIREFLY_ERC1155_ENABLED}" == "true" ]]; then
+  # publish and register ERC1155
+  publishResponse=$(curl --fail -F "abi=$(cat /var/lib/ethconnect/contracts/erc1155.json | jq -r '.abi')" -F bytecode=$(cat /var/lib/ethconnect/contracts/erc1155.json | jq -r '.bytecode') "${ETHCONNECT_URL}/abis")
+  curl --fail -H "Content-Type: application/json" -X POST -H "x-${ETHCONNECT_PREFIX}-sync: true"  -H "x-${ETHCONNECT_PREFIX}-register: firefly-erc1155" "${ETHCONNECT_URL}$(echo -n $publishResponse | jq -r .path)/${FIREFLY_ERC1155_CONTRACT_ADDRESS}"
+fi
+
+if [[ "${FIREFLY_ERC20_ENABLED}" == "true" ]]; then
+  # publish and register ERC20 factory
+  publishResponse=$(curl --fail -F "abi=$(cat /var/lib/ethconnect/contracts/erc20Factory.json | jq -r '.abi')" -F bytecode=$(cat /var/lib/ethconnect/contracts/erc20Factory.json | jq -r '.bytecode') "${ETHCONNECT_URL}/abis")
+  curl --fail -H "Content-Type: application/json" -X POST -H "x-${ETHCONNECT_PREFIX}-sync: true"  -H "x-${ETHCONNECT_PREFIX}-register: firefly-erc20-factory" "${ETHCONNECT_URL}$(echo -n $publishResponse | jq -r .path)/${FIREFLY_ERC20_FACTORY_CONTRACT_ADDRESS}"
+
+  # publish ERC20
+  publishResponse=$(curl --fail -F "abi=$(cat /var/lib/ethconnect/contracts/erc20.json | jq -r '.abi')" -F bytecode=$(cat /var/lib/ethconnect/contracts/erc20.json | jq -r '.bytecode') "${ETHCONNECT_URL}/abis")
+  echo "ERC20 ABI URI: $(echo -n $publishResponse | jq -r .path)"
+fi
