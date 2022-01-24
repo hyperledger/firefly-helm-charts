@@ -38,6 +38,9 @@ config:
   # The blockchain signing key of the organization e.g. the Ethereum account address or the Fabric membership
   organizationKey: ""
 
+  # The URL + URI Go template of an address resolver connector
+  addresssResolverUrlTemplate: ""
+
   # The Ethereum address of the pre-deployed FireFly smart contract
   fireflyContractAddress: "/instances/contractAddress"
 

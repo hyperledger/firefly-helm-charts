@@ -203,6 +203,10 @@ blockchain:
       {{- if .Values.config.ethconnectPrefixLong }}
       prefixLong: {{ .Values.config.ethconnectPrefixLong }}
       {{- end }}
+    {{- if .Values.config.addresssResolverUrlTemplate }}
+    addressResolver:
+      urlTemplate: {{ .Values.config.addresssResolverUrlTemplate }}
+    {{- end }}
 {{- else if .Values.config.fabconnectUrl }}
 blockchain:
   type: fabric
@@ -296,8 +300,8 @@ tokens:
 {{- define "firefly.ethconnectUrlEnvVar" -}}
 - name: ETHCONNECT_URL
 {{- if .Values.ethconnect.enabled }}
-value: "http://{{ include "firefly.fullname" . }}-ethconnect.{{ .Release.Namespace }}.svc:{{ .Values.ethconnect.service.apiPort }}"
+  value: "http://{{ include "firefly.fullname" . }}-ethconnect.{{ .Release.Namespace }}.svc:{{ .Values.ethconnect.service.apiPort }}"
 {{- else }}
-value: {{ tpl .Values.config.ethconnectUrl . }}
+  value: {{ tpl .Values.config.ethconnectUrl . }}
 {{- end }}
 {{- end }}
