@@ -502,6 +502,10 @@ ethconnect:
 
   affinity: {}
 
+  job:
+    contracts:
+      enabled: true
+
   persistentVolume:
     accessModes:
       - ReadWriteOnce

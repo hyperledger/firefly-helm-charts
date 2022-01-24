@@ -290,7 +290,7 @@ tokens:
     url: http://{{ include "firefly.fullname" . }}-erc1155.{{ .Release.Namespace }}.svc:{{ .Values.erc1155.service.port }}
   {{- end }}
   {{- if .Values.erc20.enabled }}
-    - plugin: fftokens
+  - plugin: fftokens
     name: erc20
     url: http://{{ include "firefly.fullname" . }}-erc20.{{ .Release.Namespace }}.svc:{{ .Values.erc20.service.port }}
   {{- end }}

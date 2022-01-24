@@ -16,7 +16,7 @@
   limitations under the License.
 */}}
 
-{{- if .Values.ethconnect.enabled }}
+{{- if and .Values.ethconnect.enabled .Values.ethconnect.job.contracts.enabled }}
 apiVersion: batch/v1
 kind: Job
 metadata:
