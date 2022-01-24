@@ -26,7 +26,7 @@ apk add curl jq
 cat /var/lib/ethconnect/contracts/firefly.json | jq -r '.abi' > /tmp/firefly-abi.json
 cat /var/lib/ethconnect/contracts/firefly.json | jq -r '.bytecode' > /tmp/firefly-bytecode
 
-publishReponse=$(curl -H "Accept: application/json" -X POST -F abi=@/tmp/firefly-abi.json -F bytecode=@/tmp/firefly-bytecode "${ETHCONNECT_URL}/abis")
+publishReponse=$(curl -F abi=@/tmp/firefly-abi.json -F bytecode=@/tmp/firefly-bytecode "${ETHCONNECT_URL}/abis")
 # TODO get ABI ID from response
 echo "$publishReponse"
 
