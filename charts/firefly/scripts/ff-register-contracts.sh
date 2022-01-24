@@ -24,7 +24,7 @@ apk add curl jq
 # POST /abis
 
 cat /var/lib/ethconnect/contracts/firefly.json | jq -r '.abi' > /tmp/firefly-abi.json
-cat /var/lib/ethconnect/contracts/firefly.json | jq -r '.bytecode' > /tmp/firefly-bytecode
+cat /var/lib/ethconnect/contracts/firefly.json | jq -r '.bytecode' | xxd -r -p > /tmp/firefly-bytecode
 
 curl -v -F abi=@/tmp/firefly-abi.json -F bytecode=@/tmp/firefly-bytecode "${ETHCONNECT_URL}/abis"
 # TODO get ABI ID from response
