@@ -30,12 +30,9 @@ done
 # PublishABI
 # POST /abis
 
-curl -v -F "abi=$(cat /var/lib/ethconnect/contracts/firefly.json | jq -r '.abi')" -F bytecode=$(cat /var/lib/ethconnect/contracts/firefly.json | jq -r '.bytecode') "${ETHCONNECT_URL}/abis"
-# TODO get ABI ID from response
-#echo "$publishReponse"
-#
+publishResponse$(curl --fail -F "abi=$(cat /var/lib/ethconnect/contracts/firefly.json | jq -r '.abi')" -F bytecode=$(cat /var/lib/ethconnect/contracts/firefly.json | jq -r '.bytecode') "${ETHCONNECT_URL}/abis")
+
 ## RegisterContract
 ## POST /abis/{id}/{address}
-#
 ## TODO whats the registered name?
-#curl -H "Content-Type: application/json" -X POST -H "x-${ETHCONNECT_PREFIX}-sync: true"  -H "x-${ETHCONNECT_PREFIX}-register: firefly" "${ETHCONNECT_URL}/abis/${abiId}/${FIREFLY_CONTRACT_ADDRESS}"
+curl --fail -H "Content-Type: application/json" -X POST -H "x-${ETHCONNECT_PREFIX}-sync: true"  -H "x-${ETHCONNECT_PREFIX}-register: firefly" "${ETHCONNECT_URL}$(echo -n $publishResponse | jq -r .path)/${FIREFLY_CONTRACT_ADDRESS}"
