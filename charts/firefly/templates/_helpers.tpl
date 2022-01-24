@@ -138,10 +138,12 @@ debug:
 {{- end }}
 http:
   port: {{ .Values.core.service.httpPort }}
+  publicURL: {{ .Values.core.service.httpPublicURL }}
   address: 0.0.0.0
 admin:
   port:  {{ .Values.core.service.adminPort }}
   address: 0.0.0.0
+  publicURL: {{ .Values.core.service.adminPublicURL }}
   enabled: {{ .Values.config.adminEnabled }}
   preinit: {{ and .Values.config.adminEnabled .Values.config.preInit }}
 metrics:
