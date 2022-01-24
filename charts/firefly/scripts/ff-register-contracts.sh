@@ -30,7 +30,7 @@ done
 # PublishABI
 # POST /abis
 
-curl -v -F abi=$(cat /var/lib/ethconnect/contracts/firefly.json | jq -r '.abi') -F bytecode=$(cat /var/lib/ethconnect/contracts/firefly.json | jq -r '.bytecode') "${ETHCONNECT_URL}/abis"
+curl -v -F "abi=$(cat /var/lib/ethconnect/contracts/firefly.json | jq -r '.abi')" -F bytecode=$(cat /var/lib/ethconnect/contracts/firefly.json | jq -r '.bytecode') "${ETHCONNECT_URL}/abis"
 # TODO get ABI ID from response
 #echo "$publishReponse"
 #
