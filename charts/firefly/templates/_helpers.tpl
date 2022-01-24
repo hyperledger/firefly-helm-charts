@@ -178,7 +178,7 @@ org:
 {{- if .Values.config.blockchainOverride }}
 blockchain:
   {{- tpl .Values.config.blockchainOverride . | nindent 2 }}
-{{- else if .Values.config.ethconnectUrl }}
+{{- else if or .Values.config.ethconnectUrl .Values.ethconnect.enabled }}
 blockchain:
   type: ethereum
   ethereum:
