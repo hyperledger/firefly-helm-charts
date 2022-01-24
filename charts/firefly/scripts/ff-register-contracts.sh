@@ -26,12 +26,12 @@ apk add curl jq
 cat /var/lib/ethconnect/contracts/firefly.json | jq -r '.abi' > /tmp/firefly-abi.json
 cat /var/lib/ethconnect/contracts/firefly.json | jq -r '.bytecode' > /tmp/firefly-bytecode
 
-publishReponse=$(curl -F abi=@/tmp/firefly-abi.json -F bytecode=@/tmp/firefly-bytecode "${ETHCONNECT_URL}/abis")
+curl -v -F abi=@/tmp/firefly-abi.json -F bytecode=@/tmp/firefly-bytecode "${ETHCONNECT_URL}/abis"
 # TODO get ABI ID from response
-echo "$publishReponse"
-
-# RegisterContract
-# POST /abis/{id}/{address}
-
-# TODO whats the registered name?
-curl -H "Content-Type: application/json" -X POST -H "x-${ETHCONNECT_PREFIX}-sync: true"  -H "x-${ETHCONNECT_PREFIX}-register: firefly" "${ETHCONNECT_URL}/abis/${abiId}/${FIREFLY_CONTRACT_ADDRESS}"
+#echo "$publishReponse"
+#
+## RegisterContract
+## POST /abis/{id}/{address}
+#
+## TODO whats the registered name?
+#curl -H "Content-Type: application/json" -X POST -H "x-${ETHCONNECT_PREFIX}-sync: true"  -H "x-${ETHCONNECT_PREFIX}-register: firefly" "${ETHCONNECT_URL}/abis/${abiId}/${FIREFLY_CONTRACT_ADDRESS}"
