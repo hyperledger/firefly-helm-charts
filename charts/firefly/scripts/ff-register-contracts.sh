@@ -16,7 +16,14 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+set -e
+
 apk add curl jq
+
+until STATUS=$(curl ${ETHCONNECT_URL}/contracts); do
+  echo "Waiting for Ethconnect..."
+  sleep 5
+done
 
 # TODO genercize for ERC contracts
 
@@ -26,7 +33,7 @@ apk add curl jq
 cat /var/lib/ethconnect/contracts/firefly.json | jq -r '.abi' > /tmp/firefly-abi.json
 cat /var/lib/ethconnect/contracts/firefly.json | jq -r '.bytecode' | xxd -r -p > /tmp/firefly-bytecode
 
-curl -v -F abi=@/tmp/firefly-abi.json -F bytecode=@/tmp/firefly-bytecode "${ETHCONNECT_URL}/abis"
+curl -v -F abi=@/tmp/firefly-abi.json -F bytecode=$(cat /var/lib/ethconnect/contracts/firefly.json | jq -r '.bytecode') "${ETHCONNECT_URL}/abis"
 # TODO get ABI ID from response
 #echo "$publishReponse"
 #
