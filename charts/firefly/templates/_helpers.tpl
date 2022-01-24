@@ -131,6 +131,12 @@ app.kubernetes.io/instance: {{ .Release.Name }}
 app.kubernetes.io/component: erc20
 {{- end }}
 
+{{- define "firefly.ethconnectSelectorLabels" -}}
+app.kubernetes.io/name: {{ include "firefly.name" . }}
+app.kubernetes.io/instance: {{ .Release.Name }}
+app.kubernetes.io/component: ethconnect
+{{- end }}
+
 {{/*
 Config helpers
 */}}
@@ -284,5 +290,14 @@ tokens:
     name: erc20
     url: http://{{ include "firefly.fullname" . }}-erc20.{{ .Release.Namespace }}.svc:{{ .Values.erc20.service.port }}
   {{- end }}
+{{- end }}
+{{- end }}
+
+{{- define "firefly.ethconnectUrlEnvVar" -}}
+- name: ETHCONNECT_URL
+{{- if .Values.ethconnect.enabled }}
+value: "http://{{ include "firefly.fullname" . }}-ethconnect.{{ .Release.Namespace }}.svc:{{ .Values.ethconnect.service.apiPort }}"
+{{- else }}
+value: {{ tpl .Values.config.ethconnectUrl . }}
 {{- end }}
 {{- end }}

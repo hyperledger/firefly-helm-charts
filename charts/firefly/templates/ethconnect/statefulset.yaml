@@ -1,18 +1,20 @@
-# Copyright © 2022 Kaleido, Inc.
-#
-# SPDX-License-Identifier: Apache-2.0
-#
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-#     http://swww.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
+{{/*
+  Copyright © 2022 Kaleido, Inc.
+
+  SPDX-License-Identifier: Apache-2.0
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+  http://swww.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+*/}}
 
 {{- if .Values.ethconnect.enabled }}
 apiVersion: apps/v1
@@ -51,12 +53,12 @@ spec:
             {{- toYaml .Values.ethconnect.securityContext | nindent 12 }}
           image: "{{ .Values.ethconnect.image.repository }}:{{ .Values.ethconnect.image.tag }}"
           imagePullPolicy: {{ .Values.ethconnect.image.pullPolicy }}
-          command: ["sh"]
-          args: ["server", "-f", "config.yaml"]
-          {{- if .Values.ethconnect.extraEnv }}
           env:
+            - name: ETHCONNECT_CONFIGFILE
+              value: /etc/ethconnect/config.yaml
+            {{- if .Values.ethconnect.extraEnv }}
             {{- toYaml .Values.ethconnect.extraEnv | nindent 12 }}
-          {{- end }}
+            {{- end }}
           ports:
             - name: http
               containerPort: {{ .Values.ethconnect.service.apiPort }}
@@ -78,13 +80,13 @@ spec:
           resources:
             {{- toYaml .Values.ethconnect.resources | nindent 12 }}
           volumeMounts:
-            - mountPath: /ethconnect/abis
+            - mountPath: /var/run/ethconnect/abis
               subPath: abis
-              name: {{ include "firefly.fullname" . }}-ethconnect-abis
-            - mountPath: /ethconnect/events
+              name: ethhconnect
+            - mountPath: /var/run/ethconnect/events
               subPath: events
-              name: {{ include "firefly.fullname" . }}-ethconnect-events
-            - mountPath: /ethconnect/config.yaml
+              name: ethconnect
+            - mountPath: /etc/ethconnect/config.yaml
               name: config
               subPath: config.yaml
       {{- with .Values.ethconnect.nodeSelector }}
@@ -105,8 +107,8 @@ spec:
             secretName: "{{ include "firefly.fullname" . }}-ethconnect-config"
   volumeClaimTemplates:
     - metadata:
-        name: {{ include "firefly.fullname" . }}-ethconnect-abis
-      {{- with .Values.ethconnect.persistentVolumes.abis }}
+        name: ethconnect
+      {{- with .Values.ethconnect.persistentVolume }}
         {{- with .annotations }}
         annotations:
           {{- toYaml . | nindent 10 }}
@@ -114,21 +116,6 @@ spec:
       spec:
         accessModes:
           {{- toYaml .accessModes | nindent 10 }}
-        storageClassName: {{ .storageClass }}
-        resources:
-          requests:
-            storage: {{ .size }}
-      {{- end }}
-    - metadata:
-        name: {{ include "firefly.fullname" . }}-ethconnect-events
-      {{- with .Values.ethconnect.persistentVolumes.events }}
-        {{- with .annotations }}
-        annotations:
-          {{- toYaml . | nindent 10 }}
-        {{- end }}
-      spec:
-        accessModes:
-        {{- toYaml .accessModes | nindent 10 }}
         storageClassName: {{ .storageClass }}
         resources:
           requests:
