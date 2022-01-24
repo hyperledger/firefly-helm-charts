@@ -82,7 +82,7 @@ spec:
           volumeMounts:
             - mountPath: /var/run/ethconnect/abis
               subPath: abis
-              name: ethhconnect
+              name: ethconnect
             - mountPath: /var/run/ethconnect/events
               subPath: events
               name: ethconnect
