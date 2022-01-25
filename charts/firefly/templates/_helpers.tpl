@@ -129,7 +129,7 @@ Config helpers
 {{- end }}
 {{- end }}
 
-{{- define "firefly.coreHttpPublicUrl" -}}
+{{- define "firefly.coreHttpPublicURL" -}}
 {{- if .Values.core.ingress.enabled }}
 {{- if .Values.core.ingress.tls }}
 {{- printf "https://%s" (index .Values.core.ingress.hosts 0).host }}
@@ -141,7 +141,7 @@ Config helpers
 {{- end }}
 {{- end }}
 
-{{- define "firefly.coreAdminPublicUrl" -}}
+{{- define "firefly.coreAdminPublicURL" -}}
 {{- printf "http://%s.%s.svc:%d" (include "firefly.fullname" .) .Release.Namespace (.Values.core.service.adminPort | int64) }}
 {{- end }}
 
@@ -154,16 +154,14 @@ debug:
 {{- end }}
 http:
   port: {{ .Values.core.service.httpPort }}
-  publicURL: {{ .Values.core.service.httpPublicURL }}
   address: 0.0.0.0
-  publicURL: {{ .Values.config.httpPublicUrl | default (include "firefly.coreHttpPublicUrl" . ) }}
+  publicURL: {{ .Values.config.httpPublicUrl | default (include "firefly.coreHttpPublicURL" . ) }}
 admin:
   port:  {{ .Values.core.service.adminPort }}
   address: 0.0.0.0
-  publicURL: {{ .Values.core.service.adminPublicURL }}
+  publicURL: {{ .Values.config.adminPublicUrl | default (include "firefly.coreAdminPublicURL" . ) }}
   enabled: {{ .Values.config.adminEnabled }}
   preinit: {{ and .Values.config.adminEnabled .Values.config.preInit }}
-  publicURL: {{ .Values.config.adminPublicUrl | default (include "firefly.coreAdminPublicUrl" . ) }}
 metrics:
   enabled: {{ .Values.config.metricsEnabled }}
 {{- if .Values.config.metricsEnabled }}
