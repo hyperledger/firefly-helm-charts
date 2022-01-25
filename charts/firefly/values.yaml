@@ -472,7 +472,7 @@ ethconnect:
   image:
     repository: ghcr.io/hyperledger/firefly-ethconnect
     pullPolicy: Always
-    tag: v3.1.0-20220122-14
+    tag: v3.1.1
 
   extraEnv: []
     # - name: LOG_LEVEL
