@@ -22,6 +22,12 @@ config:
   # Enables the Admin API port for dynamic configuration
   adminEnabled: true
 
+  # The public URL of the Admin API server, if not set defaults to the Service URL within Kubernetes
+  adminPublicUrl: ""
+
+  # The public URL of the Firefly API server, if not set defaults to the Ingress URL or the Service URL within Kubernetes
+  httpPublicUrl: ""
+
   # Enables the metrics server / port for Prometheus scraping
   metricsEnabled: true
 
