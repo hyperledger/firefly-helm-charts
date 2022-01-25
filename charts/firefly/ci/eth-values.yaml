@@ -16,6 +16,8 @@ config:
   ipfsApiUrl: "http://ipfs.firefly-os:5001"
   ipfsGatewayUrl: "http://ipfs.firefly-os:8080"
 
+  addresssResolverUrlTemplate: "http://address-resolver.firefly-os/wallets/{{.Key}}"
+
 core:
   metrics:
     serviceMonitor:

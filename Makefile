@@ -9,6 +9,7 @@ clean:
 	kind delete cluster
 
 lint:
+	helm template charts/firefly --set "erc20.enabled=true" --set "erc1155.enabled=true" --set "ethconnect.enabled=true"
 	ct lint \
 		--target-branch=main \
 		--exclude-deprecated \

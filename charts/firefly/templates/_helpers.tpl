@@ -92,6 +92,19 @@ app.kuberentes.io/part-of: {{ .Chart.Name }}
 {{- end }}
 
 {{/*
+Common labels
+*/}}
+{{- define "firefly.ethconnectLabels" -}}
+helm.sh/chart: {{ include "firefly.chart" . }}
+{{ include "firefly.ethconnectSelectorLabels" . }}
+{{- if .Chart.AppVersion }}
+app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
+{{- end }}
+app.kubernetes.io/managed-by: {{ .Release.Service }}
+app.kuberentes.io/part-of: {{ .Chart.Name }}
+{{- end }}
+
+{{/*
 Selector labels
 */}}
 {{- define "firefly.coreSelectorLabels" -}}
@@ -116,6 +129,12 @@ app.kubernetes.io/component: erc1155
 app.kubernetes.io/name: {{ include "firefly.name" . }}
 app.kubernetes.io/instance: {{ .Release.Name }}
 app.kubernetes.io/component: erc20
+{{- end }}
+
+{{- define "firefly.ethconnectSelectorLabels" -}}
+app.kubernetes.io/name: {{ include "firefly.name" . }}
+app.kubernetes.io/instance: {{ .Release.Name }}
+app.kubernetes.io/component: ethconnect
 {{- end }}
 
 {{/*
@@ -159,12 +178,16 @@ org:
 {{- if .Values.config.blockchainOverride }}
 blockchain:
   {{- tpl .Values.config.blockchainOverride . | nindent 2 }}
-{{- else if .Values.config.ethconnectUrl }}
+{{- else if or .Values.config.ethconnectUrl .Values.ethconnect.enabled }}
 blockchain:
   type: ethereum
   ethereum:
     ethconnect:
+      {{ if .Values.ethconnect.enabled }}
+      url: http://{{ include "firefly.fullname" . }}-ethconnect.{{ .Release.Namespace }}.svc:{{ .Values.ethconnect.service.apiPort }}
+      {{ else }}
       url: {{ tpl .Values.config.ethconnectUrl . }}
+      {{ end }}
       instance: {{ .Values.config.fireflyContractAddress }}
       topic: {{ .Values.config.ethconnectTopic | quote }}
       retry:
@@ -180,6 +203,10 @@ blockchain:
       {{- if .Values.config.ethconnectPrefixLong }}
       prefixLong: {{ .Values.config.ethconnectPrefixLong }}
       {{- end }}
+    {{- if .Values.config.addresssResolverUrlTemplate }}
+    addressResolver:
+      urlTemplate: {{ .Values.config.addresssResolverUrlTemplate }}
+    {{- end }}
 {{- else if .Values.config.fabconnectUrl }}
 blockchain:
   type: fabric
@@ -263,9 +290,18 @@ tokens:
     url: http://{{ include "firefly.fullname" . }}-erc1155.{{ .Release.Namespace }}.svc:{{ .Values.erc1155.service.port }}
   {{- end }}
   {{- if .Values.erc20.enabled }}
-    - plugin: fftokens
+  - plugin: fftokens
     name: erc20
     url: http://{{ include "firefly.fullname" . }}-erc20.{{ .Release.Namespace }}.svc:{{ .Values.erc20.service.port }}
   {{- end }}
+{{- end }}
+{{- end }}
+
+{{- define "firefly.ethconnectUrlEnvVar" -}}
+- name: ETHCONNECT_URL
+{{- if .Values.ethconnect.enabled }}
+  value: "http://{{ include "firefly.fullname" . }}-ethconnect.{{ .Release.Namespace }}.svc:{{ .Values.ethconnect.service.apiPort }}"
+{{- else }}
+  value: {{ tpl .Values.config.ethconnectUrl . }}
 {{- end }}
 {{- end }}

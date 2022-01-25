@@ -72,10 +72,9 @@ spec:
             timeoutSeconds: 2
             initialDelaySeconds: 15
           env:
+            {{- include "firefly.ethconnectUrlEnvVar" . | nindent 12 }}
             - name: PORT
               value: {{ .Values.erc1155.service.port | quote }}
-            - name: ETHCONNECT_URL
-              value: {{ tpl .Values.config.ethconnectUrl . }}
             - name: ETHCONNECT_INSTANCE
               value: {{ .Values.erc1155.contractAddress }}
             - name: ETHCONNECT_TOPIC
