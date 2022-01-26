@@ -2,6 +2,8 @@
 # Created by https://www.toptal.com/developers/gitignore/api/helm,macos,linux,windows,visualstudiocode,intellij
 # Edit at https://www.toptal.com/developers/gitignore?templates=helm,macos,linux,windows,visualstudiocode,intellij
 
+local-values.yaml
+
 ### Helm ###
 # Chart dependencies
 **/charts/*.tgz

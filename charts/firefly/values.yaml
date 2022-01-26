@@ -44,6 +44,9 @@ config:
   # The blockchain signing key of the organization e.g. the Ethereum account address or the Fabric membership
   organizationKey: ""
 
+  # The URL + URI Go template of an address resolver connector
+  addresssResolverUrlTemplate: ""
+
   # The Ethereum address of the pre-deployed FireFly smart contract
   fireflyContractAddress: "/instances/contractAddress"
 
@@ -385,6 +388,7 @@ erc1155:
   tolerations: []
 
   affinity: {}
+
 erc20:
   enabled: false
 
@@ -400,7 +404,7 @@ erc20:
   image:
     repository: ghcr.io/hyperledger/firefly-tokens-erc20
     pullPolicy: IfNotPresent
-    tag: v0.1.1
+    tag: v0.1.2
 
   imagePullSecrets: []
 
@@ -438,3 +442,79 @@ erc20:
   tolerations: []
 
   affinity: {}
+
+# Configures the resources used to deploy the optional ethconnect Ethereum blockchain connector
+ethconnect:
+  enabled: false
+
+  config:
+    jsonRpcUrl: ""
+    eventPollingIntervalSec: 1
+    maxTXWaitTimeSec: 60
+    maxInFlight: 10
+
+  ingress:
+    enabled: false
+    className: ""
+    annotations: {}
+    hosts:
+      - host: chart-example.local
+
+  imagePullSecrets: []
+
+  podAnnotations: {}
+
+  podSecurityContext: {}
+  # fsGroup: 2000
+
+  securityContext: {}
+    # capabilities:
+    #   drop:
+    #   - ALL
+    # readOnlyRootFilesystem: true
+    # runAsNonRoot: true
+    # runAsUser: 1000
+
+  image:
+    repository: ghcr.io/hyperledger/firefly-ethconnect
+    pullPolicy: Always
+    tag: v3.1.1
+
+  extraEnv: []
+    # - name: LOG_LEVEL
+    #   value: DEBUG
+
+  service:
+    type: ClusterIP
+    apiPort: 5102
+
+  resources: {}
+    # We usually recommend not to specify default resources and to leave this as a conscious
+    # choice for the user. This also increases chances charts run on environments with little
+    # resources, such as Minikube. If you do want to specify resources, uncomment the following
+    # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+    # limits:
+    #   cpu: 100m
+    #   memory: 128Mi
+  # requests:
+  #   cpu: 100m
+    # requests:
+    #   cpu: 100m
+  #   memory: 128Mi
+
+  nodeSelector: {}
+
+  tolerations: []
+
+  affinity: {}
+
+  job:
+    contracts:
+      enabled: true
+
+  persistentVolume:
+    accessModes:
+      - ReadWriteOnce
+    annotations: {}
+    size: 2Gi
+    storageClass: ""
