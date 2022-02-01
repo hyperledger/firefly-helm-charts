@@ -267,8 +267,7 @@ dataexchange:
   image:
     repository: ghcr.io/hyperledger/firefly-dataexchange-https
     pullPolicy: IfNotPresent
-    # TODO wait till https://github.com/hyperledger/firefly-dataexchange-https/pull/52 ?
-    tag: v0.10.2
+    tag: v0.10.3
 
   imagePullSecrets: []
   nameOverride: ""
