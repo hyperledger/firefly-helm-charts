@@ -267,7 +267,8 @@ dataexchange:
   image:
     repository: ghcr.io/hyperledger/firefly-dataexchange-https
     pullPolicy: IfNotPresent
-    tag: v0.9.3
+    # TODO wait till https://github.com/hyperledger/firefly-dataexchange-https/pull/52 ?
+    tag: v0.10.2
 
   imagePullSecrets: []
   nameOverride: ""
@@ -402,8 +403,9 @@ erc20:
   ethconnectTopic: "tokensERC20"
 
   image:
-    repository: ghcr.io/hyperledger/firefly-tokens-erc20
+    repository: ghcr.io/hyperledger/firefly-tokens-erc20-erc721
     pullPolicy: IfNotPresent
+    # TODO latest release ?
     tag: v0.1.3
 
   imagePullSecrets: []
