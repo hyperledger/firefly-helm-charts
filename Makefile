@@ -26,7 +26,7 @@ deps:
 	helm repo add prometheus-community https://prometheus-community.github.io/helm-charts || true
 	helm upgrade --install --set kubeStateMetrics.enabled=false --set nodeExporter.enabled=false --set grafana.enabled=false kube-prometheus prometheus-community/kube-prometheus-stack
 	helm repo add bitnami https://charts.bitnami.com/bitnami || true
-	helm upgrade --install --set postgresqlPassword=firef1y --set extraEnv[0].name=POSTGRES_DATABASE --set extraEnv[0].value=firefly postgresql bitnami/postgresql
+	helm upgrade --install --set postgresqlPassword=firef1y --set extraEnv[0].name=POSTGRES_DATABASE --set extraEnv[0].value=firefly postgresql bitnami/postgresql --version 10.16.2
 	kubectl create secret generic custom-psql-config --dry-run --from-literal="url=postgres://postgres:firef1y@postgresql.default.svc:5432/postgres?sslmode=disable" -o json | kubectl apply -f -
 
 starter: charts/firefly/local-values.yaml
