@@ -233,8 +233,6 @@ core:
 
 ### Ethereum
 
-TODO document enabling ethconnect
-
 Configuring FireFly to use an [Ethereum](https://ethereum.org/en/) blockchain such as [Geth](https://geth.ethereum.org/),
 [Quorum](https://github.com/ConsenSys/quorum), or [Hyperledger Besu](https://www.hyperledger.org/use/besu) requires first
 having an instance of [FireFly Ethconnect](https://github.com/hyperledger/firefly-ethconnect) deployed and connected to

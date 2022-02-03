@@ -20,7 +20,9 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: "{{ template "firefly.fullname" . }}-{{ .Values.config.organizationName | lower }}-contracts"
+  name: "{{ include "firefly.ethconnectRegisterContractsJobName" . }}"
+  labels:
+    {{- include "firefly.ethconnectLabels" . | nindent 4 }}
 spec:
   backoffLimit: 5
   activeDeadlineSeconds: 12000
@@ -33,7 +35,7 @@ spec:
         - name: tmp
           emptyDir: {}
       containers:
-        - name: register-ccontraccts
+        - name: register-contracts
           image: "{{ .Values.core.image.repository }}:{{ .Values.core.image.tag | default (printf "v%s" .Chart.AppVersion) }}"
           command:
           - sh
@@ -51,12 +53,6 @@ spec:
               value: "true"
             - name: FIREFLY_ERC1155_CONTRACT_ADDRESS
               value: {{ .Values.erc1155.contractAddress | replace "/contracts/" "" }}
-            {{- end }}
-            {{- if .Values.erc20.enabled }}
-            - name: FIREFLY_ERC20_ENABLED
-              value: "true"
-            - name: FIREFLY_ERC20_FACTORY_CONTRACT_ADDRESS
-              value: {{ .Values.erc20.factoryContractAddress | replace "/contracts/" "" }}
             {{- end }}
           volumeMounts:
             - name: contracts

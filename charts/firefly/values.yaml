@@ -452,6 +452,7 @@ ethconnect:
     eventPollingIntervalSec: 1
     maxTXWaitTimeSec: 60
     maxInFlight: 10
+    catchupModePageSize: 5000
 
   ingress:
     enabled: false

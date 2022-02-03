@@ -1,0 +1,63 @@
+{{/*
+  Copyright © 2022 Kaleido, Inc.
+
+  SPDX-License-Identifier: Apache-2.0
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+  http://swww.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+*/}}
+
+{{- if and .Values.ethconnect.enabled .Values.ethconnect.job.contracts.enabled }}
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: "{{ include "firefly.erc20Erc721DeployContractsJobName" . }}"
+  labels:
+    {{- include "firefly.erc20Erc721Labels" . | nindent 4 }}
+spec:
+  backoffLimit: 5
+  activeDeadlineSeconds: 12000
+  template:
+    spec:
+      volumes:
+        - name: contracts
+          configMap:
+            name: {{ include "firefly.fullname" . }}-contracts
+        - name: tmp
+          emptyDir: {}
+      containers:
+        - name: register-contracts
+          image: "{{ .Values.core.image.repository }}:{{ .Values.core.image.tag | default (printf "v%s" .Chart.AppVersion) }}"
+          command:
+            - sh
+            - -ce
+            - |
+{{ .Files.Get  "scripts/ff-register-contracts.sh" | indent 12 }}
+          env:
+            {{- include "firefly.ethconnectUrlEnvVar" . | nindent 12 }}
+            - name: ETHCONNECT_PREFIX
+              value: {{ .Values.config.ethconnectPrefixShort | default "fly" }}
+            - name: FIREFLY_CONTRACT_ADDRESS
+              value: {{ .Values.config.fireflyContractAddress | replace "/contracts/" "" }}
+            {{- if .Values.erc1155.enabled }}
+            - name: FIREFLY_ERC1155_ENABLED
+              value: "true"
+            - name: FIREFLY_ERC1155_CONTRACT_ADDRESS
+              value: {{ .Values.erc1155.contractAddress | replace "/contracts/" "" }}
+            {{- end }}
+          volumeMounts:
+            - name: contracts
+              mountPath: /var/lib/ethconnect/contracts
+            - name: tmp
+              mountPath: /tmp
+      restartPolicy: Never
+{{- end }}

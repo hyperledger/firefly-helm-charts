@@ -137,6 +137,14 @@ app.kubernetes.io/instance: {{ .Release.Name }}
 app.kubernetes.io/component: ethconnect
 {{- end }}
 
+{{- define "firefly.ethconnectRegisterContractsJobName" -}}
+{{ printf "%s-%s-%s-register-contracts" (include "firefly.fullname" .) (.Values.config.organizationName | lower) .Chart.Version | trunc 63 | trimSuffix "-" }}
+{{- end }}
+
+{{- define "firefly.erc20Erc721DeployContractsJobName" -}}
+{{ printf "%s-%s-%s-erc20-erc-721-deploy-contracts" (include "firefly.fullname" .) (.Values.config.organizationName | lower) .Chart.Version | trunc 63 | trimSuffix "-" }}
+{{- end }}
+
 {{/*
 Config helpers
 */}}
