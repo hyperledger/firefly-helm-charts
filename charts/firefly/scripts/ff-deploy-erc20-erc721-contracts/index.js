@@ -24,8 +24,8 @@ const erc721ContractJson = require('/root/solidity/build/contracts/ERC721WithDat
 const deployContracts = async () => {
   let FormData = require("form-data");
   const ETHCONNECT_BASE_URL = process.env.ETHCONNECT_URL;
-  const ETHCONNECT_PREFIX = process.env.ETHCONNECT_PREFIX | "fly";
-  const ABIS_URI = process.env.ABIS_URI | "/abis";
+  const ETHCONNECT_PREFIX = process.env.ETHCONNECT_PREFIX || "fly";
+  const ABIS_URI = process.env.ABIS_URI || "/abis";
 
   const TOKENS_OWNER_KEY = process.env.TOKENS_OWNER_KEY;
 
@@ -44,13 +44,13 @@ const deployContracts = async () => {
       const bodyFormData = new FormData();
       bodyFormData.append("abi", JSON.stringify(abi));
       bodyFormData.append("bytecode", byteCode);
-      console.log("POST /abis with abi/bytecode form data");
+      console.log(`POST ${ETHCONNECT_BASE_URL}${ABIS_URI} with abi/bytecode form data`);
       const abiRes = await axios
           .post(`${ETHCONNECT_BASE_URL}${ABIS_URI}`, bodyFormData, {
               headers: bodyFormData.getHeaders(),
           })
           .catch((err) => {
-              throw `Error in POST ${ABIS_URI} with form data. ${err}`;
+              throw `Error in POST ${ETHCONNECT_BASE_URL}${ABIS_URI} with form data. ${err}`;
           });
 
       console.log("Sleeping 10s for sync...");
@@ -74,7 +74,7 @@ const deployContracts = async () => {
               }
           )
           .catch((err) => {
-              throw `Error in POST ${ABIS_URI}/{id}. ${err}`;
+              throw `Error in POST ${ETHCONNECT_BASE_URL}${ABIS_URI}/{id}. ${err}`;
           });
 
     return {
@@ -106,5 +106,6 @@ const deployContracts = async () => {
     await deployContracts();
   } catch (e) {
      console.error(`Failed to deploy contracts due to: ${e}`);
+     process.exit(1);
   }
 })();
