@@ -83,7 +83,7 @@ app.kuberentes.io/part-of: {{ .Chart.Name }}
 
 {{- define "firefly.erc20Erc721Labels" -}}
 helm.sh/chart: {{ include "firefly.chart" . }}
-{{ include "firefly.erc20SelectorLabels" . }}
+{{ include "firefly.erc20Erc721SelectorLabels" . }}
 {{- if .Chart.AppVersion }}
 app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
 {{- end }}
