@@ -16,7 +16,7 @@
   limitations under the License.
 */}}
 
-{{- if and .Values.ethconnect.enabled .Values.ethconnect.job.contracts.enabled }}
+{{- if and .Values.erc20Erc721.enabled .Values.erc20Erc721.job.deployContracts.enabled }}
 apiVersion: batch/v1
 kind: Job
 metadata:
@@ -29,34 +29,46 @@ spec:
   template:
     spec:
       volumes:
-        - name: contracts
+        - name: deploy-scripts
           configMap:
-            name: {{ include "firefly.fullname" . }}-contracts
+            name: {{ include "firefly.fullname" . }}-erc20-erc721-deploy-scripts
         - name: tmp
           emptyDir: {}
       containers:
-        - name: register-contracts
-          image: "{{ .Values.core.image.repository }}:{{ .Values.core.image.tag | default (printf "v%s" .Chart.AppVersion) }}"
+        - name: deploy-contracts
+          image: "{{ .Values.erc20Erc721.image.repository }}:{{ .Values.erc20Erc721.image.tag }}"
           command:
             - sh
             - -ce
             - |
-{{ .Files.Get  "scripts/ff-register-contracts.sh" | indent 12 }}
+              #!/bin/sh
+
+              mkdir /tmp/ff-deploy-erc20-erc721-contracts
+              cp /var/lib/ff-deploy-erc20-erc721-contracts/* /tmp/ff-deploy-erc20-erc721-contracts/
+              cd /tmp/ff-deploy-erc20-erc721-contracts/
+              ls -la
+
+              npm i
+              exec node index.js
           env:
             {{- include "firefly.ethconnectUrlEnvVar" . | nindent 12 }}
             - name: ETHCONNECT_PREFIX
               value: {{ .Values.config.ethconnectPrefixShort | default "fly" }}
-            - name: FIREFLY_CONTRACT_ADDRESS
-              value: {{ .Values.config.fireflyContractAddress | replace "/contracts/" "" }}
-            {{- if .Values.erc1155.enabled }}
-            - name: FIREFLY_ERC1155_ENABLED
-              value: "true"
-            - name: FIREFLY_ERC1155_CONTRACT_ADDRESS
-              value: {{ .Values.erc1155.contractAddress | replace "/contracts/" "" }}
-            {{- end }}
+            - name: ABIS_URI
+              value: {{ .Values.erc20Erc721.abisUri | default "/abis" }}
+            - name: TOKENS_OWNER_KEY
+              value: {{ .Values.erc20Erc721.ownerKey | default .Values.config.organizationKey }}
+            - name: ERC20_ENABLED
+              value: {{ .Values.erc20Erc721.erc20.enabled | quote }}
+            - name: ERC20_TOKEN_NAME
+              value: {{ .Values.erc20Erc721.erc20.tokenName }}
+            - name: ERC721_ENABLED
+              value: {{ .Values.erc20Erc721.erc721.enabled | quote }}
+            - name: ERC721_TOKEN_NAME
+              value: {{ .Values.erc20Erc721.erc721.tokenName }}
           volumeMounts:
-            - name: contracts
-              mountPath: /var/lib/ethconnect/contracts
+            - name: deploy-scripts
+              mountPath: /var/lib/ff-deploy-erc20-erc721-contracts/
             - name: tmp
               mountPath: /tmp
       restartPolicy: Never

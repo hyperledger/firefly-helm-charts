@@ -42,12 +42,16 @@ spec:
   {{- if and .Values.ethconnect.ingress.className (semverCompare ">=1.18-0" .Capabilities.KubeVersion.GitVersion) }}
   ingressClassName: {{ .Values.ethconnect.ingress.className }}
   {{- end }}
+  {{- if .Values.ethconnect.ingress.tls }}
   tls:
+    {{- range .Values.ethconnect.ingress.tls }}
     - hosts:
-        {{- range .Values.ethconnect.ingress.hosts }}
-        - {{ .host | quote }}
+        {{- range .hosts }}
+        - {{ . | quote }}
         {{- end }}
-      secretName: {{- printf "%s-ethconnect-tls" $fullName}}
+      secretName: {{ .secretName }}
+    {{- end }}
+  {{- end }}
   rules:
     {{- range .Values.ethconnect.ingress.hosts }}
     - host: {{ .host | quote }}

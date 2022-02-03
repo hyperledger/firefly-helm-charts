@@ -75,8 +75,6 @@ spec:
             {{- include "firefly.ethconnectUrlEnvVar" . | nindent 12 }}
             - name: PORT
               value: {{ .Values.erc20Erc721.service.port | quote }}
-            - name: ETHCONNECT_INSTANCE
-              value: {{ .Values.erc20Erc721.factoryContractAddress }}
             - name: ETHCONNECT_TOPIC
               value: {{ .Values.erc20Erc721.ethconnectTopic | quote }}
             - name: ETHCONNECT_PREFIX
@@ -87,8 +85,6 @@ spec:
             - name: ETHCONNECT_PASSWORD
               value: {{ .Values.config.ethconnectPassword | quote }}
             {{- end }}
-            - name: ETHCONNECT_CONTRACT_URI
-              value: {{ .Values.erc20Erc721.contractUri }}
             - name: AUTO_INIT
               value: "true"
           resources:

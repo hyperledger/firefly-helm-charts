@@ -392,17 +392,32 @@ erc1155:
 erc20Erc721:
   enabled: false
 
-  # The Ethconnect URI representing the deployed ERC20 tokens Factory contract
-  factoryContractAddress: "/contracts/erc20FactoryAddress"
-
-  # The Ethconnect URI representing the stage ERC20 tokens contract
-  contractUri: "/abis/erc20AbiId"
+  ownerKey: ""
 
   # The Ethconnect topic to use for tokens event subscriptions
-  ethconnectTopic: "tokensERC20"
+  ethconnectTopic: "tokensERC20ERC721"
+
+  erc20:
+    enabled: true
+
+    # The name and symbol to use when instantiating the ERC20 tokens contract
+    tokenName: "FF"
+
+  erc721:
+    enabled: false
+
+    # The name and symbol to use when instantiating the ERC721 tokens contract
+    tokenName: "NFFT"
+
+  # The URI to use when publishing ABIs to Ethconnect, should either be '/abis' or '/gateways'. Defaults to '/abis'
+  abisUri: ""
+
+  job:
+    deployContracts:
+      enabled: true
 
   image:
-    repository: ghcr.io/hyperledger/firefly-tokens-erc20-erc721-erc721
+    repository: ghcr.io/hyperledger/firefly-tokens-erc20-erc721
     pullPolicy: IfNotPresent
     tag: v0.1.4
 
@@ -458,8 +473,14 @@ ethconnect:
     enabled: false
     className: ""
     annotations: {}
+      # kubernetes.io/ingress.class: nginx
+      # kubernetes.io/tls-acme: "true"
     hosts:
       - host: chart-example.local
+    tls: []
+    #  - secretName: chart-example-tls
+    #    hosts:
+    #      - chart-example.local
 
   imagePullSecrets: []
 
@@ -510,7 +531,7 @@ ethconnect:
   affinity: {}
 
   job:
-    contracts:
+    registerContracts:
       enabled: true
 
   persistentVolume:
