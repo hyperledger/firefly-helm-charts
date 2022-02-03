@@ -47,7 +47,7 @@ spec:
         - name: {{ .Chart.Name }}-erc20
           securityContext:
           {{- toYaml .Values.erc20Erc721.securityContext | nindent 12 }}
-          image: "{{ .Values.erc20Erc721.image.repository }}:{{ .Values.erc20.image.tag }}"
+          image: "{{ .Values.erc20Erc721.image.repository }}:{{ .Values.erc20Erc721.image.tag }}"
           imagePullPolicy: {{ .Values.erc20Erc721.image.pullPolicy }}
           ports:
             - name: http
