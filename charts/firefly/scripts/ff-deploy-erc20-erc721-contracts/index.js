@@ -18,8 +18,8 @@
 
 const axios = require('axios');
 
-import * as erc20ContractJson from "/root/solidity/build/contracts/ERC20WithData.json";
-import * as erc721ContractJson from "/root/solidity/build/contracts/ERC20WithData.json";
+const erc20ContractJson = require('/root/solidity/build/contracts/ERC20WithData.json');
+const erc721ContractJson = require('/root/solidity/build/contracts/ERC721WithData.json');
 
 const deployContracts = async () => {
   let FormData = require("form-data");
