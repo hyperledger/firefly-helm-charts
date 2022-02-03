@@ -61,7 +61,7 @@ helm registry login ghcr.io
 ## Install Chart
 
 ```shell
-helm install [RELEASE_NAME] --version 0.0.1 oci://ghcr.io/hyperledger/helm/firefly
+helm install [RELEASE_NAME] --version 0.2.0 oci://ghcr.io/hyperledger/helm/firefly
 ```
 
 _See [configuration](#Configuration) below._
@@ -79,7 +79,7 @@ _See [helm uninstall](https://helm.sh/docs/helm/helm_uninstall/) for command doc
 ## Upgrading Chart
 
 ```shell
-helm upgrade [RELEASE_NAME] --install --version 0.0.2 oci://ghcr.io/hyperledger/helm/firefly
+helm upgrade [RELEASE_NAME] --install --version 0.2.0 oci://ghcr.io/hyperledger/helm/firefly
 ```
 
 _See [helm upgrade](https://helm.sh/docs/helm/helm_upgrade/) for command documentation._
@@ -93,7 +93,7 @@ dependencies:
   # ...
   - name: firefly
     repository: "oci://ghcr.io/hyperledger/helm/"
-    version: 0.0.1
+    version: 0.2.0
 ```
 
 Then download the chart dependency into your parent chart:
@@ -233,15 +233,13 @@ core:
 
 ### Ethereum
 
+TODO document enabling ethconnect
+
 Configuring FireFly to use an [Ethereum](https://ethereum.org/en/) blockchain such as [Geth](https://geth.ethereum.org/),
 [Quorum](https://github.com/ConsenSys/quorum), or [Hyperledger Besu](https://www.hyperledger.org/use/besu) requires first
 having an instance of [FireFly Ethconnect](https://github.com/hyperledger/firefly-ethconnect) deployed and connected to
 the JSONRPC port of an Ethereum node in the underlying network.
 
-As was noted in [Deployment Architecture](#deployment-architecture), the chart will include support for deploying Ethconnect
-as part of its `0.1.0` release. See [#272](https://github.com/hyperledger/firefly/issues/272) to track its progress. For now,
-you can either deploy Ethconnect yourself or use a cloud provider like [Kaleido](https://www.kaleido.io) which provides
-Ethconnect alongside its Ethereum nodes.
 
 Once you have an Ethconnect instance ready, FireFly then needs three pieces of configuration:
 
@@ -456,6 +454,10 @@ erc1155:
   enabled: true
   contractAddress: "/instances/0xf778b86fa74e846c4f0a1fbd1335fe81c00a0c91"
 ```
+
+#### ERC20 / ERC721
+
+TODO
 
 ### Prometheus Support
 

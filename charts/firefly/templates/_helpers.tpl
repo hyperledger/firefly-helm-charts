@@ -81,7 +81,7 @@ app.kubernetes.io/managed-by: {{ .Release.Service }}
 app.kuberentes.io/part-of: {{ .Chart.Name }}
 {{- end }}
 
-{{- define "firefly.erc20Labels" -}}
+{{- define "firefly.erc20Erc721Labels" -}}
 helm.sh/chart: {{ include "firefly.chart" . }}
 {{ include "firefly.erc20SelectorLabels" . }}
 {{- if .Chart.AppVersion }}
@@ -125,10 +125,10 @@ app.kubernetes.io/instance: {{ .Release.Name }}
 app.kubernetes.io/component: erc1155
 {{- end }}
 
-{{- define "firefly.erc20SelectorLabels" -}}
+{{- define "firefly.erc20Erc721SelectorLabels" -}}
 app.kubernetes.io/name: {{ include "firefly.name" . }}
 app.kubernetes.io/instance: {{ .Release.Name }}
-app.kubernetes.io/component: erc20
+app.kubernetes.io/component: erc20-erc721
 {{- end }}
 
 {{- define "firefly.ethconnectSelectorLabels" -}}

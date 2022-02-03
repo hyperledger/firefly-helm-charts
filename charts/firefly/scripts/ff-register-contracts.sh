@@ -52,6 +52,6 @@ if [[ "${FIREFLY_ERC20_ENABLED}" == "true" ]]; then
   curl --fail -H "Content-Type: application/json" -X POST -H "x-${ETHCONNECT_PREFIX}-sync: true"  -H "x-${ETHCONNECT_PREFIX}-register: firefly-erc20-factory" "${ETHCONNECT_URL}$(echo -n $publishResponse | jq -r .path)/${FIREFLY_ERC20_FACTORY_CONTRACT_ADDRESS}"
 
   # publish ERC20
-  publishResponse=$(curl -s --fail -F "abi=$(cat /var/lib/ethconnect/contracts/erc20.json | jq -r '.abi')" -F bytecode=$(cat /var/lib/ethconnect/contracts/erc20.json | jq -r '.bytecode') "${ETHCONNECT_URL}/abis")
+  publishResponse=$(curl -s --fail -F "abi=$(cat /var/lib/ethconnect/contracts/erc20-erc721.json | jq -r '.abi')" -F bytecode=$(cat /var/lib/ethconnect/contracts/erc20-erc721.json | jq -r '.bytecode') "${ETHCONNECT_URL}/abis")
   echo "ERC20 ABI URI: $(echo -n $publishResponse | jq -r .path)"
 fi
