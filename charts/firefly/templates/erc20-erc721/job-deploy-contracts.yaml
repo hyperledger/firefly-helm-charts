@@ -43,10 +43,16 @@ spec:
             - |
               #!/bin/sh
 
+              until STATUS=$(curl --fail -s ${ETHCONNECT_URL}${ABIS_URI}); do
+                echo "Waiting for Ethconnect..."
+                sleep 5
+              done
+
+              set -e
+
               mkdir /tmp/ff-deploy-erc20-erc721-contracts
               cp /var/lib/ff-deploy-erc20-erc721-contracts/* /tmp/ff-deploy-erc20-erc721-contracts/
               cd /tmp/ff-deploy-erc20-erc721-contracts/
-              ls -la
 
               npm i
               exec node index.js
