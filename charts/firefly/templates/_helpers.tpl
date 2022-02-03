@@ -308,17 +308,17 @@ dataexchange:
 {{- if .Values.config.tokensOverride }}
 tokens:
     {{- tpl .Values.config.tokensOverride . | nindent 2 }}
-{{- else if or .Values.erc1155.enabled .Values.erc20.enabled }}
+{{- else if or .Values.erc1155.enabled .Values.erc20Erc721.enabled }}
 tokens:
   {{- if .Values.erc1155.enabled }}
   - plugin: fftokens
     name: erc1155
     url: http://{{ include "firefly.fullname" . }}-erc1155.{{ .Release.Namespace }}.svc:{{ .Values.erc1155.service.port }}
   {{- end }}
-  {{- if .Values.erc20.enabled }}
+  {{- if .Values.erc20Erc721.enabled }}
   - plugin: fftokens
-    name: erc20
-    url: http://{{ include "firefly.fullname" . }}-erc20.{{ .Release.Namespace }}.svc:{{ .Values.erc20.service.port }}
+    name: erc20-erc721
+    url: http://{{ include "firefly.fullname" . }}-erc20-erc721.{{ .Release.Namespace }}.svc:{{ .Values.erc20Erc721.service.port }}
   {{- end }}
 {{- end }}
 {{- end }}
