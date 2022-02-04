@@ -468,6 +468,7 @@ ethconnect:
     maxTXWaitTimeSec: 60
     maxInFlight: 10
     catchupModePageSize: 5000
+    catchupModeBlockGap: 5000
 
   ingress:
     enabled: false
