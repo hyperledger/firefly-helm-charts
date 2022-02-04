@@ -57,7 +57,7 @@ const deployContracts = async () => {
         await new Promise((f) => setTimeout(f, 10000));
 
       // POST /abis/<id>
-      console.log("POST /abis/<id>");
+      console.log(`POST ${ETHCONNECT_BASE_URL}${ABIS_URI}/${abiRes.data.id}`);
       const contractRes = await axios
           .post(
               `${ETHCONNECT_BASE_URL}${ABIS_URI}/${abiRes.data.id}`,
@@ -74,7 +74,7 @@ const deployContracts = async () => {
               }
           )
           .catch((err) => {
-              throw `Error in POST ${ETHCONNECT_BASE_URL}${ABIS_URI}/{id}. ${err}`;
+              throw `Error in POST ${ETHCONNECT_BASE_URL}${ABIS_URI}/${abiRes.data.id}. ${err}`;
           });
 
     return {
