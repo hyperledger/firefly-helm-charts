@@ -77,10 +77,14 @@ const deployContracts = async () => {
               throw `Error in POST ${ETHCONNECT_BASE_URL}${ABIS_URI}/${abiRes.data.id}. ${err}`;
           });
 
-    return {
+    console.log(`contract response: ${JSON.stringify(contractRes.data)} address: ${contractRes.data.contractAddress}, ABI ID: ${abiRes.data.abiId}`);
+
+    return new Promise((res, rej) => {
+      res( {
         address: contractRes.data.contractAddress,
         abiId: abiRes.data.abiId
-    };
+      });
+    });
   }
 
 
