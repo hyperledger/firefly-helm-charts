@@ -59,7 +59,7 @@ spec:
           env:
             {{- include "firefly.ethconnectUrlEnvVar" . | nindent 12 }}
             - name: ETHCONNECT_PREFIX
-              value: {{ .Values.config.ethconnectPrefixShort | default "fly" }}
+              value: {{ .Values.config.ethconnectPrefixLong | default "firefly" }}
             - name: ABIS_URI
               value: {{ .Values.erc20Erc721.abisUri | default "/abis" }}
             - name: TOKENS_OWNER_KEY

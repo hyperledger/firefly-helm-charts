@@ -101,7 +101,7 @@ config:
   # The short prefix FireFly will prepend to certain headers it sends to Ethconnect i.e. fly or kld
   ethconnectPrefixShort: ""
 
-  # The long prefix FireFly will prepend to certain headers it sends to Ethconnect i.e. FireFly or Kaleido
+  # The long prefix FireFly will prepend to certain headers it sends to Ethconnect i.e. firefly or kaleido
   ethconnectPrefixLong: ""
 
   # The URL of the Fabconnect API and WS server to use for the blockchain plugin of type `fabric`
