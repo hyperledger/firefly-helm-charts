@@ -16,20 +16,13 @@
   limitations under the License.
 */}}
 
-{{- if .Values.erc20.enabled }}
+{{- if and .Values.erc20erc721.enabled .Values.erc20erc721.job.deployContracts.enabled }}
 apiVersion: v1
-kind: Service
+kind: ConfigMap
 metadata:
-  name: {{ include "firefly.fullname" . }}-erc20
+  name: {{ include "firefly.fullname" . }}-erc20-erc721-deploy-scripts
   labels:
-  {{- include "firefly.erc20Labels" . | nindent 4 }}
-spec:
-  type: {{ .Values.erc20.service.type }}
-  ports:
-    - port: {{ .Values.erc20.service.port }}
-      targetPort: http
-      protocol: TCP
-      name: http
-  selector:
-  {{- include "firefly.erc20SelectorLabels" . | nindent 4 }}
+    {{- include "firefly.erc20erc721Labels" . | nindent 4 }}
+data:
+{{ (.Files.Glob  "scripts/ff-deploy-erc20-erc721-contracts/*").AsConfig | indent 2 }}
 {{- end }}

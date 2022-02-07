@@ -20,7 +20,7 @@ set -e
 
 apk add curl jq
 
-until STATUS=$(curl -s ${ETHCONNECT_URL}/contracts); do
+until STATUS=$(curl --fail -s ${ETHCONNECT_URL}/contracts); do
   echo "Waiting for Ethconnect..."
   sleep 5
 done
@@ -36,22 +36,24 @@ done
 
 # FF contract
 
-publishResponse=$(curl -s --fail -F "abi=$(cat /var/lib/ethconnect/contracts/firefly.json | jq -r '.abi')" -F bytecode=$(cat /var/lib/ethconnect/contracts/firefly.json | jq -r '.bytecode') "${ETHCONNECT_URL}/abis")
-curl -s --fail -H "Content-Type: application/json" -X POST -H "x-${ETHCONNECT_PREFIX}-sync: true"  -H "x-${ETHCONNECT_PREFIX}-register: firefly" "${ETHCONNECT_URL}$(echo -n $publishResponse | jq -r .path)/${FIREFLY_CONTRACT_ADDRESS}"
+if ! curl --fail -s "${ETHCONNECT_URL}/contracts/${FIREFLY_CONTRACT_ADDRESS}"; then
+  echo "[${FIREFLY_CONTRACT_ADDRESS}] has not been registered for the FireFly contract, registering now..."
+  publishResponse=$(curl -s --fail -F "abi=$(cat /var/lib/ethconnect/contracts/firefly.json | jq -r '.abi')" -F bytecode=$(cat /var/lib/ethconnect/contracts/firefly.json | jq -r '.bytecode') "${ETHCONNECT_URL}/abis")
+  curl -s --fail -H "Content-Type: application/json" -X POST -H "x-${ETHCONNECT_PREFIX}-sync: true"  -H "x-${ETHCONNECT_PREFIX}-register: firefly" "${ETHCONNECT_URL}$(echo -n $publishResponse | jq -r .path)/${FIREFLY_CONTRACT_ADDRESS}"
+else
+  echo "[${FIREFLY_CONTRACT_ADDRESS}] is already registered for the FireFly contract."
+fi
+
 
 # ERC1155 contract
 if [[ "${FIREFLY_ERC1155_ENABLED}" == "true" ]]; then
-  # publish and register ERC1155
-  publishResponse=$(curl -s --fail -F "abi=$(cat /var/lib/ethconnect/contracts/erc1155.json | jq -r '.abi')" -F bytecode=$(cat /var/lib/ethconnect/contracts/erc1155.json | jq -r '.bytecode') "${ETHCONNECT_URL}/abis")
-  curl -s --fail -H "Content-Type: application/json" -X POST -H "x-${ETHCONNECT_PREFIX}-sync: true"  -H "x-${ETHCONNECT_PREFIX}-register: firefly-erc1155" "${ETHCONNECT_URL}$(echo -n $publishResponse | jq -r .path)/${FIREFLY_ERC1155_CONTRACT_ADDRESS}"
-fi
 
-if [[ "${FIREFLY_ERC20_ENABLED}" == "true" ]]; then
-  # publish and register ERC20 factory
-  publishResponse=$(curl -s --fail -F "abi=$(cat /var/lib/ethconnect/contracts/erc20Factory.json | jq -r '.abi')" -F bytecode=$(cat /var/lib/ethconnect/contracts/erc20Factory.json | jq -r '.bytecode') "${ETHCONNECT_URL}/abis")
-  curl --fail -H "Content-Type: application/json" -X POST -H "x-${ETHCONNECT_PREFIX}-sync: true"  -H "x-${ETHCONNECT_PREFIX}-register: firefly-erc20-factory" "${ETHCONNECT_URL}$(echo -n $publishResponse | jq -r .path)/${FIREFLY_ERC20_FACTORY_CONTRACT_ADDRESS}"
-
-  # publish ERC20
-  publishResponse=$(curl -s --fail -F "abi=$(cat /var/lib/ethconnect/contracts/erc20.json | jq -r '.abi')" -F bytecode=$(cat /var/lib/ethconnect/contracts/erc20.json | jq -r '.bytecode') "${ETHCONNECT_URL}/abis")
-  echo "ERC20 ABI URI: $(echo -n $publishResponse | jq -r .path)"
+  if ! curl --fail -s "${ETHCONNECT_URL}/contracts/${FIREFLY_ERC1155_CONTRACT_ADDRESS}"; then
+    # publish and register ERC1155
+    echo "[${FIREFLY_ERC1155_CONTRACT_ADDRESS}] has not been registered for the FireFly ERC1155 contract, registering now..."
+    publishResponse=$(curl -s --fail -F "abi=$(cat /var/lib/ethconnect/contracts/erc1155.json | jq -r '.abi')" -F bytecode=$(cat /var/lib/ethconnect/contracts/erc1155.json | jq -r '.bytecode') "${ETHCONNECT_URL}/abis")
+    curl -s --fail -H "Content-Type: application/json" -X POST -H "x-${ETHCONNECT_PREFIX}-sync: true"  -H "x-${ETHCONNECT_PREFIX}-register: firefly-erc1155" "${ETHCONNECT_URL}$(echo -n $publishResponse | jq -r .path)/${FIREFLY_ERC1155_CONTRACT_ADDRESS}"
+  else
+    echo "[${FIREFLY_ERC1155_CONTRACT_ADDRESS}] is already registered for the FireFly ERC1155 contract."
+  fi
 fi

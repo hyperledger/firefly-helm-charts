@@ -1,0 +1,16 @@
+{
+  "name": "ff-deploy-erc20-erc721-contracts",
+  "version": "0.1.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "private": true,
+  "author": "",
+  "license": "Apache-2.0",
+  "dependencies": {
+    "axios": "^0.25.0",
+    "form-data": "^4.0.0"
+  }
+}

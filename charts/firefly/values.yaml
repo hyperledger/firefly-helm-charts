@@ -101,7 +101,7 @@ config:
   # The short prefix FireFly will prepend to certain headers it sends to Ethconnect i.e. fly or kld
   ethconnectPrefixShort: ""
 
-  # The long prefix FireFly will prepend to certain headers it sends to Ethconnect i.e. FireFly or Kaleido
+  # The long prefix FireFly will prepend to certain headers it sends to Ethconnect i.e. firefly or kaleido
   ethconnectPrefixLong: ""
 
   # The URL of the Fabconnect API and WS server to use for the blockchain plugin of type `fabric`
@@ -267,7 +267,7 @@ dataexchange:
   image:
     repository: ghcr.io/hyperledger/firefly-dataexchange-https
     pullPolicy: IfNotPresent
-    tag: v0.9.3
+    tag: v0.10.3
 
   imagePullSecrets: []
   nameOverride: ""
@@ -350,7 +350,7 @@ erc1155:
   image:
     repository: ghcr.io/hyperledger/firefly-tokens-erc1155
     pullPolicy: IfNotPresent
-    tag: v0.10.3
+    tag: v0.10.4
 
   imagePullSecrets: []
 
@@ -389,22 +389,42 @@ erc1155:
 
   affinity: {}
 
-erc20:
+erc20erc721:
   enabled: false
 
-  # The Ethconnect URI representing the deployed ERC20 tokens Factory contract
-  factoryContractAddress: "/contracts/erc20FactoryAddress"
-
-  # The Ethconnect URI representing the stage ERC20 tokens contract
-  contractUri: "/abis/erc20AbiId"
+  # The wallet address of the owner of the contract instances and therefore the token pools that will be associated with them
+  # defaults to config.organizationKey if this is not set
+  ownerKey: ""
 
   # The Ethconnect topic to use for tokens event subscriptions
-  ethconnectTopic: "tokensERC20"
+  ethconnectTopic: "tokensERC20ERC721"
+
+  erc20:
+    enabled: true
+
+    # The name and symbol to use when instantiating the ERC20 tokens contract
+    tokenName: "FF"
+
+  erc721:
+    enabled: false
+
+    # The name and symbol to use when instantiating the ERC721 tokens contract
+    tokenName: "NFFT"
+
+  # The URI to use when publishing ABIs to Ethconnect, should either be '/abis' or '/gateways'. Defaults to '/abis'
+  abisUri: ""
+
+  # The URI to use when looking up contracts instances via Ethconnect, should either be '/contracts' or '/instances'. Defaults to '/contracts'
+  contractsUri: ""
+
+  job:
+    deployContracts:
+      enabled: true
 
   image:
-    repository: ghcr.io/hyperledger/firefly-tokens-erc20
+    repository: ghcr.io/hyperledger/firefly-tokens-erc20-erc721
     pullPolicy: IfNotPresent
-    tag: v0.1.3
+    tag: v0.1.5
 
   imagePullSecrets: []
 
@@ -452,13 +472,21 @@ ethconnect:
     eventPollingIntervalSec: 1
     maxTXWaitTimeSec: 60
     maxInFlight: 10
+    catchupModePageSize: 5000
+    catchupModeBlockGap: 5000
 
   ingress:
     enabled: false
     className: ""
     annotations: {}
+      # kubernetes.io/ingress.class: nginx
+      # kubernetes.io/tls-acme: "true"
     hosts:
       - host: chart-example.local
+    tls: []
+    #  - secretName: chart-example-tls
+    #    hosts:
+    #      - chart-example.local
 
   imagePullSecrets: []
 
@@ -478,7 +506,7 @@ ethconnect:
   image:
     repository: ghcr.io/hyperledger/firefly-ethconnect
     pullPolicy: Always
-    tag: v3.1.1
+    tag: v3.1.2
 
   extraEnv: []
     # - name: LOG_LEVEL
@@ -509,7 +537,7 @@ ethconnect:
   affinity: {}
 
   job:
-    contracts:
+    registerContracts:
       enabled: true
 
   persistentVolume:

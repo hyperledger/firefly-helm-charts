@@ -16,42 +16,42 @@
   limitations under the License.
 */}}
 
-{{- if .Values.erc20.enabled }}
+{{- if .Values.erc20erc721.enabled }}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "firefly.fullname" . }}-erc20
+  name: {{ include "firefly.fullname" . }}-erc20-erc721
   labels:
-  {{- include "firefly.erc20Labels" . | nindent 4 }}
+  {{- include "firefly.erc20erc721Labels" . | nindent 4 }}
 spec:
   replicas: 1
   selector:
     matchLabels:
-      {{- include "firefly.erc20SelectorLabels" . | nindent 6 }}
+      {{- include "firefly.erc20erc721SelectorLabels" . | nindent 6 }}
   template:
     metadata:
-      {{- with .Values.erc20.podAnnotations }}
+      {{- with .Values.erc20erc721.podAnnotations }}
       annotations:
       {{- toYaml . | nindent 8 }}
       {{- end }}
       labels:
-    {{- include "firefly.erc20SelectorLabels" . | nindent 8 }}
+    {{- include "firefly.erc20erc721SelectorLabels" . | nindent 8 }}
     spec:
-      {{- with .Values.erc20.imagePullSecrets }}
+      {{- with .Values.erc20erc721.imagePullSecrets }}
       imagePullSecrets:
       {{- toYaml . | nindent 8 }}
       {{- end }}
       securityContext:
-      {{- toYaml .Values.erc20.podSecurityContext | nindent 8 }}
+      {{- toYaml .Values.erc20erc721.podSecurityContext | nindent 8 }}
       containers:
         - name: {{ .Chart.Name }}-erc20
           securityContext:
-          {{- toYaml .Values.erc20.securityContext | nindent 12 }}
-          image: "{{ .Values.erc20.image.repository }}:{{ .Values.erc20.image.tag }}"
-          imagePullPolicy: {{ .Values.erc20.image.pullPolicy }}
+          {{- toYaml .Values.erc20erc721.securityContext | nindent 12 }}
+          image: "{{ .Values.erc20erc721.image.repository }}:{{ .Values.erc20erc721.image.tag }}"
+          imagePullPolicy: {{ .Values.erc20erc721.image.pullPolicy }}
           ports:
             - name: http
-              containerPort: {{ .Values.erc20.service.port }}
+              containerPort: {{ .Values.erc20erc721.service.port }}
               protocol: TCP
           livenessProbe:
             httpGet:
@@ -74,11 +74,9 @@ spec:
           env:
             {{- include "firefly.ethconnectUrlEnvVar" . | nindent 12 }}
             - name: PORT
-              value: {{ .Values.erc20.service.port | quote }}
-            - name: ETHCONNECT_INSTANCE
-              value: {{ .Values.erc20.factoryContractAddress }}
+              value: {{ .Values.erc20erc721.service.port | quote }}
             - name: ETHCONNECT_TOPIC
-              value: {{ .Values.erc20.ethconnectTopic | quote }}
+              value: {{ .Values.erc20erc721.ethconnectTopic | quote }}
             - name: ETHCONNECT_PREFIX
               value: {{ .Values.config.ethconnectPrefixShort | default "fly" }}
             {{- if and .Values.config.ethconnectUsername .Values.config.ethconnectPassword }}
@@ -87,21 +85,19 @@ spec:
             - name: ETHCONNECT_PASSWORD
               value: {{ .Values.config.ethconnectPassword | quote }}
             {{- end }}
-            - name: ETHCONNECT_CONTRACT_URI
-              value: {{ .Values.erc20.contractUri }}
             - name: AUTO_INIT
               value: "true"
           resources:
-      {{- toYaml .Values.erc20.resources | nindent 12 }}
-      {{- with .Values.erc20.nodeSelector }}
+      {{- toYaml .Values.erc20erc721.resources | nindent 12 }}
+      {{- with .Values.erc20erc721.nodeSelector }}
       nodeSelector:
       {{- toYaml . | nindent 8 }}
       {{- end }}
-      {{- with .Values.erc20.affinity }}
+      {{- with .Values.erc20erc721.affinity }}
       affinity:
       {{- toYaml . | nindent 8 }}
       {{- end }}
-      {{- with .Values.erc20.tolerations }}
+      {{- with .Values.erc20erc721.tolerations }}
       tolerations:
       {{- toYaml . | nindent 8 }}
       {{- end }}

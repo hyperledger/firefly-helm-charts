@@ -16,13 +16,20 @@
   limitations under the License.
 */}}
 
-{{- if and .Values.ethconnect.enabled .Values.ethconnect.job.registerContracts.enabled }}
+{{- if .Values.erc20erc721.enabled }}
 apiVersion: v1
-kind: ConfigMap
+kind: Service
 metadata:
-  name: {{ include "firefly.fullname" . }}-contracts
+  name: {{ include "firefly.fullname" . }}-erc20-erc721
   labels:
-    {{- include "firefly.ethconnectLabels" . | nindent 4 }}
-data:
-{{ (.Files.Glob  "contracts/*.json").AsConfig | indent 2 }}
+  {{- include "firefly.erc20erc721Labels" . | nindent 4 }}
+spec:
+  type: {{ .Values.erc20erc721.service.type }}
+  ports:
+    - port: {{ .Values.erc20erc721.service.port }}
+      targetPort: http
+      protocol: TCP
+      name: http
+  selector:
+  {{- include "firefly.erc20erc721SelectorLabels" . | nindent 4 }}
 {{- end }}

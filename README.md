@@ -17,7 +17,8 @@ export HELM_EXPERIMENTAL_OCI=1
 
 helm registry login ghcr.io
 ```
-> **NOTE**: it is recommended to use a [GitHub personal access token](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token)
+
+> **NOTE**: you must use a [GitHub personal access token](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token)
 > when authenticating to the GHCR registry as opposed to using your GitHub password.
 
 ## Development

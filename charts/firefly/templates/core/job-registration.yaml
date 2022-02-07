@@ -20,7 +20,9 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: "{{ template "firefly.fullname" . }}-{{ .Values.config.organizationName | lower }}-registration"
+  name: "{{ include "firefly.fullname" . }}-{{ .Values.config.organizationName | lower }}-{{ .Values.core.image.tag | default (printf "v%s" .Chart.AppVersion) }}-registration"
+  labels:
+    {{- include "firefly.coreLabels" . | nindent 4 }}
 spec:
   backoffLimit: 5
   activeDeadlineSeconds: 12000
