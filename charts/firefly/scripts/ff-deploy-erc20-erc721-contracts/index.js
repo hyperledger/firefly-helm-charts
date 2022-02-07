@@ -93,9 +93,6 @@ const deployContracts = async () => {
         console.log(`Error in GET ${ETHCONNECT_BASE_URL}${CONTRACTS_URI}. ${err}`);
       });
 
-    console.log(JSON.stringify(contracts.data));
-    console.log(abiRes.data.id);
-
     const contract = contracts.data.filter(contract => contract.abi === abiRes.data.id)[0];
 
     return {
