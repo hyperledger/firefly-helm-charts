@@ -24,9 +24,11 @@ const erc721ContractJson = require('/root/solidity/build/contracts/ERC721WithDat
 const deployContracts = async () => {
   let FormData = require("form-data");
   const ETHCONNECT_BASE_URL = process.env.ETHCONNECT_URL;
-  const ETHCONNECT_PREFIX = process.env.ETHCONNECT_PREFIX || "fly";
+  const ETHCONNECT_PREFIX = process.env.ETHCONNECT_PREFIX || "firefly";
   const ABIS_URI = process.env.ABIS_URI || "/abis";
+  const CONTRACTS_URI = process.env.ABIS_URI || "/contracts";
 
+  // does not currently support using an address resolver to look up the wallet address i.e. must be in hex format
   const TOKENS_OWNER_KEY = process.env.TOKENS_OWNER_KEY;
 
   const ERC20_ENABLED = process.env.ERC20_ENABLED === "true";
@@ -34,7 +36,6 @@ const deployContracts = async () => {
 
   const ERC721_ENABLED = process.env.ERC721_ENABLED === "true";
   const ERC721_TOKEN_NAME = process.env.ERC721_TOKEN_NAME;
-  // TODO if FF has an address resolver does ORG_KEY need to be resolved?
 
   async function deployTokenContract(jsonLink, tokenName) {
       const abi = jsonLink.abi;
@@ -77,14 +78,27 @@ const deployContracts = async () => {
               throw `Error in POST ${ETHCONNECT_BASE_URL}${ABIS_URI}/${abiRes.data.id}. ${err}`;
           });
 
-    console.log(`contract response: ${JSON.stringify(contractRes.data)} address: ${contractRes.data.contractAddress}, ABI ID: ${abiRes.data.abiId}`);
+    console.log("Sleeping 2s for sync...");
+    await new Promise((f) => setTimeout(f, 2000));
 
-    return new Promise((res, rej) => {
-      res( {
-        address: contractRes.data.contractAddress,
-        abiId: abiRes.data.abiId
+    console.log(`GET ${ETHCONNECT_BASE_URL}${CONTRACTS_URI}`);
+    const contracts = await axios
+      .get(`${ETHCONNECT_BASE_URL}${CONTRACTS_URI}`, {
+        headers: {
+          accept: "application/json",
+          "Content-Type": "application/json",
+        },
+      })
+      .catch((err) => {
+        console.log(`Error in GET ${ETHCONNECT_BASE_URL}${CONTRACTS_URI}. ${err}`);
       });
-    });
+
+    const contract = contracts.data.filter(contract => contract.abi === abiRes.data.id)[0];
+
+    return {
+        address: `0x${contract.address}`,
+        abiId: abiRes.data.id
+    };
   }
 
 

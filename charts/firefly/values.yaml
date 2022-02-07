@@ -392,6 +392,8 @@ erc1155:
 erc20Erc721:
   enabled: false
 
+  # The wallet address of the owner of the contract instances and therefore the token pools that will be associated with them
+  # defaults to config.organizationKey if this is not set
   ownerKey: ""
 
   # The Ethconnect topic to use for tokens event subscriptions
@@ -412,6 +414,9 @@ erc20Erc721:
   # The URI to use when publishing ABIs to Ethconnect, should either be '/abis' or '/gateways'. Defaults to '/abis'
   abisUri: ""
 
+  # The URI to use when looking up contracts instances via Ethconnect, should either be '/contracts' or '/instances'. Defaults to '/contracts'
+  contractsUri: """
+
   job:
     deployContracts:
       enabled: true
@@ -419,7 +424,7 @@ erc20Erc721:
   image:
     repository: ghcr.io/hyperledger/firefly-tokens-erc20-erc721
     pullPolicy: IfNotPresent
-    tag: v0.1.4
+    tag: v0.1.5
 
   imagePullSecrets: []
 
