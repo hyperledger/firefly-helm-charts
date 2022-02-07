@@ -78,8 +78,8 @@ const deployContracts = async () => {
               throw `Error in POST ${ETHCONNECT_BASE_URL}${ABIS_URI}/${abiRes.data.id}. ${err}`;
           });
 
-    console.log("Sleeping 2s for sync...");
-    await new Promise((f) => setTimeout(f, 2000));
+    console.log("Sleeping 10s for sync...");
+    await new Promise((f) => setTimeout(f, 10000));
 
     console.log(`GET ${ETHCONNECT_BASE_URL}${CONTRACTS_URI}`);
     const contracts = await axios
@@ -92,6 +92,9 @@ const deployContracts = async () => {
       .catch((err) => {
         console.log(`Error in GET ${ETHCONNECT_BASE_URL}${CONTRACTS_URI}. ${err}`);
       });
+
+    console.log(JSON.stringify(contracts.data));
+    console.log(abiRes.data.id);
 
     const contract = contracts.data.filter(contract => contract.abi === abiRes.data.id)[0];
 
