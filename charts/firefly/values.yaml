@@ -415,7 +415,7 @@ erc20Erc721:
   abisUri: ""
 
   # The URI to use when looking up contracts instances via Ethconnect, should either be '/contracts' or '/instances'. Defaults to '/contracts'
-  contractsUri: """
+  contractsUri: ""
 
   job:
     deployContracts:
