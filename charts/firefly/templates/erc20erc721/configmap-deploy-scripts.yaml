@@ -16,13 +16,13 @@
   limitations under the License.
 */}}
 
-{{- if and .Values.erc20Erc721.enabled .Values.erc20Erc721.job.deployContracts.enabled }}
+{{- if and .Values.erc20erc721.enabled .Values.erc20erc721.job.deployContracts.enabled }}
 apiVersion: v1
 kind: ConfigMap
 metadata:
   name: {{ include "firefly.fullname" . }}-erc20-erc721-deploy-scripts
   labels:
-    {{- include "firefly.erc20Erc721Labels" . | nindent 4 }}
+    {{- include "firefly.erc20erc721Labels" . | nindent 4 }}
 data:
 {{ (.Files.Glob  "scripts/ff-deploy-erc20-erc721-contracts/*").AsConfig | indent 2 }}
 {{- end }}

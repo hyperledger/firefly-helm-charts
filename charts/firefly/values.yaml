@@ -389,7 +389,7 @@ erc1155:
 
   affinity: {}
 
-erc20Erc721:
+erc20erc721:
   enabled: false
 
   # The wallet address of the owner of the contract instances and therefore the token pools that will be associated with them

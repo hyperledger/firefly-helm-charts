@@ -81,9 +81,9 @@ app.kubernetes.io/managed-by: {{ .Release.Service }}
 app.kuberentes.io/part-of: {{ .Chart.Name }}
 {{- end }}
 
-{{- define "firefly.erc20Erc721Labels" -}}
+{{- define "firefly.erc20erc721Labels" -}}
 helm.sh/chart: {{ include "firefly.chart" . }}
-{{ include "firefly.erc20Erc721SelectorLabels" . }}
+{{ include "firefly.erc20erc721SelectorLabels" . }}
 {{- if .Chart.AppVersion }}
 app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
 {{- end }}
@@ -125,7 +125,7 @@ app.kubernetes.io/instance: {{ .Release.Name }}
 app.kubernetes.io/component: erc1155
 {{- end }}
 
-{{- define "firefly.erc20Erc721SelectorLabels" -}}
+{{- define "firefly.erc20erc721SelectorLabels" -}}
 app.kubernetes.io/name: {{ include "firefly.name" . }}
 app.kubernetes.io/instance: {{ .Release.Name }}
 app.kubernetes.io/component: erc20-erc721
@@ -141,7 +141,7 @@ app.kubernetes.io/component: ethconnect
 {{ printf "%s-%s-%s-register-contracts" (include "firefly.fullname" .) (.Values.config.organizationName | lower) .Chart.Version | trunc 63 | trimSuffix "-" }}
 {{- end }}
 
-{{- define "firefly.erc20Erc721DeployContractsJobName" -}}
+{{- define "firefly.erc20erc721DeployContractsJobName" -}}
 {{ printf "%s-%s-%s-erc20-erc-721-deploy-contracts" (include "firefly.fullname" .) (.Values.config.organizationName | lower) .Chart.Version | trunc 63 | trimSuffix "-" }}
 {{- end }}
 
@@ -308,17 +308,17 @@ dataexchange:
 {{- if .Values.config.tokensOverride }}
 tokens:
     {{- tpl .Values.config.tokensOverride . | nindent 2 }}
-{{- else if or .Values.erc1155.enabled .Values.erc20Erc721.enabled }}
+{{- else if or .Values.erc1155.enabled .Values.erc20erc721.enabled }}
 tokens:
   {{- if .Values.erc1155.enabled }}
   - plugin: fftokens
     name: erc1155
     url: http://{{ include "firefly.fullname" . }}-erc1155.{{ .Release.Namespace }}.svc:{{ .Values.erc1155.service.port }}
   {{- end }}
-  {{- if .Values.erc20Erc721.enabled }}
+  {{- if .Values.erc20erc721.enabled }}
   - plugin: fftokens
     name: erc20-erc721
-    url: http://{{ include "firefly.fullname" . }}-erc20-erc721.{{ .Release.Namespace }}.svc:{{ .Values.erc20Erc721.service.port }}
+    url: http://{{ include "firefly.fullname" . }}-erc20-erc721.{{ .Release.Namespace }}.svc:{{ .Values.erc20erc721.service.port }}
   {{- end }}
 {{- end }}
 {{- end }}

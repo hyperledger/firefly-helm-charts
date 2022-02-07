@@ -16,13 +16,13 @@
   limitations under the License.
 */}}
 
-{{- if and .Values.erc20Erc721.enabled .Values.erc20Erc721.job.deployContracts.enabled }}
+{{- if and .Values.erc20erc721.enabled .Values.erc20erc721.job.deployContracts.enabled }}
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: "{{ include "firefly.erc20Erc721DeployContractsJobName" . }}"
+  name: "{{ include "firefly.erc20erc721DeployContractsJobName" . }}"
   labels:
-    {{- include "firefly.erc20Erc721Labels" . | nindent 4 }}
+    {{- include "firefly.erc20erc721Labels" . | nindent 4 }}
 spec:
   backoffLimit: 5
   activeDeadlineSeconds: 12000
@@ -36,7 +36,7 @@ spec:
           emptyDir: {}
       containers:
         - name: deploy-contracts
-          image: "{{ .Values.erc20Erc721.image.repository }}:{{ .Values.erc20Erc721.image.tag }}"
+          image: "{{ .Values.erc20erc721.image.repository }}:{{ .Values.erc20erc721.image.tag }}"
           command:
             - sh
             - -ce
@@ -61,19 +61,19 @@ spec:
             - name: ETHCONNECT_PREFIX
               value: {{ .Values.config.ethconnectPrefixLong | default "firefly" }}
             - name: ABIS_URI
-              value: {{ .Values.erc20Erc721.abisUri | default "/abis" }}
+              value: {{ .Values.erc20erc721.abisUri | default "/abis" }}
             - name: CONTRACTS_URI
-              value: {{ .Values.erc20Erc721.contractsUri | default "/contracts" }}
+              value: {{ .Values.erc20erc721.contractsUri | default "/contracts" }}
             - name: TOKENS_OWNER_KEY
-              value: {{ .Values.erc20Erc721.ownerKey | default .Values.config.organizationKey }}
+              value: {{ .Values.erc20erc721.ownerKey | default .Values.config.organizationKey }}
             - name: ERC20_ENABLED
-              value: {{ .Values.erc20Erc721.erc20.enabled | quote }}
+              value: {{ .Values.erc20erc721.erc20.enabled | quote }}
             - name: ERC20_TOKEN_NAME
-              value: {{ .Values.erc20Erc721.erc20.tokenName }}
+              value: {{ .Values.erc20erc721.erc20.tokenName }}
             - name: ERC721_ENABLED
-              value: {{ .Values.erc20Erc721.erc721.enabled | quote }}
+              value: {{ .Values.erc20erc721.erc721.enabled | quote }}
             - name: ERC721_TOKEN_NAME
-              value: {{ .Values.erc20Erc721.erc721.tokenName }}
+              value: {{ .Values.erc20erc721.erc721.tokenName }}
           volumeMounts:
             - name: deploy-scripts
               mountPath: /var/lib/ff-deploy-erc20-erc721-contracts/

@@ -26,7 +26,7 @@ const deployContracts = async () => {
   const ETHCONNECT_BASE_URL = process.env.ETHCONNECT_URL;
   const ETHCONNECT_PREFIX = process.env.ETHCONNECT_PREFIX || "firefly";
   const ABIS_URI = process.env.ABIS_URI || "/abis";
-  const CONTRACTS_URI = process.env.ABIS_URI || "/contracts";
+  const CONTRACTS_URI = process.env.CONTRACTS_URI || "/contracts";
 
   // does not currently support using an address resolver to look up the wallet address i.e. must be in hex format
   const TOKENS_OWNER_KEY = process.env.TOKENS_OWNER_KEY;
