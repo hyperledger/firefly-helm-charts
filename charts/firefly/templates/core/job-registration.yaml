@@ -28,6 +28,10 @@ spec:
   activeDeadlineSeconds: 12000
   template:
     spec:
+      {{- with .Values.core.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
       containers:
       - name: registration
         image: "{{ .Values.core.image.repository }}:{{ .Values.core.image.tag | default (printf "v%s" .Chart.AppVersion) }}"

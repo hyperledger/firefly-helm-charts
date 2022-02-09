@@ -34,6 +34,10 @@ spec:
             name: {{ include "firefly.fullname" . }}-erc20-erc721-deploy-scripts
         - name: tmp
           emptyDir: {}
+      {{- with .Values.erc20erc721.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
       containers:
         - name: deploy-contracts
           image: "{{ .Values.erc20erc721.image.repository }}:{{ .Values.erc20erc721.image.tag }}"
