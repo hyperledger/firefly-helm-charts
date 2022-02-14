@@ -16,9 +16,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# Install deps
-apk add postgresql-client curl jq
-
 # Extract the database name from the end of the PSQL URL, and check it's there
 DB_PARAMS=`echo ${PSQL_URL} | sed 's!^.*/!!'`
 DB_NAME=`echo ${DB_PARAMS} | sed 's!?.*!!'`
@@ -52,9 +49,5 @@ until psql -c "SELECT 1;" ${PSQL_URL}; do
   sleep 1
 done
 
-# Download the latest migration tool
-MIGRATE_RELEASE=$(curl -sL https://api.github.com/repos/golang-migrate/migrate/releases/latest | jq -r '.name')
-curl -sL https://github.com/golang-migrate/migrate/releases/download/${MIGRATE_RELEASE}/migrate.linux-amd64.tar.gz | tar xz
-
 # Do the migrations
-./migrate -database ${PSQL_URL} -path db/migrations/postgres up
+migrate -database ${PSQL_URL} -path db/migrations/postgres up
