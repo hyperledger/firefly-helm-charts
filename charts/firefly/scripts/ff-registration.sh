@@ -16,8 +16,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-apk add curl jq
-
 until STATUS=$(curl ${FF_URL}/api/v1/status); do
   echo "Waiting for FireFly..."
   sleep 5

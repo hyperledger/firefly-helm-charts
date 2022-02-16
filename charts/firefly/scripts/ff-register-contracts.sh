@@ -18,8 +18,6 @@
 
 set -e
 
-apk add curl jq
-
 until STATUS=$(curl --fail -s ${ETHCONNECT_URL}/contracts); do
   echo "Waiting for Ethconnect..."
   sleep 5
