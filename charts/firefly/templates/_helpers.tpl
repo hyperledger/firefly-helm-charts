@@ -290,14 +290,14 @@ dataexchange:
 {{- else }}
 dataexchange:
   {{- if .Values.dataexchange.enabled }}
-  https:
+  ffdx:
     url: http://{{ include "firefly.fullname" . }}-dx.{{ .Release.Namespace }}.svc:{{ .Values.dataexchange.service.apiPort }}
     {{- if .Values.dataexchange.apiKey }}
     headers:
       x-api-key: {{ .Values.dataexchange.apiKey | quote }}
     {{- end }}
   {{- else }}
-  https:
+  ffdx:
     url: {{ tpl .Values.config.dataexchangeUrl . }}
     {{- if .Values.config.dataexchangeAPIKey }}
     headers:
