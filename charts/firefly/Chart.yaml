@@ -18,8 +18,8 @@ apiVersion: v2
 name: firefly
 description: A Helm chart for deploying FireFly and FireFly HTTPS Dataexchange onto Kubernetes.
 type: application
-appVersion: "0.13.0"
-version: "0.3.1"
+appVersion: "0.13.1"
+version: "0.3.2"
 
 maintainers:
   - name: hfuss

@@ -350,7 +350,7 @@ erc1155:
   image:
     repository: ghcr.io/hyperledger/firefly-tokens-erc1155
     pullPolicy: IfNotPresent
-    tag: v0.10.4
+    tag: v0.10.5
 
   imagePullSecrets: []
 
@@ -424,7 +424,7 @@ erc20erc721:
   image:
     repository: ghcr.io/hyperledger/firefly-tokens-erc20-erc721
     pullPolicy: IfNotPresent
-    tag: v0.1.5
+    tag: v0.1.6
 
   imagePullSecrets: []
 
@@ -506,7 +506,7 @@ ethconnect:
   image:
     repository: ghcr.io/hyperledger/firefly-ethconnect
     pullPolicy: Always
-    tag: v3.1.2
+    tag: v3.1.4
 
   extraEnv: []
     # - name: LOG_LEVEL
