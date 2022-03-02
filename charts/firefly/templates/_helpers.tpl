@@ -290,16 +290,16 @@ dataexchange:
 {{- else }}
 dataexchange:
   {{- if .Values.dataexchange.enabled }}
+  type: ffdx
   ffdx:
-    type: ffdx
     url: http://{{ include "firefly.fullname" . }}-dx.{{ .Release.Namespace }}.svc:{{ .Values.dataexchange.service.apiPort }}
     {{- if .Values.dataexchange.apiKey }}
     headers:
       x-api-key: {{ .Values.dataexchange.apiKey | quote }}
     {{- end }}
   {{- else }}
+  type: ffdx
   ffdx:
-    type: ffdx
     url: {{ tpl .Values.config.dataexchangeUrl . }}
     {{- if .Values.config.dataexchangeAPIKey }}
     headers:
