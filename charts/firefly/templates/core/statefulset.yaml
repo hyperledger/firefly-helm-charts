@@ -54,9 +54,7 @@ spec:
           imagePullPolicy: {{ .Values.core.image.pullPolicy }}
           env:
             - name: FIREFLY_NODE_NAME
-              valueFrom:
-                fieldRef:
-                  fieldPath: metadata.name
+              value: {{ include "firefly.nodeName" . }}
             {{- if .Values.core.extraEnv }}
             {{- toYaml .Values.core.extraEnv | nindent 12 }}
             {{- end }}
