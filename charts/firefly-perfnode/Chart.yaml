@@ -1,0 +1,14 @@
+apiVersion: v2
+name: firefly-perfnode
+description: A Helm chart for Kubernetes
+
+type: application
+
+version: 0.1.0
+
+appVersion: "0.13.1"
+
+dependencies:
+  - name: firefly
+    version: 0.3.3
+    repository: file://../firefly

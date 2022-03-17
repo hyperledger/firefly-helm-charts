@@ -1,0 +1,40 @@
+nameOverride: ""
+fullnameOverride: "firefly"
+
+firefly:
+  fullnameOverride: "firefly"
+  config:
+    # TODO check config
+    ipfsApiUrl: http://127.0.0.1:9001
+    ipfsGatewayUrl: http://127.0.0.1:9000
+    postgresUrl: psql://127.0.0.1:3206/firefly
+    postgresAutomigrate: true
+
+  core:
+    initContainers:
+      # TODO postgres / IPFS init
+      # IPFS needs UDP / broadcast discovery w/in K8s
+
+    extraContainers:
+      # TODO postgres / IPFS
+
+    volumeClaimTemplates:
+      # TODO postgres / IPFS
+      # storageClass and size will need to be configurable... possibly need this to be a template not list
+
+  dataexchange:
+    enabled: true
+
+    # TODO ... ?
+
+  ethconnect:
+    initContainers: []
+    # TODO geth init
+
+    extraContainers: []
+    # TODO geth
+
+    extraVolumeClaimTemplates: []
+    # TODO geth
+
+  # TODO which connectors? or leave it open ended?
