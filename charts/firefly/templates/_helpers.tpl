@@ -49,10 +49,15 @@ Create chart name and version as used by the chart label.
 {{- end }}
 
 {{/*
-Create Firefly Node Name
+Create a Firefly node name. These must be unique within their Firefly network.
+We truncate at 63 chars because some Kubernetes name fields are limited to this (by the DNS naming spec).
 */}}
 {{- define "firefly.nodeName" -}}
-{{- printf "%s" .Release.Namespace | replace "+" "_" | trunc 63 | trimSuffix "-" }}
+{{- if .Values.nodeNameOverride }}
+{{- .Values.nodeNameOverride | trunc 63 | trimSuffix "-" }}
+{{- else }}
+{{- printf "%s-%s" (include "firefly.fullname" .) .Release.Namespace | trunc 63 | trimSuffix "-" }}
+{{- end }}
 {{- end }}
 
 {{/*
