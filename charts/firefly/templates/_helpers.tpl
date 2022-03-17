@@ -56,7 +56,7 @@ We truncate at 63 chars because some Kubernetes name fields are limited to this 
 {{- if .Values.nodeNameOverride }}
 {{- .Values.nodeNameOverride | trunc 63 | trimSuffix "-" }}
 {{- else }}
-{{- printf "%s-%s" (include "firefly.fullname" .) .Release.Namespace | trunc 63 | trimSuffix "-" }}
+{{- printf "%s-%s" .Release.Namespace (include "firefly.fullname" .) | trunc 63 | trimSuffix "-" }}
 {{- end }}
 {{- end }}
 
