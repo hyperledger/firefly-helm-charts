@@ -1,0 +1,6 @@
+dependencies:
+- name: firefly
+  repository: file://../firefly
+  version: 0.3.3
+digest: sha256:a18edc67afc8e197dadfd3d30541221ca01ceb74ec74d081bdcaa7d7165d9598
+generated: "2022-03-16T23:22:11.411844-04:00"

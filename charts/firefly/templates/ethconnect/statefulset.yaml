@@ -47,6 +47,10 @@ spec:
       {{- end }}
       securityContext:
         {{- toYaml .Values.ethconnect.podSecurityContext | nindent 8 }}
+      {{- with .Values.ethconnect.initContainers }}
+      initContainers:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
       containers:
         - name: ethconnect
           securityContext:
@@ -89,6 +93,9 @@ spec:
             - mountPath: /etc/ethconnect/config.yaml
               name: config
               subPath: config.yaml
+      {{- with .Values.core.extraContainers }}
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
       {{- with .Values.ethconnect.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
@@ -121,4 +128,7 @@ spec:
           requests:
             storage: {{ .size }}
       {{- end }}
+  {{- with .Values.ethconnect.extraVolumeClaimTemplates }}
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
 {{- end }}
