@@ -10,5 +10,5 @@ appVersion: "0.13.1"
 
 dependencies:
   - name: firefly
-    version: 0.3.3
+    version: 0.4.1
     repository: file://../firefly
