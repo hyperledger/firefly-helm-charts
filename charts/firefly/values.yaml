@@ -65,7 +65,7 @@ config:
   # The API key used to authenticate to HTTPS DataExchange, only needed if `dataexchange.enabled` is set to false
   dataexchangeAPIKey: ""
 
-  # The URL of the IPFS API server to use for the publicstorage plugin, in some cases this is the same as the Gateway URL, see below
+  # The URL of the IPFS API server to use for the sharedstorage connector, in some cases this is the same as the Gateway URL, see below
   ipfsApiUrl: ""
 
   # The basic auth username to use for authenticating to the IPFS API server
@@ -133,7 +133,7 @@ config:
 
   databaseOverride: ""
 
-  publicstorageOverride: ""
+  sharedstorageOverride: ""
 
   tokensOverride: ""
 
