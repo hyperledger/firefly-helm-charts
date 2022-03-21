@@ -274,11 +274,11 @@ database:
     migrations:
       auto: {{ .Values.config.postgresAutomigrate }}
 {{- end }}
-{{- if .Values.config.publicstorageOverride }}
-publicstorage:
-  {{- tpl .Values.config.publicstorageOverride . | nindent 2 }}
+{{- if .Values.config.sharedstorageOverride }}
+sharedstorage:
+  {{- tpl .Values.config.sharedstorageOverride . | nindent 2 }}
 {{- else if and .Values.config.ipfsApiUrl .Values.config.ipfsGatewayUrl }}
-publicstorage:
+sharedstorage:
   type: ipfs
   ipfs:
     api:
@@ -292,7 +292,7 @@ publicstorage:
       url: {{ tpl .Values.config.ipfsGatewayUrl . }}
       {{- if and .Values.config.ipfsGatewayUsername .Values.config.ipfsGatewayPassword }}
       auth:
-        username: {{ .Values.config.ipfsGatewayUsername |quote }}
+        username: {{ .Values.config.ipfsGatewayUsername | quote }}
         password: {{ .Values.config.ipfsGatewayPassword | quote }}
       {{- end }}
 {{- end }}
