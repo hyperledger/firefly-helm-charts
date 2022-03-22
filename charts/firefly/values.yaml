@@ -14,6 +14,9 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+nameOverride: ""
+fullnameOverride: ""
+
 # Templates the firefly.core configuration file of FireFly, and in some cases configures which ports are exposed.
 config:
   # Enables the FireFly debug port on 6060 and `DEBUG` level logs
@@ -163,8 +166,6 @@ core:
 
   imagePullSecrets: []
 
-  nameOverride: ""
-  fullnameOverride: ""
   nodeNameOverride: ""
 
   podAnnotations: {}
