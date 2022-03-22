@@ -162,8 +162,10 @@ core:
     #   value: debug
 
   imagePullSecrets: []
+  
   nameOverride: ""
   fullnameOverride: ""
+  nodeNameOverride: ""
 
   podAnnotations: {}
 
