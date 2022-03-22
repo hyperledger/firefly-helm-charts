@@ -53,8 +53,8 @@ Create a Firefly node name. These must be unique within their Firefly network.
 We truncate at 63 chars because some Kubernetes name fields are limited to this (by the DNS naming spec).
 */}}
 {{- define "firefly.nodeName" -}}
-{{- if .Values.nodeNameOverride }}
-{{- .Values.nodeNameOverride | trunc 63 | trimSuffix "-" }}
+{{- if .Values.core.nodeNameOverride }}
+{{- .Values.core.nodeNameOverride | trunc 63 | trimSuffix "-" }}
 {{- else }}
 {{- printf "%s-%s" .Release.Namespace (include "firefly.fullname" .) | trunc 63 | trimSuffix "-" }}
 {{- end }}
