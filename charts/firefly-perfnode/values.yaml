@@ -4,7 +4,7 @@ fullnameOverride: "firefly"
 firefly:
   fullnameOverride: "firefly"
   config:
-    ipfsApiUrl: http://127.0.0.1:50001
+    ipfsApiUrl: http://127.0.0.1:5001
     ipfsGatewayUrl: http://127.0.0.1:8080
     postgresUrl: postgres://postgres:f1refly@127.0.0.1:5432?sslmode=disable
     postgresAutomigrate: true
@@ -15,6 +15,12 @@ firefly:
         enabled: false
       registration:
         enabled: true
+
+    service:
+      httpPort: 3000
+      adminPort: 3001
+      debugPort: 3030
+      metricsPort: 3100
 
     initContainers: []
 
@@ -34,10 +40,10 @@ firefly:
         volumeMounts:
           - mountPath: /export
             name: ipfs
-            subPath: /export
+            subPath: export
           - mountPath: /data/ipfs
             name: ipfs
-            subPath: /data
+            subPath: data
         ports:
           - containerPort: 4001
             protocol: TCP
@@ -59,7 +65,7 @@ firefly:
           - name: PGDATA
             value: /var/lib/postgresql/data/pgdata
         volumeMounts:
-          - mountPath: /var/lib/postgresql/data/pgdata
+          - mountPath: /var/lib/postgresql/data
             name: postgres
         ports:
           - containerPort: 5432
@@ -81,7 +87,7 @@ firefly:
         spec:
           accessModes:
             - ReadWriteOnce
-          storageClassName: io1
+          storageClassName: io2
           resources:
             requests:
               storage: 10Gi
@@ -90,12 +96,21 @@ firefly:
         spec:
           accessModes:
             - ReadWriteOnce
-          storageClassName: io1
+          storageClassName: io2
           resources:
             requests:
               storage: 10Gi
 
   dataexchange:
+    enabled: true
+
+    persistentVolumes:
+      blobs:
+        storageClass: io2
+      peers:
+        storageClass: gp3
+
+  erc1155:
     enabled: true
 
   ethconnect:
