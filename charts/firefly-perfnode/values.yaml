@@ -41,10 +41,22 @@ firefly:
               965eee84178a43cc1af273c85905e4ec9e13fdfe309f08856109bec5b7b4756d
           - name: LIBP2P_FORCE_PNET
             value: "1"
-          {{- if .Values.ipfs.bootstraper }}
-          - name: IPFS_CONFIG_Bootstrap
-            value: "[\"{{ .Values.ipfs.bootstrap }}\"]"
-          {{- end }}
+        {{- if .Values.ipfs.bootstrap }}
+        lifecycle:
+          postStart:
+            exec:
+              command:
+                - 'sh'
+                - '-c'
+                - |
+                  until ipfs swarm addrs; do
+                    echo "waiting for IPFS to come up..."
+                    sleep 5
+                  done
+                  sleep 5
+                  ipfs swarm peering add {{ .Values.ipfs.bootstrap }}
+                  ipfs swarm connect {{ .Values.ipfs.bootstrap }}
+        {{- end }}
         volumeMounts:
           - mountPath: /export
             name: ipfs
@@ -114,6 +126,7 @@ firefly:
 
     persistentVolumes:
       blobs:
+        size: 4Gi
         storageClass: io2
       peers:
         storageClass: gp3

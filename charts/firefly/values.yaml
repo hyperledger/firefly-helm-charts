@@ -181,9 +181,9 @@ core:
     # runAsNonRoot: true
     # runAsUser: 1000
 
-  initContainers: []
-  extraContainers: []
-  volumeClaimTemplates: []
+  initContainers: ""
+  extraContainers: ""
+  volumeClaimTemplates: ""
 
   service:
     type: ClusterIP
@@ -523,9 +523,9 @@ ethconnect:
     type: ClusterIP
     apiPort: 5102
 
-  initContainers: []
-  extraContainers: []
-  extraVolumeClaimTemplates: []
+  initContainers: ""
+  extraContainers: ""
+  extraVolumeClaimTemplates: ""
 
   resources: {}
     # We usually recommend not to specify default resources and to leave this as a conscious
