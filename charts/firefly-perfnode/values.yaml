@@ -3,6 +3,10 @@ fullnameOverride: "firefly"
 
 firefly:
   fullnameOverride: "firefly"
+
+  ipfs:
+    bootstrap: ""
+
   config:
     ipfsApiUrl: http://127.0.0.1:5001
     ipfsGatewayUrl: http://127.0.0.1:8080
@@ -22,9 +26,9 @@ firefly:
       debugPort: 3030
       metricsPort: 3100
 
-    initContainers: []
+    initContainers: ""
 
-    extraContainers:
+    extraContainers: |
       - name: ipfs
         image: ipfs/go-ipfs:v0.12.1
         env:
@@ -37,6 +41,10 @@ firefly:
               965eee84178a43cc1af273c85905e4ec9e13fdfe309f08856109bec5b7b4756d
           - name: LIBP2P_FORCE_PNET
             value: "1"
+          {{- if .Values.ipfs.bootstraper }}
+          - name: IPFS_CONFIG_Bootstrap
+            value: "[\"{{ .Values.ipfs.bootstrap }}\"]"
+          {{- end }}
         volumeMounts:
           - mountPath: /export
             name: ipfs
@@ -81,7 +89,7 @@ firefly:
           timeoutSeconds: 3
           periodSeconds: 5
 
-    volumeClaimTemplates:
+    volumeClaimTemplates: |
       - metadata:
           name: ipfs
         spec:
@@ -114,13 +122,13 @@ firefly:
     enabled: true
 
   ethconnect:
-    initContainers: []
+    initContainers: ""
     # TODO geth init
 
-    extraContainers: []
+    extraContainers: ""
     # TODO geth
 
-    extraVolumeClaimTemplates: []
+    extraVolumeClaimTemplates: ""
     # TODO geth
 
   # TODO which connectors? or leave it open ended?

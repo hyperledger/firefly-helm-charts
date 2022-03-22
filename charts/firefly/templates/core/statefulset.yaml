@@ -46,9 +46,9 @@ spec:
       {{- end }}
       securityContext:
         {{- toYaml .Values.core.podSecurityContext | nindent 8 }}
-      {{- with .Values.core.initContainers }}
+      {{- if .Values.core.initContainers }}
       initContainers:
-        {{- toYaml . | nindent 8 }}
+        {{- tpl .Values.core.initContainers . | nindent 8 }}
       {{- end }}
       containers:
         - name: firefly
@@ -99,8 +99,8 @@ spec:
               name: firefly-config
           resources:
             {{- toYaml .Values.core.resources | nindent 12 }}
-      {{- with .Values.core.extraContainers }}
-        {{- toYaml . | nindent 8 }}
+      {{- if .Values.core.extraContainers }}
+        {{- tpl .Values.core.extraContainers . | nindent 8 }}
       {{- end }}
       {{- with .Values.core.nodeSelector }}
       nodeSelector:
@@ -118,7 +118,7 @@ spec:
         - name: firefly-config
           secret:
             secretName: {{ include "firefly.fullname" . }}-config
-  {{- with .Values.core.volumeClaimTemplates }}
+  {{- if .Values.core.volumeClaimTemplates }}
   volumeClaimTemplates:
-    {{- toYaml . | nindent 4 }}
+    {{- tpl .Values.core.volumeClaimTemplates . | nindent 4 }}
   {{- end }}
