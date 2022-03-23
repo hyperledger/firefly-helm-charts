@@ -18,7 +18,7 @@ apiVersion: v2
 name: firefly
 description: A Helm chart for deploying FireFly and FireFly HTTPS Dataexchange onto Kubernetes.
 type: application
-appVersion: "0.13.1"
+appVersion: "0.14.0"
 version: "0.4.0"
 
 maintainers:
@@ -28,3 +28,5 @@ maintainers:
     email: drew.marshburn@kaleido.io
   - name: peterbroadhurst
     email: peter.broadhurst@kaleido.io
+  - name: calbritt
+    email: cari.albritton@kaleido.io
