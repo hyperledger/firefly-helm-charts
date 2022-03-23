@@ -1,0 +1,7 @@
+apiVersion: v2
+name: firefly-perf
+description: A Helm chart for running instances of ffperf as either a Job or StatefulSet with daemon mode enabled
+
+type: application
+version: 0.4.1
+appVersion: "0.0.1"

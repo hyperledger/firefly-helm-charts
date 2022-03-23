@@ -1,0 +1,7 @@
+{{- if and .Values.daemonModeEnabled .Values.serviceMonitor.enabled }}
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name:
+
+{{- end }}

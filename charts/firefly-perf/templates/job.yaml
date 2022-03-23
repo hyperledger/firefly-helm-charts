@@ -1,0 +1,11 @@
+
+{{- if not .Values.daemonModeEnabled }}
+{{- range .Values.instances }}
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name:
+spec:
+  template:
+{{- end }}
+{{- end }}
