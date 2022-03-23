@@ -2,6 +2,33 @@
 apiVersion: monitoring.coreos.com/v1
 kind: ServiceMonitor
 metadata:
-  name:
-
+  name: {{ include "firefly-perf.fullname" . }}
+  labels:
+    {{- include "firefly-perf.labels" . | nindent 4 }}
+spec:
+  endpoints:
+    - port: http
+      path: /metrics
+      interval: {{ .Values.serviceMonitor.scrapeInterval }}
+      {{- if .Values.serviceMonitor.honorLabels }}
+      honorLabels: true
+      {{- end }}
+      {{- if .Values.serviceMonitor.metricRelabelings }}
+      metricRelabelings: {{ toYaml .Values.serviceMonitor.metricRelabelings | nindent 8 }}
+      {{- end }}
+  {{- if .Values.serviceMonitor.jobLabel }}
+  jobLabel: {{ .Values.serviceMonitor.jobLabel | quote }}
+  {{- end }}
+  {{- if .Values.serviceMonitor.namespaceSelector }}
+  namespaceSelector: {{ toYaml .Values.serviceMonitor.namespaceSelector | nindent 4 }}
+  {{- end }}
+  {{- if .Values.serviceMonitor.targetLabels }}
+  targetLabels:
+    {{- range .Values.serviceMonitor.targetLabels }}
+    - {{ . }}
+      {{- end }}
+  {{- end }}
+  selector:
+    matchLabels:
+    {{- include "firefly-perf.labels" . | nindent 6 }}
 {{- end }}

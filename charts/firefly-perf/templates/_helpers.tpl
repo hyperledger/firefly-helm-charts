@@ -60,3 +60,13 @@ Create the name of the service account to use
 {{- default "default" .Values.serviceAccount.name }}
 {{- end }}
 {{- end }}
+
+{{- define "firefly-perf.instancesConfig" -}}
+stackJSONPath: /etc/firefly-perf-cli/stack.json
+
+wsConfig:
+  {{ toYaml .Values.wsConfig | nindent 2 }}
+
+instances:
+  {{ tpl .Values.instances . | nindent 2 }}
+{{- end }}

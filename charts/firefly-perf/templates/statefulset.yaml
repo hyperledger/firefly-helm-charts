@@ -1,3 +1,4 @@
+{{- if .Values.daemonModeEnabled }}
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
@@ -41,16 +42,19 @@ spec:
               ffperf run --config /etc/firefly-perf-cli/instances.yaml --instance-idx ${INSTANCE_IDX} --daemon
           ports:
             - name: http
-              containerPort: 80
+              containerPort: 5050
               protocol: TCP
           livenessProbe:
             httpGet:
-              path: /
+              path: /status
               port: http
           readinessProbe:
             httpGet:
-              path: /
+              path: /status
               port: http
+          volumeMounts:
+            - mountPath: /etc/firefly-perf-node
+              name: config
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       {{- with .Values.nodeSelector }}
@@ -65,3 +69,8 @@ spec:
       tolerations:
         {{- toYaml . | nindent 8 }}
       {{- end }}
+      volumes:
+        - name: config
+          secret:
+            secretName: {{ include "firefly-perf.fullname" . }}-config
+{{- end }}

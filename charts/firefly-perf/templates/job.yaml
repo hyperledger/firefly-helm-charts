@@ -1,11 +1,14 @@
-
 {{- if not .Values.daemonModeEnabled }}
+{{- $root := . }}
 {{- range .Values.instances }}
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name:
+  name: {{ include "firefly-perf.fullname" $root }}-{{ .name }}
+  labels:
+    {{- include "firefly-perf.labels" . | nindent 4 }}
+    hyperledger.io/firefly-perf-instance: {{ .name }}
 spec:
-  template:
+  # TODO ...
 {{- end }}
 {{- end }}
