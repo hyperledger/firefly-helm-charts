@@ -10,6 +10,7 @@ spec:
   selector:
     matchLabels:
       {{- include "firefly-perf.selectorLabels" . | nindent 6 }}
+  serviceName: {{ include "firefly-perf.fullname" . }}
   template:
     metadata:
       {{- with .Values.podAnnotations }}
@@ -53,7 +54,7 @@ spec:
               path: /status
               port: http
           volumeMounts:
-            - mountPath: /etc/firefly-perf-node
+            - mountPath: /etc/firefly-perf-cli
               name: config
           resources:
             {{- toYaml .Values.resources | nindent 12 }}

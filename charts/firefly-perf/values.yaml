@@ -23,8 +23,7 @@ wsConfig:
   maximumDelay: 30s
   initialConnectAttempts: 5
 
-instances: ""
-# instances: |
+instances: []
 #   - name: ff0-ff1-broadcast
 #     test: msg_broadcast
 #     length: 5m

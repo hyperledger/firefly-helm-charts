@@ -68,5 +68,5 @@ wsConfig:
   {{ toYaml .Values.wsConfig | nindent 2 }}
 
 instances:
-  {{ tpl .Values.instances . | nindent 2 }}
+  {{ toYaml .Values.instances | nindent 2 }}
 {{- end }}
