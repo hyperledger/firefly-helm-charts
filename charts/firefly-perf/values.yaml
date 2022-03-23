@@ -1,19 +1,19 @@
 stack: ""
-#stack: |
-#  name: my-ff-network
-#  members:
-#    - id: "0"
-#      orgName: "org0"
-#      nodeName: "org0-firefly"
-#      fireflyHostname: "firefly.org0-firefly.svc.cluster.local"
-#      useHttps: false
-#      exposedFireflyPort: 3000
-#    - id: "1"
-#      orgName: "org1"
-#      nodeName: "org1-firefly"
-#      fireflyHostname: "firefly.org1-firefly.svc.cluster.local"
-#      useHttps: false
-#      exposedFireflyPort: 3000
+# stack: |
+#   name: my-ff-network
+#   members:
+#     - id: "0"
+#       orgName: "org0"
+#       nodeName: "org0-firefly"
+#       fireflyHostname: "firefly.org0-firefly.svc.cluster.local"
+#       useHttps: false
+#       exposedFireflyPort: 3000
+#     - id: "1"
+#       orgName: "org1"
+#       nodeName: "org1-firefly"
+#       fireflyHostname: "firefly.org1-firefly.svc.cluster.local"
+#       useHttps: false
+#       exposedFireflyPort: 3000
 
 wsConfig:
   wsPath: /ws
@@ -37,9 +37,9 @@ daemonModeEnabled: false
 
 image:
   repository: ghcr.io/hyperledger/firefly-perf-cli
-  pullPolicy: Always # TODO
+  pullPolicy: Always  # TODO
   # Overrides the image tag whose default is the chart appVersion.
-  tag: "v0.0.1-alpha" # TODO
+  tag: "v0.0.1-alpha"  # TODO
 
 imagePullSecrets: []
 nameOverride: ""

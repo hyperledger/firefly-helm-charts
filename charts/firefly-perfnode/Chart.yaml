@@ -1,9 +1,10 @@
 apiVersion: v2
 name: firefly-perfnode
-description: A Helm chart for deploying FireFly nodes configured for performance testing flows between members.
+description: |
+  A Helm chart for deploying FireFly nodes configured for performance testing flows between members.
 type: application
 version: 0.1.0
-appVersion: "0.13.1"
+appVersion: "0.14.0"
 
 maintainers:
   - name: hfuss
@@ -12,7 +13,8 @@ maintainers:
     email: drew.marshburn@kaleido.io
   - name: peterbroadhurst
     email: peter.broadhurst@kaleido.io
-
+  - name: calbritt
+    email: cari.albritton@kaleido.io
 
 dependencies:
   - name: firefly
