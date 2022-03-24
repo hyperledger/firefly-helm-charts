@@ -1,0 +1,84 @@
+stack: ""
+# stack: |
+#   name: my-ff-network
+#   members:
+#     - id: "0"
+#       orgName: "org0"
+#       nodeName: "org0-firefly"
+#       fireflyHostname: "firefly.org0-firefly.svc.cluster.local"
+#       useHttps: false
+#       exposedFireflyPort: 3000
+#     - id: "1"
+#       orgName: "org1"
+#       nodeName: "org1-firefly"
+#       fireflyHostname: "firefly.org1-firefly.svc.cluster.local"
+#       useHttps: false
+#       exposedFireflyPort: 3000
+
+wsConfig:
+  wsPath: /ws
+  readBufferSize: 16000
+  writeBufferSize: 16000
+  initialDelay: 250ms
+  maximumDelay: 30s
+  initialConnectAttempts: 5
+
+instances: []
+#   - name: ff0-ff1-broadcast
+#     test: msg_broadcast
+#     length: 5m
+#     recipient: did:firefly:org/org_1
+#     recipientAddress: 0x912362b183362c8349d57a61e1c0c9183c08cff1
+#     workers: 10
+#     messageOptions:
+#       longMessage: true
+
+daemonModeEnabled: false
+
+image:
+  repository: ghcr.io/hyperledger/ffperf-cli
+  pullPolicy: Always  # TODO
+  # Overrides the image tag whose default is the chart appVersion.
+  tag: "v0.0.1-alpha"  # TODO
+
+imagePullSecrets: []
+nameOverride: ""
+fullnameOverride: ""
+
+serviceAccount:
+  # Specifies whether a service account should be created
+  create: true
+  # Annotations to add to the service account
+  annotations: {}
+  # The name of the service account to use.
+  # If not set and create is true, a name is generated using the fullname template
+  name: ""
+
+podAnnotations: {}
+
+podSecurityContext: {}
+  # fsGroup: 2000
+
+securityContext: {}
+  # capabilities:
+  #   drop:
+  #   - ALL
+  # readOnlyRootFilesystem: true
+  # runAsNonRoot: true
+  # runAsUser: 1000
+
+service:
+  type: ClusterIP
+  port: 5050
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}
+
+resources: {}
+
+serviceMonitor:
+  enabled: false
+  scrapeInterval: 15s

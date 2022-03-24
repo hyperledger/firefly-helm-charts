@@ -1,0 +1,18 @@
+apiVersion: v2
+name: ffperf
+description: |
+  A Helm chart for running instances of ffperf as either a Job or StatefulSet with daemon mode enabled.
+
+type: application
+version: 0.1.0
+appVersion: "0.0.1"
+
+maintainers:
+  - name: hfuss
+    email: hayden.fuss@kaleido.io
+  - name: drewmarshburn
+    email: drew.marshburn@kaleido.io
+  - name: peterbroadhurst
+    email: peter.broadhurst@kaleido.io
+  - name: calbritt
+    email: cari.albritton@kaleido.io

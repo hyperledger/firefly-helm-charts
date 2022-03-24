@@ -1,0 +1,17 @@
+{{- if .Values.daemonModeEnabled }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "ffperf.fullname" . }}
+  labels:
+    {{- include "ffperf.labels" . | nindent 4 }}
+spec:
+  type: {{ .Values.service.type }}
+  ports:
+    - port: {{ .Values.service.port }}
+      targetPort: http
+      protocol: TCP
+      name: http
+  selector:
+    {{- include "ffperf.selectorLabels" . | nindent 4 }}
+{{- end }}
