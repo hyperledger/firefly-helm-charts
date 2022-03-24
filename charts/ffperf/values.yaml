@@ -81,4 +81,5 @@ resources: {}
 
 serviceMonitor:
   enabled: false
+  # cannot be greater than or equal 20s otherwise you risk losing metrics on shutdown
   scrapeInterval: 15s
