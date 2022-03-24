@@ -70,3 +70,9 @@ wsConfig:
 instances:
   {{ toYaml .Values.instances | nindent 2 }}
 {{- end }}
+
+{{- define "firefly-perf.instanceLengthSeconds" -}}
+{{/* input is in Golang Duration format i.e. "2h30m30s" but Helm doesn't have a direct way to convert to seconds */}}
+{{ $now := now }}
+{{ dateModify . $now | sub $now | add 60 }}
+{{- end }}
