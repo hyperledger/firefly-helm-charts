@@ -1,9 +1,11 @@
 nameOverride: ""
-fullnameOverride: "firefly"
+fullnameOverride: ""
 
 firefly:
-  fullnameOverride: "firefly"
+  fullnameOverride: ""
 
+  # only set this after the first perfnode has been deployed
+  # use `kubectl exec ... -- /bin/sh -c 'ipfs id' | jq '.Addresses'`
   ipfs:
     bootstrap: ""
 
@@ -28,12 +30,15 @@ firefly:
 
     initContainers: ""
 
+    # Because the swarm key is hardcoded, multiple firefly _networks_ installed on the same k8s cluster via
+    # firefly-perfnode run the risk of the IPFS nodes across the networks joining each other...
+    # However, multicast is not supported on most k8s clusters by default so users may potentially have no issue.
+    # NetworkPolicies can also be if need be to ensure this
+    # (see postStart hook for how swarming is "automated")
     extraContainers: |
       - name: ipfs
         image: ipfs/go-ipfs:v0.12.1
         env:
-          # bc this is hardcoded, multiple firefly _networks_ cannot be installed on the same k8s cluster via ff-perfnode
-          # w/o running the risk of the IPFS nodes across the networks joining each other
           - name: IPFS_SWARM_KEY
             value: |-
               /key/swarm/psk/1.0.0/
@@ -133,16 +138,3 @@ firefly:
 
   erc1155:
     enabled: true
-
-  ethconnect:
-    initContainers: ""
-    # TODO geth init
-
-    extraContainers: ""
-    # TODO geth
-
-    extraVolumeClaimTemplates: ""
-    # TODO geth
-
-  # TODO which connectors? or leave it open ended?
-  # TODO ERC1155
