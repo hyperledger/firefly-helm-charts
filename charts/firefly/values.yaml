@@ -357,7 +357,7 @@ erc1155:
   image:
     repository: ghcr.io/hyperledger/firefly-tokens-erc1155
     pullPolicy: IfNotPresent
-    tag: v0.10.6
+    tag: v0.10.7
 
   imagePullSecrets: []
 
