@@ -41,6 +41,9 @@ spec:
   usages:
     - server auth
     - client auth
+  {{- if .Values.dataexchange.certificate.duration }}
+  duration: {{ .Values.dataexchange.certificate.duration | quote }}
+  {{- end }}
   dnsNames:
     {{- if .Values.dataexchange.ingress.enabled }}
     {{- range .Values.dataexchange.ingress.hosts }}
