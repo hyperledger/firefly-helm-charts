@@ -159,7 +159,7 @@ core:
     pullPolicy: IfNotPresent
     # Overrides the image tag whose default is the chart appVersion.
     # TODO remove once 1.0 is released
-    tag: v1.0.0-rc4
+    tag: v1.0.0-rc.4
 
   extraEnv: []
     # - name: FIREFLY_LOG_LEVEL
