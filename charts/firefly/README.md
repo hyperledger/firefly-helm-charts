@@ -95,7 +95,7 @@ You can also use the FireFly chart within your own parent chart's `Chart.yaml`:
 dependencies:
   # ...
   - name: firefly
-    repository: "oci://ghcr.io/hyperledger/helm/"
+    repository: "oci://ghcr.io/hyperledger/helm"
     version: 0.2.0
 ```
 
