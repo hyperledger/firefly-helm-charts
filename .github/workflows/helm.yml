@@ -91,5 +91,8 @@ jobs:
 
           helm package --version ${{ env.PUBLISH_VERSION }} ./charts/firefly
           helm push firefly-${{ env.PUBLISH_VERSION }}.tgz oci://ghcr.io/hyperledger/helm
+          
+          helm package --version ${{ env.PUBLISH_VERSION }} ./charts/firefly-grafana-dashboards
+          helm push firefly-grafana-dashboards-${{ env.PUBLISH_VERSION }}.tgz oci://ghcr.io/hyperledger/helm
         env:
           HELM_EXPERIMENTAL_OCI: "1"
