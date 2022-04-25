@@ -24,4 +24,4 @@ metadata:
     {{ .Values.grafanaDashboardLabel }}: "1"
     {{- include "firefly-grafana-dashboards.labels" . | nindent 4 }}
 data:
-  {{ (.Files.Glob "dashboards/performance.json").AsConfig | indent 2 }}
+{{ (.Files.Glob "dashboards/performance.json").AsConfig | indent 2 }}
