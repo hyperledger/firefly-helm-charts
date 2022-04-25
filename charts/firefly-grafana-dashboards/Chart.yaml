@@ -16,9 +16,17 @@
 
 apiVersion: v2
 name: firefly-grafana-dashboards
-description: A Helm chart to manage Grafana dashboards for monitoring FireFly installations.
-
+description: A Helm chart to manage Grafana dashboards for monitoring FireFly Supernode installations.
 type: application
-
 version: 0.5.0
 appVersion: "1.0.0"
+
+maintainers:
+  - name: hfuss
+    email: hayden.fuss@kaleido.io
+  - name: drewmarshburn
+    email: drew.marshburn@kaleido.io
+  - name: peterbroadhurst
+    email: peter.broadhurst@kaleido.io
+  - name: calbritt
+    email: cari.albritton@kaleido.io
