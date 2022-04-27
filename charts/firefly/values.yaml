@@ -276,7 +276,7 @@ dataexchange:
   image:
     repository: ghcr.io/hyperledger/firefly-dataexchange-https
     pullPolicy: IfNotPresent
-    tag: v0.11.1
+    tag: v1.0.0
 
   imagePullSecrets: []
   nameOverride: ""
@@ -359,7 +359,7 @@ erc1155:
   image:
     repository: ghcr.io/hyperledger/firefly-tokens-erc1155
     pullPolicy: IfNotPresent
-    tag: v0.10.9
+    tag: v1.0.1
 
   imagePullSecrets: []
 
@@ -433,7 +433,7 @@ erc20erc721:
   image:
     repository: ghcr.io/hyperledger/firefly-tokens-erc20-erc721
     pullPolicy: IfNotPresent
-    tag: v0.3.0
+    tag: v1.0.0
 
   imagePullSecrets: []
 
@@ -515,7 +515,7 @@ ethconnect:
   image:
     repository: ghcr.io/hyperledger/firefly-ethconnect
     pullPolicy: Always
-    tag: v3.1.6
+    tag: v3.1.8
 
   extraEnv: []
     # - name: LOG_LEVEL
