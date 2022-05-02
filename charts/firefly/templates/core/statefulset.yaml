@@ -118,6 +118,9 @@ spec:
         - name: firefly-config
           secret:
             secretName: {{ include "firefly.fullname" . }}-config
+      {{- if .Values.core.extraVolumes }}
+        {{- tpl .Values.core.extraVolumes . | nindent 8 }}
+      {{- end }}
   {{- if .Values.core.volumeClaimTemplates }}
   volumeClaimTemplates:
     {{- tpl .Values.core.volumeClaimTemplates . | nindent 4 }}
