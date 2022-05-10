@@ -359,7 +359,7 @@ erc1155:
   image:
     repository: ghcr.io/hyperledger/firefly-tokens-erc1155
     pullPolicy: IfNotPresent
-    tag: v1.0.1
+    tag: v1.0.2
 
   imagePullSecrets: []
 
@@ -433,7 +433,7 @@ erc20erc721:
   image:
     repository: ghcr.io/hyperledger/firefly-tokens-erc20-erc721
     pullPolicy: IfNotPresent
-    tag: v1.0.0
+    tag: v1.0.1
 
   imagePullSecrets: []
 
