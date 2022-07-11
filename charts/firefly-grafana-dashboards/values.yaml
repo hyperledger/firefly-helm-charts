@@ -14,19 +14,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-apiVersion: v2
-name: firefly
-description: A Helm chart for deploying FireFly Supernode and its various microservices onto Kubernetes.
-type: application
-appVersion: "1.0.1"
-version: "0.5.1"
+nameOverride: ""
+fullnameOverride: ""
 
-maintainers:
-  - name: hfuss
-    email: hayden.fuss@kaleido.io
-  - name: drewmarshburn
-    email: drew.marshburn@kaleido.io
-  - name: peterbroadhurst
-    email: peter.broadhurst@kaleido.io
-  - name: calbritt
-    email: cari.albritton@kaleido.io
+# Set the label key indicating to Grafana the ConfigMaps contain JSON dashboards to load
+grafanaDashboardLabel: "grafana_dashboard"
