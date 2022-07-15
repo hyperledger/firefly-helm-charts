@@ -158,7 +158,7 @@ core:
     repository: ghcr.io/hyperledger/firefly
     pullPolicy: IfNotPresent
     # Overrides the image tag whose default is the chart appVersion.
-    tag: v1.0.1
+    # tag: ""
 
   extraEnv: []
     # - name: FIREFLY_LOG_LEVEL
@@ -515,7 +515,7 @@ ethconnect:
   image:
     repository: ghcr.io/hyperledger/firefly-ethconnect
     pullPolicy: Always
-    tag: v3.1.8
+    tag: v3.2.0
 
   extraEnv: []
     # - name: LOG_LEVEL
