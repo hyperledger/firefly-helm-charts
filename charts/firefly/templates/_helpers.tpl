@@ -113,12 +113,19 @@ app.kubernetes.io/managed-by: {{ .Release.Service }}
 app.kuberentes.io/part-of: {{ .Chart.Name }}
 {{- end }}
 
-{{/*
-Common labels
-*/}}
 {{- define "firefly.ethconnectLabels" -}}
 helm.sh/chart: {{ include "firefly.chart" . }}
 {{ include "firefly.ethconnectSelectorLabels" . }}
+{{- if .Chart.AppVersion }}
+app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
+{{- end }}
+app.kubernetes.io/managed-by: {{ .Release.Service }}
+app.kuberentes.io/part-of: {{ .Chart.Name }}
+{{- end }}
+
+{{- define "firefly.evmconnectLabels" -}}
+helm.sh/chart: {{ include "firefly.chart" . }}
+{{ include "firefly.evmconnectSelectorLabels" . }}
 {{- if .Chart.AppVersion }}
 app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
 {{- end }}
@@ -159,10 +166,17 @@ app.kubernetes.io/instance: {{ .Release.Name }}
 app.kubernetes.io/component: ethconnect
 {{- end }}
 
+<<<<<<< HEAD
 {{- define "firefly.sandboxSelectorLabels" -}}
 app.kubernetes.io/name: {{ include "firefly.name" . }}
 app.kubernetes.io/instance: {{ .Release.Name }}
 app.kubernetes.io/component: sandbox
+=======
+{{- define "firefly.evmconnectSelectorLabels" -}}
+app.kubernetes.io/name: {{ include "firefly.name" . }}
+app.kubernetes.io/instance: {{ .Release.Name }}
+app.kubernetes.io/component: evmconnect
+>>>>>>> a3e9662 (outlining evmconnect)
 {{- end }}
 
 {{- define "firefly.ethconnectRegisterContractsJobName" -}}

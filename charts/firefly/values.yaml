@@ -572,7 +572,6 @@ ethconnect:
     size: 2Gi
     storageClass: ""
 
-
 sandbox:
   enabled: true
 
@@ -613,3 +612,7 @@ sandbox:
   tolerations: []
 
   affinity: {}
+
+evmconnect:
+  enabled: true
+
