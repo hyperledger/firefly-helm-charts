@@ -103,6 +103,16 @@ app.kubernetes.io/managed-by: {{ .Release.Service }}
 app.kuberentes.io/part-of: {{ .Chart.Name }}
 {{- end }}
 
+{{- define "firefly.sandboxLabels" -}}
+helm.sh/chart: {{ include "firefly.chart" . }}
+{{ include "firefly.sandboxSelectorLabels" . }}
+{{- if .Chart.AppVersion }}
+app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
+{{- end }}
+app.kubernetes.io/managed-by: {{ .Release.Service }}
+app.kuberentes.io/part-of: {{ .Chart.Name }}
+{{- end }}
+
 {{/*
 Common labels
 */}}
@@ -147,6 +157,12 @@ app.kubernetes.io/component: erc20-erc721
 app.kubernetes.io/name: {{ include "firefly.name" . }}
 app.kubernetes.io/instance: {{ .Release.Name }}
 app.kubernetes.io/component: ethconnect
+{{- end }}
+
+{{- define "firefly.sandboxSelectorLabels" -}}
+app.kubernetes.io/name: {{ include "firefly.name" . }}
+app.kubernetes.io/instance: {{ .Release.Name }}
+app.kubernetes.io/component: sandbox
 {{- end }}
 
 {{- define "firefly.ethconnectRegisterContractsJobName" -}}
