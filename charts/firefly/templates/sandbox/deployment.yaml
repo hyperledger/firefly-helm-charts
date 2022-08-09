@@ -1,0 +1,93 @@
+{{/*
+  Copyright © 2022 Kaleido, Inc.
+
+  SPDX-License-Identifier: Apache-2.0
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+  http://swww.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+*/}}
+
+{{- if .Values.sandbox.enabled }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "firefly.fullname" . }}-sandbox
+  labels:
+  {{- include "firefly.sandboxLabels" . | nindent 4 }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      {{- include "firefly.sandboxSelectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      {{- with .Values.sandbox.podAnnotations }}
+      annotations:
+      {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+    {{- include "firefly.sandboxSelectorLabels" . | nindent 8 }}
+    spec:
+      {{- with .Values.sandbox.imagePullSecrets }}
+      imagePullSecrets:
+      {{- toYaml . | nindent 8 }}
+      {{- end }}
+      securityContext:
+      {{- toYaml .Values.sandbox.podSecurityContext | nindent 8 }}
+      containers:
+        - name: {{ .Chart.Name }}-sandbox
+          securityContext:
+          {{- toYaml .Values.sandbox.securityContext | nindent 12 }}
+          image: "{{ .Values.sandbox.image.repository }}:{{ .Values.sandbox.image.tag }}"
+          imagePullPolicy: {{ .Values.sandbox.image.pullPolicy }}
+          ports:
+            - name: http
+              containerPort: {{ .Values.sandbox.service.port }}
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /api
+              port: http
+            successThreshold: 1
+            failureThreshold: 2
+            periodSeconds: 10
+            timeoutSeconds: 1
+            initialDelaySeconds: 5
+          readinessProbe:
+            httpGet:
+              path: /api
+              port: http
+            successThreshold: 1
+            failureThreshold: 4
+            periodSeconds: 15
+            timeoutSeconds: 2
+            initialDelaySeconds: 15
+          env:
+            - name: SERVER_PORT
+              value: {{ .Values.sandbox.service.port | quote }}
+            - name: FF_ENDPOINT
+              value: "http://{{ include "firefly.fullname" . }}:{{ .Values.core.service.httpPort }}"
+          resources:
+      {{- toYaml .Values.sandbox.resources | nindent 12 }}
+      {{- with .Values.sandbox.nodeSelector }}
+      nodeSelector:
+      {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.sandbox.affinity }}
+      affinity:
+      {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.sandbox.tolerations }}
+      tolerations:
+      {{- toYaml . | nindent 8 }}
+      {{- end }}
+{{- end }}
