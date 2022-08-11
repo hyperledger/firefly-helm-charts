@@ -166,17 +166,16 @@ app.kubernetes.io/instance: {{ .Release.Name }}
 app.kubernetes.io/component: ethconnect
 {{- end }}
 
-<<<<<<< HEAD
 {{- define "firefly.sandboxSelectorLabels" -}}
 app.kubernetes.io/name: {{ include "firefly.name" . }}
 app.kubernetes.io/instance: {{ .Release.Name }}
 app.kubernetes.io/component: sandbox
-=======
+{{- end }}
+
 {{- define "firefly.evmconnectSelectorLabels" -}}
 app.kubernetes.io/name: {{ include "firefly.name" . }}
 app.kubernetes.io/instance: {{ .Release.Name }}
 app.kubernetes.io/component: evmconnect
->>>>>>> a3e9662 (outlining evmconnect)
 {{- end }}
 
 {{- define "firefly.ethconnectRegisterContractsJobName" -}}
