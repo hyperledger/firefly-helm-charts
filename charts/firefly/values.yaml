@@ -614,5 +614,78 @@ sandbox:
   affinity: {}
 
 evmconnect:
-  enabled: true
+  enabled: false
 
+  service:
+    type: ClusterIP
+    port: 5000
+
+  podAnnotations: {}
+
+  imagePullSecrets: []
+
+  podSecurityContext: {}
+
+  securityContext: {}
+
+  extraEnv: []
+
+  initContainers: ""
+  extraContainers: ""
+  extraVolumeClaimTemplates: ""
+
+  resources: {}
+
+  nodeSelector: {}
+
+  affinity: {}
+
+  tolerations: {}
+
+  persistentVolume:
+    accessModes:
+      - ReadWriteOnce
+    annotations: {}
+    size: 2Gi
+    storageClass: ""
+
+  image:
+    repository: ghcr.io/hyperledger/firefly-evmconnect
+    pullPolicy: IfNotPresent
+    tag: v0.1.0
+
+  # see https://github.com/hyperledger/firefly-evmconnect/blob/main/config.md for more info
+  config:
+    jsonRpcUrl: ""
+
+    log:
+      level: debug
+      jsonEnabled: false
+
+    confirmations:
+      required: 0
+      # blockQueueLength: 50
+      # staleReceiptTimeout: 1m
+      # notificationQueueLength: 50
+
+    leveldb:
+      maxHandles: 100
+      syncWrites: false
+
+    connector: |
+      url: {{ .Values.evmconnect.config.jsonRpcUrl | quote }} 
+
+    policyEngine: |
+      policyengine.simple:
+        fixedGasPrice: "0"
+        resubmitInterval: 5m
+        gasOracle:
+          mode: fixed
+
+    policyLoop: {}
+
+    transactions: {}
+
+    webhooks: {}
+
+    eventstreams: {}

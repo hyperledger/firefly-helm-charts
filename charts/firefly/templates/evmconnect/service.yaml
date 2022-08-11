@@ -26,7 +26,7 @@ metadata:
 spec:
   type: {{ .Values.evmconnect.service.type }}
   ports:
-    - port: {{ .Values.evmconnect.service.apiPort }}
+    - port: {{ .Values.evmconnect.service.port }}
       targetPort: http
       protocol: TCP
       name: http

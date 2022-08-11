@@ -57,15 +57,16 @@ spec:
             {{- toYaml .Values.evmconnect.securityContext | nindent 12 }}
           image: "{{ .Values.evmconnect.image.repository }}:{{ .Values.evmconnect.image.tag }}"
           imagePullPolicy: {{ .Values.evmconnect.image.pullPolicy }}
+          args:
+            - -f
+            - /etc/evmconnect/config.yaml
+          {{- if .Values.evmconnect.extraEnv }}
           env:
-            - name: evmconnect_CONFIGFILE
-              value: /etc/evmconnect/config.yaml
-            {{- if .Values.evmconnect.extraEnv }}
             {{- toYaml .Values.evmconnect.extraEnv | nindent 12 }}
-            {{- end }}
+          {{- end }}
           ports:
             - name: http
-              containerPort: {{ .Values.evmconnect.service.apiPort }}
+              containerPort: {{ .Values.evmconnect.service.port }}
               protocol: TCP
           livenessProbe:
             tcpSocket:
@@ -84,11 +85,7 @@ spec:
           resources:
             {{- toYaml .Values.evmconnect.resources | nindent 12 }}
           volumeMounts:
-            - mountPath: /var/run/evmconnect/abis
-              subPath: abis
-              name: evmconnect
-            - mountPath: /var/run/evmconnect/events
-              subPath: events
+            - mountPath: /var/run/leveldb
               name: evmconnect
             - mountPath: /etc/evmconnect/config.yaml
               name: config
