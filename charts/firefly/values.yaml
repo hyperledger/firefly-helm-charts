@@ -673,7 +673,7 @@ evmconnect:
       syncWrites: false
 
     connector: |
-      url: {{ .Values.evmconnect.config.jsonRpcUrl | quote }} 
+      url: {{ .Values.evmconnect.config.jsonRpcUrl | quote }}
 
     policyEngine: |
       policyengine.simple:
