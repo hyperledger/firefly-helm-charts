@@ -1,0 +1,4 @@
+fullnameOverride: "evmconnect-public"
+
+config:
+  jsonRpcUrl: "https://goerli.infura.io/v3/apikey"

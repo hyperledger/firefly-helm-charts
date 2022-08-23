@@ -123,16 +123,6 @@ app.kubernetes.io/managed-by: {{ .Release.Service }}
 app.kuberentes.io/part-of: {{ .Chart.Name }}
 {{- end }}
 
-{{- define "firefly.evmconnectLabels" -}}
-helm.sh/chart: {{ include "firefly.chart" . }}
-{{ include "firefly.evmconnectSelectorLabels" . }}
-{{- if .Chart.AppVersion }}
-app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
-{{- end }}
-app.kubernetes.io/managed-by: {{ .Release.Service }}
-app.kuberentes.io/part-of: {{ .Chart.Name }}
-{{- end }}
-
 {{/*
 Selector labels
 */}}
@@ -170,12 +160,6 @@ app.kubernetes.io/component: ethconnect
 app.kubernetes.io/name: {{ include "firefly.name" . }}
 app.kubernetes.io/instance: {{ .Release.Name }}
 app.kubernetes.io/component: sandbox
-{{- end }}
-
-{{- define "firefly.evmconnectSelectorLabels" -}}
-app.kubernetes.io/name: {{ include "firefly.name" . }}
-app.kubernetes.io/instance: {{ .Release.Name }}
-app.kubernetes.io/component: evmconnect
 {{- end }}
 
 {{- define "firefly.ethconnectRegisterContractsJobName" -}}

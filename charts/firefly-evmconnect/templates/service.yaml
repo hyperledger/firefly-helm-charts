@@ -16,20 +16,18 @@
   limitations under the License.
 */}}
 
-{{- if .Values.evmconnect.enabled }}
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ include "firefly.fullname" . }}-evmconnect
+  name: {{ include "firefly-evmconnect.fullname" . }}
   labels:
-    {{- include "firefly.evmconnectLabels" . | nindent 4 }}
+    {{- include "firefly-evmconnect.labels" . | nindent 4 }}
 spec:
-  type: {{ .Values.evmconnect.service.type }}
+  type: {{ .Values.service.type }}
   ports:
-    - port: {{ .Values.evmconnect.service.port }}
+    - port: {{ .Values.service.port }}
       targetPort: http
       protocol: TCP
       name: http
   selector:
-    {{- include "firefly.evmconnectSelectorLabels" . | nindent 4 }}
-{{- end }}
+    {{- include "firefly-evmconnect.selectorLabels" . | nindent 4 }}

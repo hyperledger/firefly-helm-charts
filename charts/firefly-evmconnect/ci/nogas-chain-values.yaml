@@ -1,0 +1,11 @@
+fullnameOverride: "evmconnect-nogas"
+
+config:
+  jsonRpcUrl: "http://geth.local:8545"
+
+  policyEngine: |
+    policyengine.simple:
+      fixedGasPrice: "0"
+      resubmitInterval: 5m
+      gasOracle:
+        mode: fixed

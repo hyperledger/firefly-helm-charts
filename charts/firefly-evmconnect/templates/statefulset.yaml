@@ -16,57 +16,56 @@
   limitations under the License.
 */}}
 
-{{- if .Values.evmconnect.enabled }}
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
-  name: {{ include "firefly.fullname" . }}-evmconnect
+  name: {{ include "firefly-evmconnect.fullname" . }}
   labels:
-    {{- include "firefly.evmconnectLabels" . | nindent 4 }}
+    {{- include "firefly-evmconnect.labels" . | nindent 4 }}
 spec:
   replicas: 1
-  serviceName: {{ include "firefly.fullname" . }}-evmconnect
+  serviceName: {{ include "firefly-evmconnect.fullname" . }}
   updateStrategy:
     type: RollingUpdate
   selector:
     matchLabels:
-      {{- include "firefly.evmconnectSelectorLabels" . | nindent 6 }}
+      {{- include "firefly-evmconnect.selectorLabels" . | nindent 6 }}
   template:
     metadata:
       annotations:
-        checksum/config: {{ include (print $.Template.BasePath "/evmconnect/secret.yaml") . | sha256sum }}
-        {{- with .Values.evmconnect.podAnnotations }}
+        checksum/config: {{ include (print $.Template.BasePath "/secret.yaml") . | sha256sum }}
+        {{- with .Values.podAnnotations }}
           {{- toYaml . | nindent 8 }}
         {{- end }}
       labels:
-        {{- include "firefly.evmconnectSelectorLabels" . | nindent 8 }}
+        {{- include "firefly-evmconnect.selectorLabels" . | nindent 8 }}
     spec:
-      {{- with .Values.evmconnect.imagePullSecrets }}
+      {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       securityContext:
-        {{- toYaml .Values.evmconnect.podSecurityContext | nindent 8 }}
-      {{- if .Values.evmconnect.initContainers }}
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      {{- if .Values.initContainers }}
       initContainers:
-        {{- tpl .Values.evmconnect.initContainers . | nindent 8 }}
+        {{- tpl .Values.initContainers . | nindent 8 }}
       {{- end }}
       containers:
         - name: evmconnect
           securityContext:
-            {{- toYaml .Values.evmconnect.securityContext | nindent 12 }}
-          image: "{{ .Values.evmconnect.image.repository }}:{{ .Values.evmconnect.image.tag }}"
-          imagePullPolicy: {{ .Values.evmconnect.image.pullPolicy }}
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default (printf "v%s" .Chart.AppVersion) }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
           args:
             - -f
             - /etc/evmconnect/config.yaml
-          {{- if .Values.evmconnect.extraEnv }}
+          {{- if .Values.extraEnv }}
           env:
-            {{- toYaml .Values.evmconnect.extraEnv | nindent 12 }}
+            {{- toYaml .Values.extraEnv | nindent 12 }}
           {{- end }}
           ports:
             - name: http
-              containerPort: {{ .Values.evmconnect.service.port }}
+              containerPort: {{ .Values.service.port }}
               protocol: TCP
           livenessProbe:
             tcpSocket:
@@ -83,36 +82,36 @@ spec:
             successThreshold: 3
             periodSeconds: 3
           resources:
-            {{- toYaml .Values.evmconnect.resources | nindent 12 }}
+            {{- toYaml .Values.resources | nindent 12 }}
           volumeMounts:
             - mountPath: /var/run/leveldb
               name: evmconnect
             - mountPath: /etc/evmconnect/config.yaml
               name: config
               subPath: config.yaml
-      {{- if .Values.evmconnect.extraContainers }}
-        {{- tpl .Values.evmconnect.extraContainers . | nindent 8 }}
+      {{- if .Values.extraContainers }}
+        {{- tpl .Values.extraContainers . | nindent 8 }}
       {{- end }}
-      {{- with .Values.evmconnect.nodeSelector }}
+      {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-      {{- with .Values.evmconnect.affinity }}
+      {{- with .Values.affinity }}
       affinity:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-      {{- with .Values.evmconnect.tolerations }}
+      {{- with .Values.tolerations }}
       tolerations:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       volumes:
         - name: config
           secret:
-            secretName: "{{ include "firefly.fullname" . }}-evmconnect-config"
+            secretName: "{{ include "firefly-evmconnect.fullname" . }}-config"
   volumeClaimTemplates:
     - metadata:
         name: evmconnect
-      {{- with .Values.evmconnect.persistentVolume }}
+      {{- with .Values.persistentVolume }}
         {{- with .annotations }}
         annotations:
           {{- toYaml . | nindent 10 }}
@@ -125,7 +124,6 @@ spec:
           requests:
             storage: {{ .size }}
       {{- end }}
-  {{- if .Values.evmconnect.extraVolumeClaimTemplates }}
-    {{- tpl .Values.evmconnect.extraVolumeClaimTemplates . | nindent 4 }}
+  {{- if .Values.extraVolumeClaimTemplates }}
+    {{- tpl .Values.extraVolumeClaimTemplates . | nindent 4 }}
   {{- end }}
-{{- end }}

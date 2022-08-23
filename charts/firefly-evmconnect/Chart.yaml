@@ -1,0 +1,19 @@
+apiVersion: v2
+name: firefly-evmconnect
+description: |
+  A Helm chart for deploying the FireFly EVMConnect microservice to Kubernetes.
+  Requires a running instance of FireFly and a persistent volume for managing its
+  transaction state.
+type: application
+version: 0.6.0
+appVersion: "0.1.2"
+
+maintainers:
+  - name: hfuss
+    email: hayden.fuss@kaleido.io
+  - name: drewmarshburn
+    email: drew.marshburn@kaleido.io
+  - name: peterbroadhurst
+    email: peter.broadhurst@kaleido.io
+  - name: calbritt
+    email: cari.albritton@kaleido.io
