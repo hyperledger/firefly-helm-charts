@@ -109,6 +109,7 @@ spec:
           secret:
             secretName: "{{ include "firefly-evmconnect.fullname" . }}-config"
   volumeClaimTemplates:
+  {{- if eq .Values.config.persistence.type "leveldb" }}
     - metadata:
         name: evmconnect
       {{- with .Values.persistentVolume }}
@@ -124,6 +125,7 @@ spec:
           requests:
             storage: {{ .size }}
       {{- end }}
+  {{- end }}
   {{- if .Values.extraVolumeClaimTemplates }}
     {{- tpl .Values.extraVolumeClaimTemplates . | nindent 4 }}
   {{- end }}

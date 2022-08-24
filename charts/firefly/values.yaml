@@ -59,8 +59,11 @@ config:
   # The URL + URI Go template of an address resolver connector
   addresssResolverUrlTemplate: ""
 
-  # The Ethereum address of the pre-deployed FireFly smart contract
+  # The Ethereum address of the _original_, pre-deployed FireFly smart contract
   fireflyContractAddress: "contractAddress"
+
+  # The Ethereum address(es) of the new FireFly smart contract instances
+  fireflyContractAddresses: []
 
   # The name of the Fabric chaincode deployment for the FireFly chaincode
   fireflyChaincode: firefly_go
@@ -115,6 +118,21 @@ config:
 
   # The long prefix FireFly will prepend to certain headers it sends to Ethconnect i.e. firefly or kaleido
   ethconnectPrefixLong: ""
+
+  # The URL of the EVMConnect API and WS server to use for the blockchain plugin of type `ethereum`
+  evmconnectUrl: ""
+
+  # The basic auth username to use for authenticating to EVMConnect
+  evmconnectUsername: ""
+
+  # The basic auth password to use for authenticating to EVMConnect
+  evmconnectPassword: ""
+
+  # Enables retries when communicating with EVMConnect
+  evmconnectRetry: true
+
+  # The EVMConnect topic to use for blockchain event subscriptions
+  evmconnectTopic: 0
 
   # The URL of the Fabconnect API and WS server to use for the blockchain plugin of type `fabric`
   fabconnectUrl: ""
@@ -615,17 +633,3 @@ sandbox:
 
 evmconnect:
   enabled: false
-
-  firefly:
-    hostname: ""
-    port: 5000
-    extraNamespaces: []
-
-  config:
-    ffcore: |
-      url: "http://{{ .Values.firefly.hostname }}:{{ .Values.firefly.port }}"
-      namespaces:
-        - default
-      {{- if .Values.firefly.extraNamespaces }}
-      {{- toYaml .Values.firefly.extraNamespaces | nindent 2 }}
-      {{- end }}

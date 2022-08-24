@@ -48,7 +48,7 @@ spec:
   targetLabels:
     {{- range .Values.core.metrics.serviceMonitor.targetLabels }}
     - {{ . }}
-      {{- end }}
+    {{- end }}
   {{- end }}
   selector:
     matchLabels:

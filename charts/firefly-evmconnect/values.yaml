@@ -52,9 +52,12 @@ config:
     # staleReceiptTimeout: 1m
     # notificationQueueLength: 50
 
-  leveldb:
-    maxHandles: 100
-    syncWrites: false
+  persistence:
+    type: leveldb
+    leveldb:
+      maxHandles: 100
+      syncWrites: false
+    templateOverride: ""
 
   connector: |
     url: {{ .Values.config.jsonRpcUrl | quote }}
@@ -68,8 +71,3 @@ config:
   webhooks: {}
 
   eventstreams: {}
-
-  ffcore: |
-    url: "http://firefly:5000"
-    namespaces:
-      - default
