@@ -193,6 +193,7 @@ core:
   initContainers: ""
   extraContainers: ""
   extraVolumes: ""
+  extraVolumeMounts: ""
   volumeClaimTemplates: ""
 
   service:

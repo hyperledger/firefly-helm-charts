@@ -97,6 +97,9 @@ spec:
           volumeMounts:
             - mountPath: /etc/firefly/
               name: firefly-config
+            {{- if .Values.core.extraVolumeMounts }}
+            {{- tpl .Values.core.extraVolumeMounts . | nindent 12 }}
+            {{- end }}
           resources:
             {{- toYaml .Values.core.resources | nindent 12 }}
       {{- if .Values.core.extraContainers }}
