@@ -255,6 +255,7 @@ core:
     # Note registration will not be successful until the new node has caught up with the head of the chain.
     registration:
       enabled: false
+      ffUrl: ""
 
 # Configures the properties of the StatefulSet, Service, and optionally Ingress used to deploy and expose FireFly HTTPS DataExchange
 dataexchange:

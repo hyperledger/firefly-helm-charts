@@ -41,7 +41,12 @@ spec:
         - |
 {{ .Files.Get  "scripts/ff-registration.sh" | indent 10 }}
         env:
+        {{- if .Values.core.jobs.registration.ffUrl }}
+        - name: FF_URL
+          value: "{{ tpl .Values.core.jobs.registration.ffUrl . }}"
+        {{- else }}
         - name: FF_URL
           value: "http://{{ include "firefly.fullname" . }}:{{ .Values.core.service.httpPort }}"
+        {{- end }}
       restartPolicy: Never
 {{- end }}
