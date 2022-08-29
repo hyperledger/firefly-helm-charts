@@ -1,0 +1,13 @@
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: firefly-mtls
+spec:
+  issuerRef:
+    name: selfsigned-ca
+    kind: ClusterIssuer
+  secretName: firefly-mtls-tls
+  commonName: firefly-mtls
+  dnsNames:
+    - firefly.default.svc
