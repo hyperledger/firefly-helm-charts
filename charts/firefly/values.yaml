@@ -31,6 +31,15 @@ config:
   # The public URL of the Firefly API server, if not set defaults to the Ingress URL or the Service URL within Kubernetes
   httpPublicUrl: ""
 
+  # Allows customizing the TLS configuration for the API server such as for pass-through TLS or mTLS
+  # see https://hyperledger.github.io/firefly/reference/config.html#httptls for configuration options
+  httpTls: {}
+  #   caFile: /etc/pki/internal/ca.crt
+  #   certFile: /etc/pki/internaltls.crt
+  #   keyFile: /etc/pki/internal/tls.key
+  #   enabled: true
+  #   clientAuth: true
+
   # Enables the metrics server / port for Prometheus scraping
   metricsEnabled: true
 

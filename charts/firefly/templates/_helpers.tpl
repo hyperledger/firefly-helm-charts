@@ -211,6 +211,10 @@ http:
   port: {{ .Values.core.service.httpPort }}
   address: 0.0.0.0
   publicURL: {{ .Values.config.httpPublicUrl | default (include "firefly.coreHttpPublicURL" . ) }}
+  {{- if .Values.config.httpTls }}
+  tls:
+    {{- toYaml .Values.config.httpTls | nindent 4 }}
+  {{- end }}
 admin:
   port:  {{ .Values.core.service.adminPort }}
   address: 0.0.0.0
