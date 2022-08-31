@@ -32,7 +32,11 @@ spec:
     - name: {{ include "firefly.fullname" . }}
       rules:
         - alert: {{ include "firefly.fullname" . }}TargetDown
+          {{- if .Values.core.metrics.serviceMonitor.jobLabel }}
+          expr: 'up{job="{{.Values.core.metrics.serviceMonitor.jobLabel}}"} == 0'
+          {{- else if }}
           expr: 'up{job="serviceMonitor/{{ .Release.Namespace }}/{{ include "firefly.fullname" . }}/0"} == 0'
+          {{- end }}
           labels:
             severity: {{ .Values.core.metrics.alertRule.severity }}
           annotations:
