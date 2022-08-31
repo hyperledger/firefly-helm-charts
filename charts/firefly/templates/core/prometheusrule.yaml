@@ -1,0 +1,76 @@
+{{/*
+  Copyright © 2022 Kaleido, Inc.
+
+  SPDX-License-Identifier: Apache-2.0
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+  http://swww.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+*/}}
+
+{{- if and .Values.core.metrics.alertRule.enabled .Values.config.metricsEnabled }}
+{{- if not (.Capabilities.APIVersions.Has "monitoring.coreos.com/v1") }}
+# WARNING: prometheus-operator is not installed but alertRule has been enabled, this will fail. Please install
+#          prometheus-operator to resolve this.
+{{- end }}
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: {{ include "firefly.fullname" . }}
+  labels:
+  {{- include "firefly.coreLabels" . | nindent 4 }}
+spec:
+  groups:
+    - name: {{ include "firefly.fullname" . }}
+      rules:
+        - alert: {{ include "firefly.fullname" . }}TargetDown
+          expr: 'up{job="serviceMonitor/{{ .Release.Namespace }}/{{ include "firefly.fullname" . }}/0"} == 0'
+          labels:
+            severity: {{ .Values.core.metrics.alertRule.severity }}
+          annotations:
+            description: Firefly Metrics Target down and is not exporting metrics
+            summary: Firefly Metric Target down
+        - alert: {{ include "firefly.fullname" . }}BroadcastsRejected
+          expr: 'increase(ff_broadcast_rejected_total[5m]) > 0'
+          labels:
+            severity: {{ .Values.core.metrics.alertRule.severity }}
+          annotations:
+            summary: Firefly Broadcasts Rejected
+            description: Firefly Broadcasts have failed at least once in the last 5 min
+        - alert: {{ include "firefly.fullname" . }}BurnsRejected
+          expr: 'increase(ff_burn_rejected_total [5m]) > 0'
+          labels:
+            severity: {{ .Values.core.metrics.alertRule.severity }}
+          annotations:
+            summary: Firefly Burns Rejected
+            description: Firefly Burns have failed at least once in the last 5 min
+        - alert: {{ include "firefly.fullname" . }}MintsRejected
+          expr: 'increase(ff_mint_rejected_total [5m]) > 0'
+          labels:
+            severity: {{ .Values.core.metrics.alertRule.severity }}
+          annotations:
+            summary: Firefly Mints Rejected
+            description: Firefly Mints have failed at least once in the last 5 min
+        - alert: {{ include "firefly.fullname" . }}PrivateMessagesRejected
+          expr: 'increase(ff_private_msg_rejected_total [5m]) > 0'
+          labels:
+            severity: {{ .Values.core.metrics.alertRule.severity }}
+          annotations:
+            summary: Firefly Private Messages Rejected
+            description: Firefly Private Messages have failed at least once in the last 5 min
+        - alert: {{ include "firefly.fullname" . }}TransfersRejected
+          expr: 'increase(ff_transfer_rejected_total [5m]) > 0'
+          labels:
+            severity: {{ .Values.core.metrics.alertRule.severity }}
+          annotations:
+            summary: Firefly Transfers Rejected
+            description: Firefly Transfers have failed at least once in the last 5 min
+{{- end }}
