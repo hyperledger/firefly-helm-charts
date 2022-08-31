@@ -34,7 +34,7 @@ spec:
         - alert: {{ include "firefly.fullname" . }}TargetDown
           {{- if .Values.core.metrics.serviceMonitor.jobLabel }}
           expr: 'up{job="{{.Values.core.metrics.serviceMonitor.jobLabel}}"} == 0'
-          {{- else if }}
+          {{- else }}
           expr: 'up{job="serviceMonitor/{{ .Release.Namespace }}/{{ include "firefly.fullname" . }}/0"} == 0'
           {{- end }}
           labels:
