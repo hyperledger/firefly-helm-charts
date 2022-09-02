@@ -16,7 +16,7 @@
   limitations under the License.
 */}}
 
-{{- if and .Values.core.metrics.prometheusRule.enabled .Values.config.metricsEnabled }}
+{{- if and .Values.core.metrics.prometheusRule.enabled .Values.config.metricsEnabled .Values.core.metrics.serviceMonitor.enabled}}
 {{- if not (.Capabilities.APIVersions.Has "monitoring.coreos.com/v1") }}
 # WARNING: prometheus-operator is not installed but prometheusRule has been enabled, this will fail. Please install
 #          prometheus-operator to resolve this.

@@ -207,9 +207,9 @@ Config helpers
 {{- define "firefly.defaultPrometheusRules" -}}
 - alert: FireflyTargetDown
   {{- if .Values.core.metrics.serviceMonitor.jobLabel }}
-  expr: up{job={{ .Values.core.metrics.serviceMonitor.jobLabel | quote}}} == 0
+  expr: up{job={{ .Values.core.metrics.serviceMonitor.jobLabel | quote }} } == 0
   {{- else }}
-  expr: up{job={{include "firefly.serviceMonitorJobName" . | quote}}} == 0
+  expr: up{job={{include "firefly.serviceMonitorJobName" . | quote }} } == 0
   {{- end }}
   labels:
     severity: {{ .Values.core.metrics.prometheusRule.criticalSeverity }}
