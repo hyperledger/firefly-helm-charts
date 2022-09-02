@@ -31,8 +31,8 @@ spec:
   groups:
     - name: {{ include "firefly.fullname" . }}
       rules: |
-        {{- include "firefly.defaultPrometheusRules" . | nindent 8 }}
+        {{- include "firefly.defaultPrometheusRules" . | nindent 4 }}
         {{- if .Values.core.metrics.prometheusRule.rules }}
-        {{- tpl .Values.core.metrics.prometheusRule.rules . | nindent 8 }}
+        {{- tpl .Values.core.metrics.prometheusRule.rules . | nindent 4 }}
         {{- end }}
 {{- end }}
