@@ -200,6 +200,59 @@ Config helpers
 {{- printf "http://%s.%s.svc:%d" (include "firefly.fullname" .) .Release.Namespace (.Values.core.service.adminPort | int64) }}
 {{- end }}
 
+{{- define "firefly.serviceMonitorJobName" -}}
+{{- printf "serviceMonitor/%s/%s/0" .Release.Namespace (include "firefly.fullname" .) }}
+{{- end }}
+
+{{- define "firefly.defaultPrometheusRules" -}}
+- alert: FireflyTargetDown
+  {{- if .Values.core.metrics.serviceMonitor.jobLabel }}
+  expr: up{job={{ .Values.core.metrics.serviceMonitor.jobLabel | quote}}} == 0
+  {{- else }}
+  expr: up{job={{include "firefly.serviceMonitorJobName" . | quote}}} == 0
+  {{- end }}
+  labels:
+    severity: {{ .Values.core.metrics.prometheusRule.criticalSeverity }}
+  annotations:
+    description: Firefly Metrics Target down and is not exporting metrics
+    summary: Firefly Metric Target down
+- alert: FireflyBroadcastsRejected
+  expr: 'increase(ff_broadcast_rejected_total[5m]) > 0'
+  labels:
+    severity: {{ .Values.core.metrics.prometheusRule.warningSeverity }}
+  annotations:
+    summary: Firefly Broadcasts Rejected
+    description: Firefly Broadcasts have failed at least once in the last 5 min
+- alert: FireflyBurnsRejected
+  expr: 'increase(ff_burn_rejected_total [5m]) > 0'
+  labels:
+    severity: {{ .Values.core.metrics.prometheusRule.warningSeverity }}
+  annotations:
+    summary: Firefly Burns Rejected
+    description: Firefly Burns have failed at least once in the last 5 min
+- alert: FireflyMintsRejected
+  expr: 'increase(ff_mint_rejected_total [5m]) > 0'
+  labels:
+    severity: {{ .Values.core.metrics.prometheusRule.warningSeverity }}
+  annotations:
+    summary: Firefly Mints Rejected
+    description: Firefly Mints have failed at least once in the last 5 min
+- alert: FireflyPrivateMessagesRejected
+  expr: 'increase(ff_private_msg_rejected_total [5m]) > 0'
+  labels:
+    severity: {{ .Values.core.metrics.prometheusRule.warningSeverity }}
+  annotations:
+    summary: Firefly Private Messages Rejected
+    description: Firefly Private Messages have failed at least once in the last 5 min
+- alert: FireflyTransfersRejected
+  expr: 'increase(ff_transfer_rejected_total [5m]) > 0'
+  labels:
+    severity: {{ .Values.core.metrics.prometheusRule.warningSeverity }}
+  annotations:
+    summary: Firefly Transfers Rejected
+    description: Firefly Transfers have failed at least once in the last 5 min
+{{- end }}
+
 {{- define "firefly.coreConfig" -}}
 {{- if .Values.config.debugEnabled }}
 log:

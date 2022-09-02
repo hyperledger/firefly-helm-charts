@@ -207,9 +207,11 @@ core:
     serviceMonitor:
       enabled: false
       scrapeInterval: 10s
-    alertRule:
+    prometheusRule:
       enabled: false
-      severity: ""
+      criticalSeverity: "critical"
+      warningSeverity: "warning"
+      rules: []
 
   # NOTE: The Ingress will only expose the HTTP API and never the Admin or Debug APIs
   ingress:
