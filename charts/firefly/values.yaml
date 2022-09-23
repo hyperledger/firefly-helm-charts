@@ -492,6 +492,7 @@ ethconnect:
     eventPollingIntervalSec: 1
     maxTXWaitTimeSec: 60
     maxInFlight: 10
+    gasEstimationFactor: 2.0
     catchupModePageSize: 5000
     catchupModeBlockGap: 5000
 
