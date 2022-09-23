@@ -19,7 +19,7 @@ name: firefly
 description: A Helm chart for deploying FireFly and FireFly HTTPS Dataexchange onto Kubernetes.
 type: application
 appVersion: "1.0.4"
-version: "0.5.5"
+version: "0.5.6"
 
 maintainers:
   - name: hfuss
