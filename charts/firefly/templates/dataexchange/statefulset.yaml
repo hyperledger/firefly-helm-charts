@@ -90,6 +90,9 @@ spec:
             - mountPath: /data/peers
               subPath: peers
               name: dx-peers
+            - mountPath: /data/destinations
+              subPath: destinations
+              name: dx-peers
             - mountPath: /data/config.json
               name: config
               subPath: config.json
