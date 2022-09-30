@@ -232,8 +232,9 @@ plugins:
   {{- if .Values.config.blockchainOverride }}
   blockchain:
     {{- tpl .Values.config.blockchainOverride . | nindent 4 }}
-  {{- else if or .Values.config.ethconnectUrl .Values.ethconnect.enabled }}
-  blockchain:
+  {{- else }}{{/* if not overridden */}}
+   blockchain:
+  {{- if or .Values.config.ethconnectUrl .Values.ethconnect.enabled }}
     - name: eth0
       type: ethereum
       ethereum:
@@ -262,7 +263,6 @@ plugins:
           urlTemplate: {{ .Values.config.addresssResolverUrlTemplate }}
         {{- end }}
   {{- else if .Values.evmconnect.enabled }}
-  blockchain:
     - name: eth0
       type: ethereum
       ethereum:
@@ -277,8 +277,8 @@ plugins:
         addressResolver:
           urlTemplate: {{ .Values.config.addresssResolverUrlTemplate }}
         {{- end }}
-  {{- else if .Values.config.fabconnectUrl }}
-  blockchain:
+  {{- end }}
+  {{- if .Values.config.fabconnectUrl }}
     - name: fabric0
       type: fabric
       fabric:
@@ -296,11 +296,17 @@ plugins:
           topic: {{ .Values.config.fabconnectTopic | quote }}
           signer: {{ .Values.config.fabconnectSigner | quote }}
   {{- end }}
+  {{- end }}
+  {{- if .Values.config.extraBlockchains }}
+    {{- tpl .Values.config.extraBlockchains . | nindent 4 }}
+  {{- end }}
+  {{- end }}
   {{- if .Values.config.databaseOverride }}
   database:
     {{- tpl .Values.config.databaseOverride . | nindent 4 }}
-  {{- else if .Values.config.postgresUrl }}
+  {{- else }}
   database:
+  {{- if .Values.config.postgresUrl }}
     - name: database0
       type: postgres
       postgres:
@@ -308,11 +314,15 @@ plugins:
         migrations:
           auto: {{ .Values.config.postgresAutomigrate }}
   {{- end }}
+  {{- if .Values.config.extraDatabases }}
+    {{- tpl .Values.config.extraDatabases . | nindent 4 }}
+  {{- end }}
   {{- if .Values.config.sharedstorageOverride }}
   sharedstorage:
     {{- tpl .Values.config.sharedstorageOverride . | nindent 4 }}
-  {{- else if and .Values.config.ipfsApiUrl .Values.config.ipfsGatewayUrl }}
+  {{- else }}
   sharedstorage:
+  {{- if and .Values.config.ipfsApiUrl .Values.config.ipfsGatewayUrl }}
     - name: sharedstorage0
       type: ipfs
       ipfs:
@@ -330,6 +340,10 @@ plugins:
             username: {{ .Values.config.ipfsGatewayUsername | quote }}
             password: {{ .Values.config.ipfsGatewayPassword | quote }}
           {{- end }}
+  {{- end }}
+  {{- if .Values.config.extraSharedstorage }}
+    {{- tpl .Values.config.extraSharedstorage . | nindent 4 }}
+  {{- end }}
   {{- end }}
   {{- if and .Values.config.dataexchangeOverride (not .Values.dataexchange.enabled) }}
   dataexchange:
@@ -355,11 +369,15 @@ plugins:
           x-api-key: {{ .Values.config.dataexchangeAPIKey | quote }}
         {{- end }}
     {{- end }}
+    {{- if .Values.config.extraDataexchanges }}
+    {{- tpl .Values.config.extraDataexchanges . | nindent 4 }}
+    {{- end }}
   {{- end }}
   {{- if .Values.config.tokensOverride }}
   tokens:
-      {{- tpl .Values.config.tokensOverride . | nindent 4 }}
-  {{- else if or .Values.erc1155.enabled .Values.erc20erc721.enabled }}
+    {{- tpl .Values.config.tokensOverride . | nindent 4 }}
+  {{- else }}
+  {{- if or .Values.erc1155.enabled .Values.erc20erc721.enabled .Values.config.extraTokens }}
   tokens:
     {{- if .Values.erc1155.enabled }}
     - type: fftokens
@@ -376,19 +394,27 @@ plugins:
         url: http://{{ include "firefly.fullname" . }}-erc20-erc721.{{ .Release.Namespace }}.svc:{{ .Values.erc20erc721.service.port }}
     {{- end }}
   {{- end }}
+  {{- end }}
 
 namespaces:
   default: default
   predefined:
+    {{- if .Values.config.extraNamespaces }}
+    {{- tpl .Values.config.extraNamespaces . | nindent 4 }}
+    {{- end }}
     - name: default
       remoteName: default
       description: Default predefined namespace
+      {{- if and (eq .Values.config.defaultBlockchainType "ethereum") (or .Values.config.evmconnectUrl .Values.evmconnect.enabled .Values.config.ethconnectUrl .Values.ethconnect.enabled) }}
       defaultKey: {{ .Values.config.organizationKey }}
+      {{- else if .Values.config.fabconnectUrl }}
+      defaultKey: {{ .Values.config.fabconnectSigner }}
+      {{- end }}
       plugins:
         - database0
-        {{- if or .Values.config.evmconnectUrl .Values.evmconnect.enabled .Values.config.ethconnectUrl .Values.ethconnect.enabled }}
+        {{- if and (eq .Values.config.defaultBlockchainType "ethereum") (or .Values.config.evmconnectUrl .Values.evmconnect.enabled .Values.config.ethconnectUrl .Values.ethconnect.enabled) }}
         - eth0
-        {{- else if or .Values.config.fabconnectUrl }}
+        {{- else if .Values.config.fabconnectUrl }}
         - fabric0
         {{- end }}
         - dataexchange0
@@ -404,20 +430,38 @@ namespaces:
         org:
           name: {{ .Values.config.organizationName }}
           description: The {{ .Values.config.organizationName }} organization
-          key: {{ .Values.config.organizationKey | quote }}
-        node:
+          {{- if and (eq .Values.config.defaultBlockchainType "ethereum") (or .Values.config.evmconnectUrl .Values.evmconnect.enabled .Values.config.ethconnectUrl .Values.ethconnect.enabled) }}
+          key: {{ .Values.config.organizationKey }}
+          {{- else if .Values.config.fabconnectUrl }}
+          key: {{ .Values.config.fabconnectSigner }}
+          {{- end }}
+      node:
           name: {{ include "firefly.nodeName" . }}
           description: {{ include "firefly.nodeName" . }}
         contract:
-          # TODO fabric support...
+          {{- if and (eq .Values.config.defaultBlockchainType "ethereum") (or .Values.config.evmconnectUrl .Values.evmconnect.enabled .Values.config.ethconnectUrl .Values.ethconnect.enabled) }}
           - location:
               address: {{ .Values.config.fireflyContractAddress }}
             firstEvent: 0
-          {{- if .Values.config.fireflyContractAddresses }}
-          {{- range .Values.config.fireflyContractAddresses }}
+          {{- if .Values.config.fireflyContracts }}
+          {{- range .Values.config.fireflyContracts }}
           - location:
               address: {{ .address | quote }}
             firstEvent: {{ .firstEvent }}
+          {{- end }}
+          {{- end }}
+          {{- else if .Values.config.fabconnectUrl }}
+          - location:
+              chaincode: {{ .Values.config.fireflyChaincode }}
+              channel: {{ .Values.config.fabconnectChannel }}
+            firstEvent: ""
+          {{- if .Values.config.fireflyContracts }}
+          {{- range .Values.config.fireflyContracts }}
+          - location:
+              channel: {{ .channel | quote }}
+              chaincode: {{ .chaincode | quote }}
+            firstEvent: {{ .firstEvent }}
+          {{- end }}
           {{- end }}
           {{- end }}
 {{- end }}
@@ -428,7 +472,9 @@ namespaces:
   value: "http://{{ include "firefly.fullname" . }}-ethconnect.{{ .Release.Namespace }}.svc:{{ .Values.ethconnect.service.apiPort }}"
 {{- else if .Values.evmconnect.enabled }}
   value: "http://{{ include "firefly.fullname" . }}-evmconnect.{{ .Release.Namespace }}.svc:{{ .Values.evmconnect.service.port }}"
-{{- else }}
+{{- else if .Values.config.ethconnectUrl }}
   value: {{ tpl .Values.config.ethconnectUrl . }}
+{{- else }}
+  value: {{ tpl .Values.config.evmconnectUrl . }}
 {{- end }}
 {{- end }}

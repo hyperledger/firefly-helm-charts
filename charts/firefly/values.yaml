@@ -62,8 +62,15 @@ config:
   # The Ethereum address of the _original_, pre-deployed FireFly smart contract
   fireflyContractAddress: "contractAddress"
 
-  # The Ethereum address(es) of the new FireFly smart contract instances
-  fireflyContractAddresses: []
+  # The Ethereum address(es) or Fabric chaincode(s) of the additional FireFly smart contract instances
+  fireflyContracts: []
+  # for ethereum
+  #  - address: "contractAddress"
+  #    firstEvent: 1000
+  # for fabric
+  #  - chaincode: "chaincode"
+  #    channel: "default"
+  #    firstEvent: ""
 
   # The name of the Fabric chaincode deployment for the FireFly chaincode
   fireflyChaincode: firefly_go
@@ -98,25 +105,29 @@ config:
   # The basic auth password to use for authenticating to the IPFS Gateway server
   ipfsGatewayPassword: ""
 
-  # The URL of the Ethconnect API and WS server to use for the blockchain plugin of type `ethereum`
+  # If both fabconnect* and ethconnect* / evmconnect* config is provided, determines which plugin to use with the default namespace
+  # Allowed values are 'ethereum' and 'fabric'
+  defaultBlockchainType: ethereum
+
+  # Deprecated: The URL of the Ethconnect API and WS server to use for the blockchain plugin of type `ethereum`
   ethconnectUrl: ""
 
-  # The basic auth username to use for authenticating to Ethconnect
+  # Deprecated: The basic auth username to use for authenticating to Ethconnect
   ethconnectUsername: ""
 
-  # The basic auth password to use for authenticating to Ethconnect
+  # Deprecated: The basic auth password to use for authenticating to Ethconnect
   ethconnectPassword: ""
 
-  # Enables retries when communicating with Ethconnect
+  # Deprecated: Enables retries when communicating with Ethconnect
   ethconnectRetry: true
 
-  # The Ethconnect topic to use for blockchain event subscriptions
+  # Deprecated: The Ethconnect topic to use for blockchain event subscriptions
   ethconnectTopic: 0
 
-  # The short prefix FireFly will prepend to certain headers it sends to Ethconnect i.e. fly or kld
+  # Deprecated: The short prefix FireFly will prepend to certain headers it sends to Ethconnect i.e. fly or kld
   ethconnectPrefixShort: ""
 
-  # The long prefix FireFly will prepend to certain headers it sends to Ethconnect i.e. firefly or kaleido
+  # Deprecated: The long prefix FireFly will prepend to certain headers it sends to Ethconnect i.e. firefly or kaleido
   ethconnectPrefixLong: ""
 
   # The URL of the EVMConnect API and WS server to use for the blockchain plugin of type `ethereum`
@@ -160,12 +171,16 @@ config:
   # want to use other plugin types i.e. `fabric` which currently do not exist at the time of writing.
 
   dataexchangeOverride: ""
+  extraDataexchanges: ""
 
   databaseOverride: ""
+  extraDatabases: ""
 
   sharedstorageOverride: ""
+  extraSharedstorage: ""
 
   tokensOverride: ""
+  extraTokens: ""
 
   blockchainOverride: ""
    # type: ethereum
@@ -174,6 +189,9 @@ config:
    #     url: http://ethconnect_0:8080
    #     instance: /contracts/firefly
    #     topic: "0"
+  extraBlockchains: ""
+
+  extraNamespaces: ""
 
   # Instead of using the provided config template from _helpers.tpl, users can use to customize the config using their own global values, etc.
   # See the firefly.coreConfig helper for an example of a Go-templated config file that could be provided here as a multiline string.
