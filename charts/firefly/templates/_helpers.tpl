@@ -233,7 +233,7 @@ plugins:
   blockchain:
     {{- tpl .Values.config.blockchainOverride . | nindent 4 }}
   {{- else }}{{/* if not overridden */}}
-   blockchain:
+  blockchain:
   {{- if or .Values.config.ethconnectUrl .Values.ethconnect.enabled }}
     - name: eth0
       type: ethereum
@@ -296,7 +296,6 @@ plugins:
           topic: {{ .Values.config.fabconnectTopic | quote }}
           signer: {{ .Values.config.fabconnectSigner | quote }}
   {{- end }}
-  {{- end }}
   {{- if .Values.config.extraBlockchains }}
     {{- tpl .Values.config.extraBlockchains . | nindent 4 }}
   {{- end }}
@@ -316,6 +315,7 @@ plugins:
   {{- end }}
   {{- if .Values.config.extraDatabases }}
     {{- tpl .Values.config.extraDatabases . | nindent 4 }}
+  {{- end }}
   {{- end }}
   {{- if .Values.config.sharedstorageOverride }}
   sharedstorage:
@@ -435,7 +435,7 @@ namespaces:
           {{- else if .Values.config.fabconnectUrl }}
           key: {{ .Values.config.fabconnectSigner }}
           {{- end }}
-      node:
+        node:
           name: {{ include "firefly.nodeName" . }}
           description: {{ include "firefly.nodeName" . }}
         contract:

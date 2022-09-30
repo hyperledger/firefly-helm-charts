@@ -48,5 +48,7 @@ spec:
         - name: FF_URL
           value: "http://{{ include "firefly.fullname" . }}:{{ .Values.core.service.httpPort }}"
         {{- end }}
+        - name: FF_NAMESPACES
+          value: {{ join " " .Values.core.jobs.registration.ffNamespaces | quote }}
       restartPolicy: Never
 {{- end }}

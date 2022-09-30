@@ -292,6 +292,8 @@ core:
     registration:
       enabled: false
       ffUrl: ""
+      ffNamespaces:
+        - default
 
 # Configures the properties of the StatefulSet, Service, and optionally Ingress used to deploy and expose FireFly HTTPS DataExchange
 dataexchange:
@@ -323,7 +325,7 @@ dataexchange:
   image:
     repository: ghcr.io/hyperledger/firefly-dataexchange-https
     pullPolicy: IfNotPresent
-    tag: v1.0.0
+    tag: v1.1.0
 
   imagePullSecrets: []
   nameOverride: ""
@@ -406,7 +408,7 @@ erc1155:
   image:
     repository: ghcr.io/hyperledger/firefly-tokens-erc1155
     pullPolicy: IfNotPresent
-    tag: v1.0.3
+    tag: v1.1.5
 
   imagePullSecrets: []
 
@@ -480,7 +482,7 @@ erc20erc721:
   image:
     repository: ghcr.io/hyperledger/firefly-tokens-erc20-erc721
     pullPolicy: IfNotPresent
-    tag: v1.0.2
+    tag: v1.1.4
 
   imagePullSecrets: []
 
@@ -563,7 +565,7 @@ ethconnect:
   image:
     repository: ghcr.io/hyperledger/firefly-ethconnect
     pullPolicy: Always
-    tag: v3.2.0
+    tag: v3.2.7
 
   extraEnv: []
     # - name: LOG_LEVEL
@@ -621,7 +623,7 @@ sandbox:
   image:
     repository: ghcr.io/hyperledger/firefly-sandbox
     pullPolicy: IfNotPresent
-    tag: v0.1.10
+    tag: v1.1.1
 
   resources: {}
 
