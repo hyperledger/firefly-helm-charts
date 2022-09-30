@@ -70,7 +70,7 @@ helm.sh/chart: {{ include "firefly.chart" . }}
 app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
 {{- end }}
 app.kubernetes.io/managed-by: {{ .Release.Service }}
-app.kuberentes.io/part-of: {{ .Chart.Name }}
+app.kubernetes.io/part-of: {{ .Chart.Name }}
 {{- end }}
 
 {{- define "firefly.dataexchangeLabels" -}}
@@ -80,7 +80,7 @@ helm.sh/chart: {{ include "firefly.chart" . }}
 app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
 {{- end }}
 app.kubernetes.io/managed-by: {{ .Release.Service }}
-app.kuberentes.io/part-of: {{ .Chart.Name }}
+app.kubernetes.io/part-of: {{ .Chart.Name }}
 {{- end }}
 
 {{- define "firefly.erc1155Labels" -}}
@@ -90,7 +90,7 @@ helm.sh/chart: {{ include "firefly.chart" . }}
 app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
 {{- end }}
 app.kubernetes.io/managed-by: {{ .Release.Service }}
-app.kuberentes.io/part-of: {{ .Chart.Name }}
+app.kubernetes.io/part-of: {{ .Chart.Name }}
 {{- end }}
 
 {{- define "firefly.erc20erc721Labels" -}}
@@ -100,7 +100,7 @@ helm.sh/chart: {{ include "firefly.chart" . }}
 app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
 {{- end }}
 app.kubernetes.io/managed-by: {{ .Release.Service }}
-app.kuberentes.io/part-of: {{ .Chart.Name }}
+app.kubernetes.io/part-of: {{ .Chart.Name }}
 {{- end }}
 
 {{- define "firefly.sandboxLabels" -}}
@@ -110,7 +110,7 @@ helm.sh/chart: {{ include "firefly.chart" . }}
 app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
 {{- end }}
 app.kubernetes.io/managed-by: {{ .Release.Service }}
-app.kuberentes.io/part-of: {{ .Chart.Name }}
+app.kubernetes.io/part-of: {{ .Chart.Name }}
 {{- end }}
 
 {{/*
@@ -123,7 +123,7 @@ helm.sh/chart: {{ include "firefly.chart" . }}
 app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
 {{- end }}
 app.kubernetes.io/managed-by: {{ .Release.Service }}
-app.kuberentes.io/part-of: {{ .Chart.Name }}
+app.kubernetes.io/part-of: {{ .Chart.Name }}
 {{- end }}
 
 {{/*
