@@ -442,7 +442,7 @@ namespaces:
           {{- if and (eq .Values.config.defaultBlockchainType "ethereum") (or .Values.config.evmconnectUrl .Values.evmconnect.enabled .Values.config.ethconnectUrl .Values.ethconnect.enabled) }}
           - location:
               address: {{ .Values.config.fireflyContractAddress }}
-            firstEvent: 0
+            firstEvent: {{ .Values.config.fireflyContractFirstEvent }}
           {{- if .Values.config.fireflyContracts }}
           {{- range .Values.config.fireflyContracts }}
           - location:

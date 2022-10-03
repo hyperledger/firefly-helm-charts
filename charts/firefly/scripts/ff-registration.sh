@@ -17,7 +17,7 @@
 # limitations under the License.
 
 for n in $FF_NAMESPACES; do
-  until STATUS=$(curl ${FF_URL}/api/v1/namespace/${n}/status); do
+  until STATUS=$(curl ${FF_URL}/api/v1/namespaces/${n}/status -s); do
     echo "Waiting for FireFly..."
     sleep 5
   done
@@ -32,6 +32,10 @@ for n in $FF_NAMESPACES; do
       echo "Failed to register with code ${HTTP_CODE}"
       exit 1
     fi
+
+  else
+
+    echo "Org already registered."
 
   fi
 
@@ -48,7 +52,7 @@ for n in $FF_NAMESPACES; do
 
   else
 
-    echo "Already registered. Nothing to do"
+    echo "Node already registered."
 
   fi
 done

@@ -62,6 +62,9 @@ config:
   # The Ethereum address of the _original_, pre-deployed FireFly smart contract
   fireflyContractAddress: "contractAddress"
 
+  # The block number of when the first event of the FireFly smart contract occurs
+  fireflyContractFirstEvent: 0
+
   # The Ethereum address(es) or Fabric chaincode(s) of the additional FireFly smart contract instances
   fireflyContracts: []
   # for ethereum
