@@ -89,6 +89,10 @@ jobs:
         run: |
           echo ${{ secrets.GITHUB_TOKEN }} | helm registry login ghcr.io -u $GITHUB_ACTOR --password-stdin
 
+          helm package --version ${{ env.PUBLISH_VERSION }} ./charts/firefly-evmconnect
+          helm push firefly-evmconnect-${{ env.PUBLISH_VERSION }}.tgz oci://ghcr.io/hyperledger/helm
+
+          helm dep up ./charts/firefly
           helm package --version ${{ env.PUBLISH_VERSION }} ./charts/firefly
           helm push firefly-${{ env.PUBLISH_VERSION }}.tgz oci://ghcr.io/hyperledger/helm
         env:
