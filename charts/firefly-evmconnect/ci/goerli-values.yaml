@@ -1,0 +1,11 @@
+fullnameOverride: "evmconnect-public"
+
+config:
+  jsonRpcUrl: "https://goerli.infura.io/v3/apikey"
+
+  confirmations:
+    required: 20
+
+  connector: |
+    url: {{ .Values.config.jsonRpcUrl | quote }}
+    pollingInterval: 10s

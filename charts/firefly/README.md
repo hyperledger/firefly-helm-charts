@@ -64,7 +64,7 @@ helm registry login ghcr.io
 ## Install Chart
 
 ```shell
-helm install [RELEASE_NAME] --version 0.2.0 oci://ghcr.io/hyperledger/helm/firefly
+helm install [RELEASE_NAME] --version 0.6.0 oci://ghcr.io/hyperledger/helm/firefly
 ```
 
 _See [configuration](#Configuration) below._
@@ -82,7 +82,7 @@ _See [helm uninstall](https://helm.sh/docs/helm/helm_uninstall/) for command doc
 ## Upgrading Chart
 
 ```shell
-helm upgrade [RELEASE_NAME] --install --version 0.2.0 oci://ghcr.io/hyperledger/helm/firefly
+helm upgrade [RELEASE_NAME] --install --version 0.6.0 oci://ghcr.io/hyperledger/helm/firefly
 ```
 
 _See [helm upgrade](https://helm.sh/docs/helm/helm_upgrade/) for command documentation._
@@ -96,7 +96,7 @@ dependencies:
   # ...
   - name: firefly
     repository: "oci://ghcr.io/hyperledger/helm/"
-    version: 0.2.0
+    version: 0.6.0
 ```
 
 Then download the chart dependency into your parent chart:
@@ -131,14 +131,15 @@ has several infrastructural dependencies:
 As depicted above, the chart only aims to provide a means for deploying the following components:
 
 
-| Component                                                                                | Status           | Optional | Enabled by Default |
-|------------------------------------------------------------------------------------------|------------------|----------|--------------------|
-| [FireFly Core]( https://github.com/hyperledger/firefly)                                  | βeta             | ❌        | N/A                |
-| [FireFly Ethconnect]( https://github.com/hyperledger/firefly-ethconnect)                 | ⍺lpha ⚠️         | ✅        | ❌                  |
-| [FireFly Fabconnect]( https://github.com/hyperledger/firefly-fabconnect)                 | Unimplemented 🙈 | N/A      | N/A                |
-| [FireFly DataExchange HTTPS]( https://github.com/hyperledger/firefly-dataexchange-https) | βeta             | ✅        | ✅                  |
-| [FireFly Tokens ERC1155]( https://github.com/hyperledger/firefly-tokens-erc1155)         | βeta             | ✅        | ❌                  |
-| [FireFly Tokens ERC20 / ERC721]( https://github.com/hyperledger/firefly-tokens-erc20-erc721) | ⍺lpha ⚠️         | ✅        | ❌                  |
+| Component                                                                                    | Status           | Optional | Enabled by Default |
+|----------------------------------------------------------------------------------------------|------------------|----------|--------------------|
+| [FireFly Core]( https://github.com/hyperledger/firefly)                                      | GA               | ❌        | N/A                |
+| [FireFly Ethconnect]( https://github.com/hyperledger/firefly-ethconnect)                     | Deprecated       | ✅        | ❌                  |
+| [FireFly EVMConnect]( https://github.com/hyperledger/firefly-evmconnect)                     | ⍺lpha ⚠️         | ✅        | ❌                  |
+| [FireFly Fabconnect]( https://github.com/hyperledger/firefly-fabconnect)                     | Unimplemented 🙈 | N/A      | N/A                |
+| [FireFly DataExchange HTTPS]( https://github.com/hyperledger/firefly-dataexchange-https)     | GA               | ✅        | ✅                  |
+| [FireFly Tokens ERC1155]( https://github.com/hyperledger/firefly-tokens-erc1155)             | βeta             | ✅        | ❌                  |
+| [FireFly Tokens ERC20 / ERC721]( https://github.com/hyperledger/firefly-tokens-erc20-erc721) | βeta             | ✅        | ❌                  |
 
 
 > **NOTE**: "Status" is meant to indicate the level of stability of the _chart's_ support for the particular component.
@@ -634,12 +635,13 @@ metadata:
   name: firefly-helm
 spec:
   interval: 10m
-  url: "https://github.com/hyperledger/firefly"
+  url: "https://github.com/hyperledger/firefly-helm-charts"
   ref:
-    tag: helm-v0.1.0
+    tag: v0.6.0
   ignore: |
     /*
     !/charts/firefly
+    !/charts/firefly-evmconnect
 ```
 
 then within a [`HelmRelease`](https://fluxcd.io/docs/components/helm/helmreleases/) resource you can refer to the chart via the `GitRepostiory`:
@@ -692,7 +694,7 @@ As a result, you can configure Terraform to use the FireFly chart by either:
     ```hcl
     resource "helm_release" "firefly" {
       name = "firefly"
-      chart = "firefly-0.0.1.tgz"
+      chart = "firefly-0.6.0.tgz"
       // ...
     }
     ```

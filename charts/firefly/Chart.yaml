@@ -16,10 +16,13 @@
 
 apiVersion: v2
 name: firefly
-description: A Helm chart for deploying FireFly and FireFly HTTPS Dataexchange onto Kubernetes.
+description: |
+  A Helm chart for deploying FireFly and its various plugin microservices onto Kubernetes.
+  By default allows the user to deploy FireFly with a single multi-party namespace, with the
+  ability to template additional multi-party or gateway namespaces.
 type: application
-appVersion: "1.0.4"
-version: "0.5.6"
+appVersion: "1.1.0"
+version: "0.6.0"
 
 maintainers:
   - name: hfuss
@@ -30,3 +33,10 @@ maintainers:
     email: peter.broadhurst@kaleido.io
   - name: calbritt
     email: cari.albritton@kaleido.io
+
+dependencies:
+  - name: firefly-evmconnect
+    repository: "file://../firefly-evmconnect"
+    alias: evmconnect
+    condition: evmconnect.enabled
+    version: "0.6.0"

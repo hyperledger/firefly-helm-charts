@@ -57,8 +57,6 @@ spec:
           image: "{{ .Values.core.image.repository }}:{{ .Values.core.image.tag | default (printf "v%s" .Chart.AppVersion) }}"
           imagePullPolicy: {{ .Values.core.image.pullPolicy }}
           env:
-            - name: FIREFLY_NODE_NAME
-              value: {{ include "firefly.nodeName" . }}
             {{- if .Values.core.extraEnv }}
             {{- toYaml .Values.core.extraEnv | nindent 12 }}
             {{- end }}
