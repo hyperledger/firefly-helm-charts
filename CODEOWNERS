@@ -1,4 +1,3 @@
 # SPDX-License-Identifier: Apache-2.0
 
-# FireFly Helm Chart Maintainers
-* @hfuss @peterbroadhurst @nguyer
+- @hyperledger/firefly-helm-charts-maintainers
