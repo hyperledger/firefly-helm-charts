@@ -8,36 +8,38 @@ package manager. It can be used to deploy a single FireFly node for an individua
 
 ### Table of Contents
 
-* [Prerequisites](#prerequisites)
-* [Get Repo Info](#get-repo-info)
-* [Install Chart](#install-chart)
-* [Uninstall Chart](#uninstall-chart)
-* [Upgrading Chart](#upgrading-chart)
-* [Using as a Dependency](#using-as-a-dependency)
-* [Deployment Architecture](#deployment-architecture)
-* [Configuration](#configuration)
-  * [Configuration File Templating](#configuration-file-templating)
-  * [Additional Environment Variables](#additional-environment-variables)
-  * [Ethereum](#ethereum)
-    * [Remote Ethconnect](#remote-ethconnect)
-    * [Chart-managed Ethconnect](#chart-managed-ethconnect)
-    * [Smart Contract Deployment](#smart-contract-deployment)
-  * [Fabric](#fabric)
-    * [Chaincode](#chaincode)
-    * [Identity Management](#identity-management)
-  * [Ingress Example](#ingress-example)
-  * [Database Migrations](#database-migrations)
-  * [Auto-Registration](#auto-registration)
-  * [DataExchange HTTPS and cert-manager](#dataexchange-https-and-cert-manager)
-  * [Tokens Connectors](#tokens-connectors)
-    * [ERC1155](#erc1155)
-    * [ERC20 / ERC721](#erc20--erc721)
-  * [Prometheus Support](#prometheus-support)
-* [Automated Deployments](#automated-deployments)
-  * [GitOps](#gitops)
-    * [Flux V2](#flux-v2)
-    * [ArgoCD](#argocd)
-  * [Terraform](#terraform)
+- [FireFly](#firefly)
+    - [Table of Contents](#table-of-contents)
+  - [Prerequisites](#prerequisites)
+  - [Get Repo Info](#get-repo-info)
+  - [Install Chart](#install-chart)
+  - [Uninstall Chart](#uninstall-chart)
+  - [Upgrading Chart](#upgrading-chart)
+  - [Using as a Dependency](#using-as-a-dependency)
+  - [Deployment Architecture](#deployment-architecture)
+  - [Configuration](#configuration)
+    - [Configuration File Templating](#configuration-file-templating)
+    - [Additional Environment Variables](#additional-environment-variables)
+    - [Ethereum](#ethereum)
+      - [Remote Ethconnect](#remote-ethconnect)
+      - [Chart-managed Ethconnect](#chart-managed-ethconnect)
+      - [Smart Contract Deployment](#smart-contract-deployment)
+    - [Fabric](#fabric)
+      - [Chaincode](#chaincode)
+      - [Identity Management](#identity-management)
+    - [Ingress Example](#ingress-example)
+    - [Database Migrations](#database-migrations)
+    - [Auto-Registration](#auto-registration)
+    - [DataExchange HTTPS and cert-manager](#dataexchange-https-and-cert-manager)
+    - [Tokens Connectors](#tokens-connectors)
+      - [ERC1155](#erc1155)
+      - [ERC20 / ERC721](#erc20--erc721)
+    - [Prometheus Support](#prometheus-support)
+  - [Automated Deployments](#automated-deployments)
+    - [GitOps](#gitops)
+      - [Flux V2](#flux-v2)
+      - [ArgoCD](#argocd)
+    - [Terraform](#terraform)
 
 ## Prerequisites
 
@@ -64,7 +66,7 @@ helm registry login ghcr.io
 ## Install Chart
 
 ```shell
-helm install [RELEASE_NAME] --version 0.6.0 oci://ghcr.io/hyperledger/helm/firefly
+helm install [RELEASE_NAME] --version 0.7.0 oci://ghcr.io/hyperledger/helm/firefly
 ```
 
 _See [configuration](#Configuration) below._
@@ -82,7 +84,7 @@ _See [helm uninstall](https://helm.sh/docs/helm/helm_uninstall/) for command doc
 ## Upgrading Chart
 
 ```shell
-helm upgrade [RELEASE_NAME] --install --version 0.6.0 oci://ghcr.io/hyperledger/helm/firefly
+helm upgrade [RELEASE_NAME] --install --version 0.7.0 oci://ghcr.io/hyperledger/helm/firefly
 ```
 
 _See [helm upgrade](https://helm.sh/docs/helm/helm_upgrade/) for command documentation._
@@ -96,7 +98,7 @@ dependencies:
   # ...
   - name: firefly
     repository: "oci://ghcr.io/hyperledger/helm/"
-    version: 0.6.0
+    version: 0.7.0
 ```
 
 Then download the chart dependency into your parent chart:
@@ -637,7 +639,7 @@ spec:
   interval: 10m
   url: "https://github.com/hyperledger/firefly-helm-charts"
   ref:
-    tag: v0.6.0
+    tag: v0.7.0
   ignore: |
     /*
     !/charts/firefly
@@ -694,7 +696,7 @@ As a result, you can configure Terraform to use the FireFly chart by either:
     ```hcl
     resource "helm_release" "firefly" {
       name = "firefly"
-      chart = "firefly-0.6.0.tgz"
+      chart = "firefly-0.7.0.tgz"
       // ...
     }
     ```
