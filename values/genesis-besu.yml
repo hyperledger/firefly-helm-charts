@@ -1,0 +1,44 @@
+---
+quorumFlags:
+  removeGenesisOnDelete: true
+
+cluster:
+  provider: local # choose from: local | aws | azure
+  cloudNativeServices: false
+
+aws:
+  # the aws cli commands uses the name 'quorum-sa' so only change this if you altered the name
+  serviceAccountName: quorum-sa
+  # the region you are deploying to
+  region: ap-southeast-2
+
+azure:
+  serviceAccountName: quorum-sa
+  # the clientId of the user assigned managed identity created in the template
+  identityClientId: azure-clientId
+  keyvaultName: azure-keyvault
+  # the tenant ID of the key vault
+  tenantId: azure-tenantId
+  # the subscription ID to use - this needs to be set explictly when using multi tenancy
+  subscriptionId: azure-subscriptionId
+
+# the raw Genesis config
+# rawGenesisConfig.blockchain.nodes set the number of validators/signers
+rawGenesisConfig:
+  genesis:
+    config:
+      chainId: 1337
+      algorithm:
+        consensus: clique # choose from: ibft2 | qbft | clique
+        blockperiodseconds: 5
+        epochlength: 30000
+        requesttimeoutseconds: 20
+    gasLimit: "0x47b760"
+    difficulty: "0x1"
+    coinbase: "0x0000000000000000000000000000000000000000"
+    includeQuickStartAccounts: false # set to true if you would like to use the quorum-dev-quickstart test accounts. This setting will be forced false if cloudNativeServices is set to true which is assuming a prod environment
+  blockchain:
+    nodes:
+      generate: true
+      count: 1
+    accountPassword: "password"
