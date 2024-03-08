@@ -83,6 +83,16 @@ app.kubernetes.io/managed-by: {{ .Release.Service }}
 app.kubernetes.io/part-of: {{ .Chart.Name }}
 {{- end }}
 
+{{- define "firefly.ipfsLabels" -}}
+helm.sh/chart: {{ include "firefly.chart" . }}
+{{ include "firefly.ipfsSelectorLabels" . }}
+{{- if .Chart.AppVersion }}
+app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
+{{- end }}
+app.kubernetes.io/managed-by: {{ .Release.Service }}
+app.kubernetes.io/part-of: {{ .Chart.Name }}
+{{- end }}
+
 {{- define "firefly.erc1155Labels" -}}
 helm.sh/chart: {{ include "firefly.chart" . }}
 {{ include "firefly.erc1155SelectorLabels" . }}
@@ -136,6 +146,12 @@ app.kubernetes.io/component: core
 app.kubernetes.io/name: {{ include "firefly.name" . }}
 app.kubernetes.io/instance: {{ .Release.Name }}
 app.kubernetes.io/component: dx
+{{- end }}
+
+{{- define "firefly.ipfsSelectorLabels" -}}
+app.kubernetes.io/name: {{ include "firefly.name" . }}
+app.kubernetes.io/instance: {{ .Release.Name }}
+app.kubernetes.io/component: ipfs
 {{- end }}
 
 {{- define "firefly.erc1155SelectorLabels" -}}
@@ -212,7 +228,7 @@ http:
   tls:
     {{- toYaml .Values.config.httpTls | nindent 4 }}
   {{- end }}
-admin:
+spi:
   port:  {{ .Values.core.service.adminPort }}
   address: 0.0.0.0
   publicURL: {{ .Values.config.adminPublicUrl | default (include "firefly.coreAdminPublicURL" . ) }}
@@ -425,6 +441,7 @@ namespaces:
         {{- if .Values.erc20erc721.enabled }}
         - erc20-erc721
         {{- end }}
+      {{- if .Values.multipartyEnabled }}
       multiparty:
         enabled: true
         org:
@@ -464,6 +481,7 @@ namespaces:
           {{- end }}
           {{- end }}
           {{- end }}
+      {{- end }}
 {{- end }}
 
 {{- define "firefly.ethconnectUrlEnvVar" -}}

@@ -6,7 +6,7 @@ description: |
   transaction state.
 type: application
 version: 0.7.0
-appVersion: "0.1.3"
+appVersion: "1.2.7"
 
 maintainers:
   - name: hfuss
