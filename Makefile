@@ -39,6 +39,7 @@ deps:
 	helm upgrade --install --set global.postgresql.auth.postgresPassword=firef1y --set extraEnv[0].name=POSTGRES_DATABASE --set extraEnv[0].value=firefly postgresql bitnami/postgresql --version 14.3.0
 	kubectl create secret generic custom-psql-config --dry-run --from-literal="url=postgres://postgres:firef1y@postgresql.default.svc:5432/postgres?sslmode=disable" -o json | kubectl apply -f -
 	kubectl apply -n default -f manifests/mtls-cert.yaml
+	helm upgrade --install ipfs ./charts/ipfs -f ./charts/ipfs/values.yaml
 
 starter: charts/firefly/local-values.yaml
 
