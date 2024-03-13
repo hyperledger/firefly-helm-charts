@@ -27,8 +27,8 @@ data:
     node-private-key-file={{.Values.node.besu.privateKeyPath | quote }}
 
     # Transaction Pool
-    tx-pool-retention-hours={{ .Values.node.besu.txPool.retentionHours }}
-    tx-pool-max-size={{ .Values.node.besu.txPool.maxSize }}
+    # tx-pool-retention-hours={{ .Values.node.besu.txPool.retentionHours }}
+    # tx-pool-max-size={{ .Values.node.besu.txPool.maxSize }}
 
     {{ if  .Values.node.besu.p2p.enabled -}}
     # P2P network

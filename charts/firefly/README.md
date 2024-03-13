@@ -9,7 +9,7 @@ package manager. It can be used to deploy a single FireFly node for an individua
 ### Table of Contents
 
 - [FireFly](#firefly)
-    - [Table of Contents](#table-of-contents)
+  - [Table of Contents](#table-of-contents)
   - [Prerequisites](#prerequisites)
   - [Get Repo Info](#get-repo-info)
   - [Install Chart](#install-chart)
@@ -43,10 +43,10 @@ package manager. It can be used to deploy a single FireFly node for an individua
 
 ## Prerequisites
 
-* Kubernetes 1.18+
-* Helm 3.7+
-* PV provisioner support in the underlying infrastructure
-* _Recommended:_ cert-manager 1.4+
+- Kubernetes 1.18+
+- Helm 3.7+
+- PV provisioner support in the underlying infrastructure
+- _Recommended:_ cert-manager 1.4+
 
 ## Get Repo Info
 
@@ -109,7 +109,6 @@ helm dep up path/to/parent-chart
 
 _See [helm dependency](https://helm.sh/docs/helm/helm_dependency/) for command documentation._
 
-
 ## Deployment Architecture
 
 FireFly provides a REST API with an event-driven paradigm that simplifies building multi-party interactions via
@@ -119,12 +118,12 @@ swapping out the underlying blockchain and off-chain infrastructure easily.
 As a result, a [FireFly node](https://hyperledger.github.io/firefly/architecture/node_component_architecture.html)
 has several infrastructural dependencies:
 
-* Blockchain connector (either Fabconnect -> Fabric, or Ethconnect -> Ethereum) for a [_private_ blockchain](https://hyperledger.github.io/firefly/keyconcepts/blockchain_protocols.html)
-* A Fabric chaincode or Ethereum smart contract deployed to the underlying blockchain
-* [Private data exchange](https://hyperledger.github.io/firefly/keyconcepts/data_exchange.html) (HTTPS + mTLS)
-* Database (PostgreSQL)
-* [Shared storage](https://hyperledger.github.io/firefly/keyconcepts/broadcast.html#shared-data) (IPFS)
-* Optional tokens connectors (ERC1155, ERC20, etc.)
+- Blockchain connector (either Fabconnect -> Fabric, or Ethconnect -> Ethereum) for a [_private_ blockchain](https://hyperledger.github.io/firefly/keyconcepts/blockchain_protocols.html)
+- A Fabric chaincode or Ethereum smart contract deployed to the underlying blockchain
+- [Private data exchange](https://hyperledger.github.io/firefly/keyconcepts/data_exchange.html) (HTTPS + mTLS)
+- Database (PostgreSQL)
+- [Shared storage](https://hyperledger.github.io/firefly/keyconcepts/broadcast.html#shared-data) (IPFS)
+- Optional tokens connectors (ERC1155, ERC20, etc.)
 
 <p align="center">
   <img src="./../../img/helm_chart_deployment_architecture.jpg" width="75%" />
@@ -132,17 +131,15 @@ has several infrastructural dependencies:
 
 As depicted above, the chart only aims to provide a means for deploying the following components:
 
-
-| Component                                                                                    | Status           | Optional | Enabled by Default |
-|----------------------------------------------------------------------------------------------|------------------|----------|--------------------|
-| [FireFly Core]( https://github.com/hyperledger/firefly)                                      | GA               | ❌        | N/A                |
-| [FireFly Ethconnect]( https://github.com/hyperledger/firefly-ethconnect)                     | Deprecated       | ✅        | ❌                  |
-| [FireFly EVMConnect]( https://github.com/hyperledger/firefly-evmconnect)                     | ⍺lpha ⚠️         | ✅        | ❌                  |
-| [FireFly Fabconnect]( https://github.com/hyperledger/firefly-fabconnect)                     | Unimplemented 🙈 | N/A      | N/A                |
-| [FireFly DataExchange HTTPS]( https://github.com/hyperledger/firefly-dataexchange-https)     | GA               | ✅        | ✅                  |
-| [FireFly Tokens ERC1155]( https://github.com/hyperledger/firefly-tokens-erc1155)             | βeta             | ✅        | ❌                  |
-| [FireFly Tokens ERC20 / ERC721]( https://github.com/hyperledger/firefly-tokens-erc20-erc721) | βeta             | ✅        | ❌                  |
-
+| Component                                                                                   | Status           | Optional | Enabled by Default |
+| ------------------------------------------------------------------------------------------- | ---------------- | -------- | ------------------ |
+| [FireFly Core](https://github.com/hyperledger/firefly)                                      | GA               | ❌       | N/A                |
+| [FireFly Ethconnect](https://github.com/hyperledger/firefly-ethconnect)                     | Deprecated       | ✅       | ❌                 |
+| [FireFly EVMConnect](https://github.com/hyperledger/firefly-evmconnect)                     | ⍺lpha ⚠️         | ✅       | ❌                 |
+| [FireFly Fabconnect](https://github.com/hyperledger/firefly-fabconnect)                     | Unimplemented 🙈 | N/A      | N/A                |
+| [FireFly DataExchange HTTPS](https://github.com/hyperledger/firefly-dataexchange-https)     | GA               | ✅       | ✅                 |
+| [FireFly Tokens ERC1155](https://github.com/hyperledger/firefly-tokens-erc1155)             | βeta             | ✅       | ❌                 |
+| [FireFly Tokens ERC20 / ERC721](https://github.com/hyperledger/firefly-tokens-erc20-erc721) | βeta             | ✅       | ❌                 |
 
 > **NOTE**: "Status" is meant to indicate the level of stability of the _chart's_ support for the particular component.
 > It is _not_ meant to indicate the maturity of the component itself, though the component's maturity does have an impact
@@ -167,14 +164,14 @@ the `firefly.core` file. Based on which values are set, it will correctly config
 as determine if additional ports will be exposed such as the admin, debug, and metrics ports.
 
 The following values are required in order for FireFly to startup correctly:
-* `config.organizationName`
-* `config.organizationKey`
-* `config.postgresUrl`
-* `config.ipfsApiUrl` and `config.ipfsGatewayUrl`
-* either:
-    * `config.fireflyContractAddress`, and then either `config.ethconnectUrl` or `ethconnect.enabled`
-      (see [Ethereum](#ethereum) below for more details)
-    * or, `config.fabconnectUrl` and `config.fabconnectSigner`
+
+- `config.organizationName`
+- `config.organizationKey`
+- `config.postgresUrl`
+- `config.ipfsApiUrl` and `config.ipfsGatewayUrl`
+- either `config.ethconnectUrl` or `ethconnect.enabled`
+  (see [Ethereum](#ethereum) below for more details)
+  - or, `config.fabconnectUrl` and `config.fabconnectSigner`
 
 You can find documentation regarding each of these values, as well as all the other `config` values,
 in the comments of the default [`values.yaml`](values.yaml). You can see how the values are used for
@@ -274,8 +271,8 @@ config:
 
 where:
 
-* `config.organizationKey`: is the Ethereum address of the organization's wallet / key which will be used for signing transactions
-* `config.fireflyContractAddress`: the Ethconnect URI representing the deployed FireFly smart contract i.e.
+- `config.organizationKey`: is the Ethereum address of the organization's wallet / key which will be used for signing transactions
+- `config.fireflyContractAddress`: the Ethconnect URI representing the deployed FireFly smart contract i.e.
   `/contracts/0x965b92929108df1c77c156ba73d00ca851dcd2e1` or `/instances/0x965b92929108df1c77c156ba73d00ca851dcd2e1`.
   See [Smart Contract Deployment](#smart-contract-deployment) for how to you can deploy the contract yourself.
 
@@ -295,7 +292,6 @@ Assuming you have an Ethereum node ready, the chart can be configured to automat
 the following:
 
 ```yaml
-
 ethconnect:
   enabled: true
 
@@ -387,9 +383,9 @@ which provides Fabconnect alongside its Fabric peer nodes.
 
 Once you have a Fabconnect instance ready, FireFly then needs three pieces of configuration:
 
-* `config.organizationKey`: the name of the organization's Fabric identity which will be used for signing transactions
-* `config.fabconnectUrl`: the HTTP/S URL of the Fabconnect instance FireFly will use
-* `config.fabconnectSigner`:  the name of the organization's Fabric identity which will be used for signing transactions.
+- `config.organizationKey`: the name of the organization's Fabric identity which will be used for signing transactions
+- `config.fabconnectUrl`: the HTTP/S URL of the Fabconnect instance FireFly will use
+- `config.fabconnectSigner`: the name of the organization's Fabric identity which will be used for signing transactions.
   See [Identity Management](#identity-management) for how to you can create and enroll the identity using Fabconnect.
 
 These will enable the FireFly deployment to connect to the Fabric blockchain and submit batch pin transactions via
@@ -407,7 +403,7 @@ For deploying the chaincode yourself, consult the [Fabric documentation](https:/
 
 The Fabric identity FireFly will use for signing transactions on behalf of the organization must be pre-enrolled with
 the Fabric CA before deploying FireFly and registration its organization. Fabconnect provides an `/identities` REST API
-which makes creating  an identity and enrolling it easy. For example, the following Bash script performs the necessary
+which makes creating an identity and enrolling it easy. For example, the following Bash script performs the necessary
 API calls to create and enroll an identity named `${ORG_NAME}`:
 
 ```shell
@@ -469,7 +465,7 @@ core:
 ```
 
 The `Job` will be named with the FireFly version in use, and will be automatically replaced and re-run whenever the
-version is updated indicating the expected schema could have potentially changed. 
+version is updated indicating the expected schema could have potentially changed.
 
 Additionally, FireFly itself can apply its own schema migrations. However, this is not recommended for production use
 where an organization could have multiple FireFly nodes sharing the same database:
@@ -509,7 +505,7 @@ with an mTLS certificate using [cert-manager](https://cert-manager.io/):
 dataexchange:
   tlsSecret:
     enabled: false
-  
+
   certificate:
     enabled: true
     issuerRef:
@@ -526,13 +522,13 @@ in order for mTLS to work. For example, when using [ingress-nginx](https://kuber
 annotation can be set on the `Ingress`:
 
 ```yaml
-  ingress:
-    enabled: true
-    annotations:
-      nginx.ingress.kubernetes.io/ssl-passthrough: "true"
-    class: nginx
-    hosts:
-      - host: firefly-dx.acme.org
+ingress:
+  enabled: true
+  annotations:
+    nginx.ingress.kubernetes.io/ssl-passthrough: "true"
+  class: nginx
+  hosts:
+    - host: firefly-dx.acme.org
 ```
 
 > **NOTE**: the `tls` section of the `Ingress` does not need to be configured since mTLS is required. Instead,
@@ -572,11 +568,11 @@ erc20Erc721:
 
   erc20:
     enabled: true
-    tokenName: "FF"     # enter the symbol / name for your fungible tokens here
+    tokenName: "FF" # enter the symbol / name for your fungible tokens here
 
   erc721:
     enabled: false
-    tokenName: "NFFT"   # enter the symbol / name for your NFTs here
+    tokenName: "NFFT" # enter the symbol / name for your NFTs here
 
   job:
     deployContracts:
@@ -689,14 +685,14 @@ As a result, you can configure Terraform to use the FireFly chart by either:
    See [Using as a Dependency](#using-as-a-dependency) for more information.
 
 2. Pre-downloading the FireFly chart directly using:
-    ```shell
-    helm pull --version 0.0.1 oci://ghcr.io/hyperledger/helm/firefly
-    ```
+   ```shell
+   helm pull --version 0.0.1 oci://ghcr.io/hyperledger/helm/firefly
+   ```
    then referring to via its filepath location:
-    ```hcl
-    resource "helm_release" "firefly" {
-      name = "firefly"
-      chart = "firefly-0.7.0.tgz"
-      // ...
-    }
-    ```
+   ```hcl
+   resource "helm_release" "firefly" {
+     name = "firefly"
+     chart = "firefly-0.7.0.tgz"
+     // ...
+   }
+   ```

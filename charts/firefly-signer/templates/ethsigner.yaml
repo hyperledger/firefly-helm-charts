@@ -35,6 +35,10 @@ stringData:
       path: /data/keystore
       filenames:
         primaryExt: .toml
+      metadata:
+        format: toml
+        keyFileProperty: '{{ "{{" }} index .signing "key-file"  {{ "}}" }}'
+        passwordFileProperty:  '{{ "{{" }} index .signing "password-file"  {{ "}}" }}'
     log:
       level: debug
 {{- end }}

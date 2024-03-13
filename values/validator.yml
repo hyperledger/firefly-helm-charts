@@ -1,14 +1,13 @@
 ---
-
 quorumFlags:
   privacy: false
   removeKeysOnDelete: false
-  isBootnode: false    # Besu only, set this to true if this node is a bootnode
-  usesBootnodes: false # Besu only, set this to true if the network you are connecting to use a bootnode/s that are deployed in the cluster 
+  isBootnode: false # Besu only, set this to true if this node is a bootnode
+  usesBootnodes: false # Besu only, set this to true if the network you are connecting to use a bootnode/s that are deployed in the cluster
 
 cluster:
-  provider: local  # choose from: local | aws | azure
-  cloudNativeServices: false 
+  provider: local # choose from: local | aws | azure
+  cloudNativeServices: false
   reclaimPolicy: Delete # set to either Retain or Delete; note that PVCs and PVs will still exist after a 'helm delete'. Setting to Retain will keep volumes even if PVCs/PVs are deleted in kubernetes. Setting to Delete will remove volumes from EC2 EBS when PVC is deleted
 
 aws:
@@ -29,7 +28,7 @@ azure:
 
 node:
   besu:
-    envBesuOpts: ""  
+    envBesuOpts: ""
     metrics:
       serviceMonitorEnabled: true
     resources:

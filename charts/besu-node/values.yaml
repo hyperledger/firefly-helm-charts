@@ -1,14 +1,13 @@
 ---
-
 quorumFlags:
   privacy: false
   # this will erase keys - so be careful with this on validators
   removeKeysOnDelete: false
-  isBootnode: true    # set this to true if this node is a bootnode
-  usesBootnodes: true # set this to true if the network you are connecting to use a bootnode/s that are deployed in the cluster 
+  isBootnode: true # set this to true if this node is a bootnode
+  usesBootnodes: true # set this to true if the network you are connecting to use a bootnode/s that are deployed in the cluster
 
 cluster:
-  provider: local  # choose from: local | aws | azure
+  provider: local # choose from: local | aws | azure
   cloudNativeServices: false # set to true to use Cloud Native Services (SecretsManager and IAM for AWS; KeyVault & Managed Identities for Azure)
   reclaimPolicy: Delete # set to either Retain or Delete
 
@@ -32,7 +31,7 @@ storage:
   sizeLimit: "20Gi"
   pvcSizeLimit: "20Gi"
   # NOTE: when you set this to Retain, the volume WILL persist after the chart is delete and you need to manually delete it
-  reclaimPolicy: "Delete" # choose from: Delete | Retain 
+  reclaimPolicy: "Delete" # choose from: Delete | Retain
   aws:
     provisioner: kubernetes.io/aws-ebs
     parameters:
@@ -61,7 +60,7 @@ node:
     logging: INFO
     customLabels: {}
     account:
-      password: 'password'
+      password: "password"
       passwordPath: "/keys/accountPassword"
     p2p:
       enabled: true
@@ -100,7 +99,7 @@ node:
       host: "0.0.0.0"
       port: 9545
       # enable if using prometheus-stack metrics monitoring
-      serviceMonitorEnabled: false      
+      serviceMonitorEnabled: false
     metricsPush:
       enabled: false
       host: "5.5.5.5"
@@ -117,7 +116,11 @@ node:
       filePath: ""
       nodes:
         enabled: false
-        allowlist: ["enode://abcd..@1.2.3.3:30303","enode://efba..@1.2.3.4:besu-node-bootnode-1-0.besu-node-bootnode-1.besu.svc.cluster.local:30303"]
+        allowlist:
+          [
+            "enode://abcd..@1.2.3.3:30303",
+            "enode://efba..@1.2.3.4:besu-node-bootnode-1-0.besu-node-bootnode-1.besu.svc.cluster.local:30303",
+          ]
       accounts:
         enabled: false
         allowlist: ["0x0000000000000000000000000000000000008888"]
@@ -126,7 +129,7 @@ node:
         address: "0x0000000000000000000000000000000000009999"
       accountsContract:
         enabled: false
-        address: "0x0000000000000000000000000000000000008888"  
+        address: "0x0000000000000000000000000000000000008888"
 
   tessera:
     resources:
@@ -147,7 +150,7 @@ node:
 image:
   besu:
     repository: hyperledger/besu
-    tag: 22.7.2
+    tag: 24.3.0
     pullPolicy: IfNotPresent
   tessera:
     repository: quorumengineering/tessera
@@ -157,4 +160,3 @@ image:
     repository: consensys/quorum-k8s-hooks
     tag: qgt-0.2.12
     pullPolicy: IfNotPresent
-

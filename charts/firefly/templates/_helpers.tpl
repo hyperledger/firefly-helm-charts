@@ -441,7 +441,7 @@ namespaces:
         {{- if .Values.erc20erc721.enabled }}
         - erc20-erc721
         {{- end }}
-      {{- if .Values.multipartyEnabled }}
+      {{- if .Values.config.multipartyEnabled }}
       multiparty:
         enabled: true
         org:
@@ -457,9 +457,6 @@ namespaces:
           description: {{ include "firefly.nodeName" . }}
         contract:
           {{- if and (eq .Values.config.defaultBlockchainType "ethereum") (or .Values.config.evmconnectUrl .Values.evmconnect.enabled .Values.config.ethconnectUrl .Values.ethconnect.enabled) }}
-          - location:
-              address: {{ .Values.config.fireflyContractAddress }}
-            firstEvent: {{ .Values.config.fireflyContractFirstEvent }}
           {{- if .Values.config.fireflyContracts }}
           {{- range .Values.config.fireflyContracts }}
           - location:

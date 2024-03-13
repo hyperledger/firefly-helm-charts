@@ -59,12 +59,6 @@ config:
   # The URL + URI Go template of an address resolver connector
   addresssResolverUrlTemplate: ""
 
-  # The Ethereum address of the _original_, pre-deployed FireFly smart contract
-  fireflyContractAddress: "contractAddress"
-
-  # The block number of when the first event of the FireFly smart contract occurs
-  fireflyContractFirstEvent: 0
-
   # The Ethereum address(es) or Fabric chaincode(s) of the additional FireFly smart contract instances
   fireflyContracts: []
   # for ethereum
@@ -185,13 +179,14 @@ config:
   tokensOverride: ""
   extraTokens: ""
 
-  blockchainOverride: ""
-   # type: ethereum
-   # ethereum:
-   #   ethconnect:
-   #     url: http://ethconnect_0:8080
-   #     instance: /contracts/firefly
-   #     topic: "0"
+  blockchainOverride:
+    ""
+    # type: ethereum
+    # ethereum:
+    #   ethconnect:
+    #     url: http://ethconnect_0:8080
+    #     instance: /contracts/firefly
+    #     topic: "0"
   extraBlockchains: ""
 
   extraNamespaces: ""
@@ -208,7 +203,8 @@ core:
     # Overrides the image tag whose default is the chart appVersion.
     # tag: ""
 
-  extraEnv: []
+  extraEnv:
+    []
     # - name: FIREFLY_LOG_LEVEL
     #   value: debug
 
@@ -218,10 +214,12 @@ core:
 
   podAnnotations: {}
 
-  podSecurityContext: {}
+  podSecurityContext:
+    {}
     # fsGroup: 2000
 
-  securityContext: {}
+  securityContext:
+    {}
     # capabilities:
     #   drop:
     #   - ALL
@@ -251,7 +249,8 @@ core:
   ingress:
     enabled: false
     className: ""
-    annotations: {}
+    annotations:
+      {}
       # kubernetes.io/ingress.class: nginx
       # kubernetes.io/tls-acme: "true"
     hosts:
@@ -261,7 +260,8 @@ core:
     #    hosts:
     #      - chart-example.local
 
-  resources: {}
+  resources:
+    {}
     # We usually recommend not to specify default resources and to leave this as a conscious
     # choice for the user. This also increases chances charts run on environments with little
     # resources, such as Minikube. If you do want to specify resources, uncomment the following
@@ -300,7 +300,6 @@ core:
 
 # Configures the properties of the StatefulSet, Service, and optionally Ingress used to deploy and expose FireFly HTTPS DataExchange
 dataexchange:
-
   # Toggles whether or not to deploy HTTPS DataExchange alongside FireFly, and therefore how the dataexchange section of its config will be templated
   enabled: true
 
@@ -317,11 +316,13 @@ dataexchange:
   certificate:
     enabled: false
     duration: ""
-    issuerRef: {}
-     # name: internal-ca
-     # kind: ClusterIssuer
+    issuerRef:
+      {}
+      # name: internal-ca
+      # kind: ClusterIssuer
 
-  extraEnv: []
+  extraEnv:
+    []
     # - name: LOG_LEVEL
     #   value: DEBUG
 
@@ -339,7 +340,8 @@ dataexchange:
   podSecurityContext: {}
   # fsGroup: 2000
 
-  securityContext: {}
+  securityContext:
+    {}
     # capabilities:
     #   drop:
     #   - ALL
@@ -359,12 +361,14 @@ dataexchange:
   ingress:
     enabled: false
     className: ""
-    annotations: {}
+    annotations:
+      {}
       # nginx.ingress.kubernetes.io/ssl-passthrough: "true"
     hosts:
       - host: chart-example.local
 
-  resources: {}
+  resources:
+    {}
     # We usually recommend not to specify default resources and to leave this as a conscious
     # choice for the user. This also increases chances charts run on environments with little
     # resources, such as Minikube. If you do want to specify resources, uncomment the following
@@ -420,7 +424,8 @@ erc1155:
   podSecurityContext: {}
   # fsGroup: 2000
 
-  securityContext: {}
+  securityContext:
+    {}
     # capabilities:
     #   drop:
     #   - ALL
@@ -432,7 +437,8 @@ erc1155:
     type: ClusterIP
     port: 3000
 
-  resources: {}
+  resources:
+    {}
     # We usually recommend not to specify default resources and to leave this as a conscious
     # choice for the user. This also increases chances charts run on environments with little
     # resources, such as Minikube. If you do want to specify resources, uncomment the following
@@ -494,7 +500,8 @@ erc20erc721:
   podSecurityContext: {}
   # fsGroup: 2000
 
-  securityContext: {}
+  securityContext:
+    {}
     # capabilities:
     #   drop:
     #   - ALL
@@ -506,7 +513,8 @@ erc20erc721:
     type: ClusterIP
     port: 3000
 
-  resources: {}
+  resources:
+    {}
     # We usually recommend not to specify default resources and to leave this as a conscious
     # choice for the user. This also increases chances charts run on environments with little
     # resources, such as Minikube. If you do want to specify resources, uncomment the following
@@ -540,7 +548,8 @@ ethconnect:
   ingress:
     enabled: false
     className: ""
-    annotations: {}
+    annotations:
+      {}
       # kubernetes.io/ingress.class: nginx
       # kubernetes.io/tls-acme: "true"
     hosts:
@@ -557,7 +566,8 @@ ethconnect:
   podSecurityContext: {}
   # fsGroup: 2000
 
-  securityContext: {}
+  securityContext:
+    {}
     # capabilities:
     #   drop:
     #   - ALL
@@ -570,7 +580,8 @@ ethconnect:
     pullPolicy: Always
     tag: v3.2.7
 
-  extraEnv: []
+  extraEnv:
+    []
     # - name: LOG_LEVEL
     #   value: DEBUG
 
@@ -582,7 +593,8 @@ ethconnect:
   extraContainers: ""
   extraVolumeClaimTemplates: ""
 
-  resources: {}
+  resources:
+    {}
     # We usually recommend not to specify default resources and to leave this as a conscious
     # choice for the user. This also increases chances charts run on environments with little
     # resources, such as Minikube. If you do want to specify resources, uncomment the following
@@ -592,8 +604,8 @@ ethconnect:
     #   memory: 128Mi
   # requests:
   #   cpu: 100m
-    # requests:
-    #   cpu: 100m
+  # requests:
+  #   cpu: 100m
   #   memory: 128Mi
 
   nodeSelector: {}
@@ -634,7 +646,8 @@ sandbox:
   ingress:
     enabled: false
     className: ""
-    annotations: {}
+    annotations:
+      {}
       # kubernetes.io/ingress.class: nginx
     # kubernetes.io/tls-acme: "true"
     hosts:

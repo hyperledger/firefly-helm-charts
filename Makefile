@@ -24,8 +24,9 @@ besu:
 	helm repo update
 	helm install monitoring prometheus-community/kube-prometheus-stack --version 34.10.0 --namespace=quorum --create-namespace --values ./values/monitoring.yml --wait
 	kubectl --namespace quorum apply -f  ./values/monitoring/
-	helm install genesis ./charts/besu-genesis --namespace quorum --create-namespace --values ./values/genesis-besu.yml
-	helm install validator-1 ./charts/besu-node --namespace quorum --values ./values/validator.yml
+	helm upgrade --install genesis ./charts/besu-genesis --namespace quorum --create-namespace --values ./values/genesis-besu.yml
+	kubectl --namespace quorum wait --for=condition=complete job/besu-genesis-init --timeout=600s
+	helm upgrade --install validator-1 ./charts/besu-node --namespace quorum --values ./values/validator.yml
 
 deps:
 	kubectl create ns cert-manager || true
@@ -60,3 +61,4 @@ stack: kind besu deps
 
 clean-stack:
 	kind delete cluster --name firefly
+	# TODO: clean up multiparty-values.yaml

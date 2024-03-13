@@ -29,7 +29,7 @@ rawGenesisConfig:
     config:
       chainId: 1337
       algorithm:
-        consensus: clique # choose from: ibft2 | qbft | clique
+        consensus: qbft # choose from: ibft2 | qbft | clique
         blockperiodseconds: 5
         epochlength: 30000
         requesttimeoutseconds: 20
