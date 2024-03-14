@@ -337,8 +337,10 @@ dataexchange:
 
   podAnnotations: {}
 
-  podSecurityContext: {}
-  # fsGroup: 2000
+  podSecurityContext:
+    runAsUser: 1001
+    runAsGroup: 1001
+    fsGroup: 1001
 
   securityContext:
     {}
@@ -668,4 +670,8 @@ sandbox:
   affinity: {}
 
 evmconnect:
+  podSecurityContext:
+    runAsUser: 1001
+    runAsGroup: 1001
+    fsGroup: 1001
   enabled: false
