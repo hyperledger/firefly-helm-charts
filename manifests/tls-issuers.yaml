@@ -1,6 +1,6 @@
 ---
 apiVersion: cert-manager.io/v1
-kind: ClusterIssuer
+kind: Issuer
 metadata:
   name: selfsigned
 spec:
@@ -13,13 +13,13 @@ metadata:
 spec:
   issuerRef:
     name: selfsigned
-    kind: ClusterIssuer
+    kind: Issuer
   isCA: true
   secretName: selfsigned-ca-tls
   commonName: selfsigned-ca
 ---
 apiVersion: cert-manager.io/v1
-kind: ClusterIssuer
+kind: Issuer
 metadata:
   name: selfsigned-ca
 spec:
