@@ -61,4 +61,4 @@ stack: kind besu deps
 
 clean-stack:
 	kind delete cluster --name firefly
-	# TODO: clean up multiparty-values.yaml
+	yq -i '.config.fireflyContracts = []' ./hack/multiparty-values.yaml
