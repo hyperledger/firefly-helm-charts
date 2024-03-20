@@ -408,8 +408,11 @@ dataexchange:
 erc1155:
   enabled: false
 
+  # The address of the deployed ERC1155 contract to use
+  contractAddress:
+
   # The Ethconnect URI representing the ERC1155 tokens contract
-  contractAddress: "/contracts/erc1155Address"
+  ethconnectInstance: "/contracts/erc1155Address"
 
   # The Ethconnect topic to use for tokens event subscriptions
   ethconnectTopic: "tokensERC1155"
@@ -417,7 +420,7 @@ erc1155:
   image:
     repository: ghcr.io/hyperledger/firefly-tokens-erc1155
     pullPolicy: IfNotPresent
-    tag: v1.1.5
+    tag: v1.2.4
 
   imagePullSecrets: []
 
