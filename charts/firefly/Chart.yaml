@@ -21,8 +21,8 @@ description: |
   By default allows the user to deploy FireFly with a single multi-party namespace, with the
   ability to template additional multi-party or gateway namespaces.
 type: application
-appVersion: "1.2.2"
-version: "0.7.0"
+appVersion: "1.3.0-rc.1"
+version: "0.8.0"
 
 maintainers:
   - name: hfuss

@@ -8,7 +8,8 @@ podAnnotations: {}
 
 imagePullSecrets: []
 
-podSecurityContext: {}
+podSecurityContext:
+  fsGroup: 1001
 
 securityContext: {}
 
