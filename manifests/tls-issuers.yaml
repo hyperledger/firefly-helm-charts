@@ -3,6 +3,7 @@ apiVersion: cert-manager.io/v1
 kind: Issuer
 metadata:
   name: selfsigned
+  namespace: {{ .Release.Namespace }}
 spec:
   selfSigned: {}
 ---
@@ -10,6 +11,7 @@ apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
   name: selfsigned-ca
+  namespace: {{ .Release.Namespace }}
 spec:
   issuerRef:
     name: selfsigned
@@ -22,6 +24,7 @@ apiVersion: cert-manager.io/v1
 kind: Issuer
 metadata:
   name: selfsigned-ca
+  namespace: {{ .Release.Namespace }}
 spec:
   ca:
     secretName: selfsigned-ca-tls
