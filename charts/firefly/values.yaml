@@ -412,7 +412,7 @@ erc1155:
   contractAddress:
 
   # The Ethconnect URI representing the ERC1155 tokens contract
-  ethconnectInstance: "/contracts/erc1155Address"
+  ethconnectInstance: "/contracts/erc1155"
 
   # The Ethconnect topic to use for tokens event subscriptions
   ethconnectTopic: "tokensERC1155"
