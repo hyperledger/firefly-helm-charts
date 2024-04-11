@@ -62,7 +62,7 @@ config:
   connector: |
     url: {{ .Values.config.jsonRpcUrl | quote }}
 
-  policyEngine: {}
+  policyEngine: ""
 
   policyLoop: {}
 

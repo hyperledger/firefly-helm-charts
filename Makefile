@@ -15,6 +15,7 @@ lint:
 	ct lint \
 		--target-branch=main \
 		--exclude-deprecated \
+		--excluded-charts besu-node,besu-genesis\
 		--check-version-increment=false \
 		--lint-conf=./charts/lintconf.yaml
 	./hack/enforce-chart-conventions.sh

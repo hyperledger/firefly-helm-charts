@@ -59,6 +59,12 @@ config:
   # The URL + URI Go template of an address resolver connector
   addresssResolverUrlTemplate: ""
 
+  # The Ethereum address of the _original_, pre-deployed FireFly smart contract
+  fireflyContractAddress: "contractAddress"
+
+  # The block number of when the first event of the FireFly smart contract occurs
+  fireflyContractFirstEvent: 0
+
   # The Ethereum address(es) or Fabric chaincode(s) of the additional FireFly smart contract instances
   fireflyContracts: []
   # for ethereum
@@ -409,7 +415,7 @@ erc1155:
   enabled: false
 
   # The address of the deployed ERC1155 contract to use
-  contractAddress:
+  contractAddress: "/contracts/erc1155Address"
 
   # The Ethconnect URI representing the ERC1155 tokens contract
   ethconnectInstance: "/contracts/erc1155"
