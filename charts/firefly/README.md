@@ -397,7 +397,7 @@ its chaincode on behalf of the organization it's representing.
 
 #### Chaincode
 
-By default, the chart assumes the [FireFly chaincode](https://github.com/hyperledger/firefly/tree/main/smart_contracts/fabric/firefly-go) is deployed to the
+By default, the chart assumes the [FireFly chaincode](https://github.com/hyperledger/firefly/blob/main/smart_contracts/fabric/firefly-go) is deployed to the
 `default-channel` with the name `firefly_go`. If the chaincode was deployed to a different channel or with a different
 name you can set `config.fabconnectChannel` and `config.fireflyChaincode` accordingly.
 
