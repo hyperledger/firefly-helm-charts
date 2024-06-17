@@ -45,6 +45,12 @@ This will deploy the multiparty contract, update the config file, and register t
 > helm upgrade --install firefly ./charts/firefly -f ./charts/firefly/local-kind-values.yaml -f ./hack/multiparty-values.yaml
 > ```
 
+### Modifying configuration
+
+Configuration of the stack for non-default options is possible using these charts, broadly there are 2 places to make changes. For Besu charts, the appropriate `values.yaml` files in the `values` directory allows for configuration of values such as the genesis block, and Besu-specific options. For FireFly related components the `values.yaml` file within the sub-directory for the chart (stored in `charts/`) contains the configuration for options.
+
+Viewing the appropriate README for each microservice, will give information around the values and structure of the configuration in the `values.yaml` files. 
+
 ## Accessing the Helm Repo
 
 Helm's [experimental OCI registry support](https://helm.sh/docs/topics/registries/) is used for publishing and retrieving
