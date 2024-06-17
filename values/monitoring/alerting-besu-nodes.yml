@@ -5,7 +5,7 @@ metadata:
   labels:
     app: besu
   name: besu-alerts
-  namespace: quorum
+  namespace: default
 spec:
   groups:
   - name: besu-chain-stalled

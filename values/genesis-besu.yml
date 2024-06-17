@@ -1,26 +1,10 @@
 ---
 quorumFlags:
-  removeGenesisOnDelete: true
+  removeGenesisOnDelete: false
 
 cluster:
   provider: local # choose from: local | aws | azure
   cloudNativeServices: false
-
-aws:
-  # the aws cli commands uses the name 'quorum-sa' so only change this if you altered the name
-  serviceAccountName: quorum-sa
-  # the region you are deploying to
-  region: ap-southeast-2
-
-azure:
-  serviceAccountName: quorum-sa
-  # the clientId of the user assigned managed identity created in the template
-  identityClientId: azure-clientId
-  keyvaultName: azure-keyvault
-  # the tenant ID of the key vault
-  tenantId: azure-tenantId
-  # the subscription ID to use - this needs to be set explicitly when using multi tenancy
-  subscriptionId: azure-subscriptionId
 
 # the raw Genesis config
 # rawGenesisConfig.blockchain.nodes set the number of validators/signers

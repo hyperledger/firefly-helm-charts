@@ -2,7 +2,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: grafana-goquorum-dashboard
-  namespace: quorum
+  namespace: default
   labels:
     grafana_dashboard: "1"
 data:

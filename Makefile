@@ -21,13 +21,13 @@ lint:
 	./hack/enforce-chart-conventions.sh
 
 besu:
-	helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
-	helm repo update
-	helm install monitoring prometheus-community/kube-prometheus-stack --version 34.10.0 --namespace=quorum --create-namespace --values ./values/monitoring.yml --wait
-	kubectl --namespace quorum apply -f  ./values/monitoring/
-	helm upgrade --install genesis ./charts/besu-genesis --namespace quorum --create-namespace --values ./values/genesis-besu.yml
-	kubectl --namespace quorum wait --for=condition=complete job/besu-genesis-init --timeout=600s
-	helm upgrade --install validator-1 ./charts/besu-node --namespace quorum --values ./values/validator.yml
+	kubectl --namespace default apply -f  ./values/monitoring/
+	mkdir -p besu
+	git clone --depth 1 https://github.com/Consensys/quorum-kubernetes besu
+	helm upgrade --install genesis ./besu/helm/charts/besu-genesis --namespace default --create-namespace --values ./values/genesis-besu.yml
+	kubectl --namespace default wait --for=condition=complete job/besu-genesis-init --timeout=600s
+	helm upgrade --install validator-1 ./besu/helm/charts/besu-node --namespace default --values ./values/validator.yml
+	kubectl wait --for=condition=ready pod -l app.kubernetes.io/name=besu-statefulset --timeout=600s
 
 deps:
 	kubectl create ns cert-manager || true
@@ -35,8 +35,8 @@ deps:
 	helm repo add jetstack https://charts.jetstack.io || true
 	helm upgrade --install --skip-crds -n cert-manager cert-manager jetstack/cert-manager --wait
 	kubectl apply -n cert-manager -f manifests/tls-issuers.yaml
-	# helm repo add prometheus-community https://prometheus-community.github.io/helm-charts || true
-	# helm upgrade --install --set kubeStateMetrics.enabled=false --set nodeExporter.enabled=false --set grafana.enabled=false kube-prometheus prometheus-community/kube-prometheus-stack
+	helm repo add prometheus-community https://prometheus-community.github.io/helm-charts || true
+	helm upgrade --install --set kubeStateMetrics.enabled=false --set nodeExporter.enabled=false --set grafana.enabled=false kube-prometheus prometheus-community/kube-prometheus-stack
 	helm repo add bitnami https://raw.githubusercontent.com/bitnami/charts/archive-full-index/bitnami || true
 	helm upgrade --install --set global.postgresql.auth.postgresPassword=firef1y --set extraEnv[0].name=POSTGRES_DATABASE --set extraEnv[0].value=firefly postgresql bitnami/postgresql --version 14.3.0
 	kubectl create secret generic custom-psql-config --dry-run --from-literal="url=postgres://postgres:firef1y@postgresql.default.svc:5432/postgres?sslmode=disable" -o json | kubectl apply -f -
@@ -56,10 +56,11 @@ test:
 
 e2e: kind deps test
 
-stack: kind besu deps
+stack: kind deps besu
 	helm upgrade -i firefly-signer ./charts/firefly-signer -f ./charts/firefly/values.yaml
 	helm upgrade -i firefly ./charts/firefly -f ./charts/firefly/local-kind-values.yaml
 
 clean-stack:
 	kind delete cluster --name firefly
 	yq -i '.config.fireflyContracts = []' ./hack/multiparty-values.yaml
+	rm -rf besu/
