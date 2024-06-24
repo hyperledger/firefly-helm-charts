@@ -135,11 +135,11 @@ As depicted above, the chart only aims to provide a means for deploying the foll
 | ------------------------------------------------------------------------------------------- | ---------------- | -------- | ------------------ |
 | [FireFly Core](https://github.com/hyperledger/firefly)                                      | GA               | ❌       | N/A                |
 | [FireFly Ethconnect](https://github.com/hyperledger/firefly-ethconnect)                     | Deprecated       | ✅       | ❌                 |
-| [FireFly EVMConnect](https://github.com/hyperledger/firefly-evmconnect)                     | ⍺lpha ⚠️         | ✅       | ❌                 |
+| [FireFly EVMConnect](https://github.com/hyperledger/firefly-evmconnect)                     | GA               | ✅       | ✅                 |
 | [FireFly Fabconnect](https://github.com/hyperledger/firefly-fabconnect)                     | Unimplemented 🙈 | N/A      | N/A                |
 | [FireFly DataExchange HTTPS](https://github.com/hyperledger/firefly-dataexchange-https)     | GA               | ✅       | ✅                 |
 | [FireFly Tokens ERC1155](https://github.com/hyperledger/firefly-tokens-erc1155)             | βeta             | ✅       | ❌                 |
-| [FireFly Tokens ERC20 / ERC721](https://github.com/hyperledger/firefly-tokens-erc20-erc721) | βeta             | ✅       | ❌                 |
+| [FireFly Tokens ERC20 / ERC721](https://github.com/hyperledger/firefly-tokens-erc20-erc721) | GA               | ✅       | ❌                 |
 
 > **NOTE**: "Status" is meant to indicate the level of stability of the _chart's_ support for the particular component.
 > It is _not_ meant to indicate the maturity of the component itself, though the component's maturity does have an impact
