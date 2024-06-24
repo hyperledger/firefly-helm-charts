@@ -4,7 +4,7 @@ image:
   tag: "v1.1.13"
 
 backend:
-  url: http://besu-node-validator-1.quorum.svc.cluster.local:8545
+  url: http://besu-node-validator-1.default.svc.cluster.local:8545
   chainId: 1337
 
 signer:
