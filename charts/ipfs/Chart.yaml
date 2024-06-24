@@ -23,9 +23,7 @@ appVersion: "0.27.2"
 version: "0.7.0"
 
 maintainers:
-  - name: nguyer
-    email: nicko.guyer@kaleido.io
-  - name: hfuss
+  - name: onelapahead
     email: hayden.fuss@kaleido.io
   - name: peterbroadhurst
     email: peter.broadhurst@kaleido.io
