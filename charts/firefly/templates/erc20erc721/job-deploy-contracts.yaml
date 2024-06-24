@@ -16,7 +16,7 @@
   limitations under the License.
 */}}
 
-{{- if and .Values.erc20erc721.enabled .Values.erc20erc721.job.deployContracts.enabled }}
+{{- if and .Values.erc20erc721.enabled .Values.erc20erc721.job.deployContracts.enabled .Values.ethconnect.enabled }}
 apiVersion: batch/v1
 kind: Job
 metadata:
@@ -47,8 +47,8 @@ spec:
             - |
               #!/bin/sh
 
-              until STATUS=$(curl --fail -s ${ETHCONNECT_URL}${ABIS_URI}); do
-                echo "Waiting for Ethconnect..."
+              until STATUS=$(curl --fail -s ${ETHCONNECT_URL}/status); do
+                echo "Waiting for Ethconnect... "
                 sleep 5
               done
 
