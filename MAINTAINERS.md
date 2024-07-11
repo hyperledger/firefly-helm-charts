@@ -6,7 +6,7 @@ The following is the list of current maintainers this repo:
 | ---------------- | --------------- | --------------------------- | --------------- |
 | Hayden Fuss      | hfuss           | hayden.fuss@kaleido.io      | hfuss           |
 | Peter Broadhurst | peterbroadhurst | peter.broadhurst@kaleido.io | peterbroadhurst |
-| Nicko Guyer      | nguyer          | nicko.guyer@kaleido.io      | nguyer          |
+| Enrique Lacal    | enriquel8       | enrique.lacal@kaleido.io    | enrique.lacal   |
 
 This list is to be kept up to date as maintainers are added or removed.
 
