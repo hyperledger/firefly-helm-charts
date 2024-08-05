@@ -1,0 +1,13 @@
+apiVersion: v2
+name: firefly-signer
+description: |
+  A Helm chart for deploying the FireFly Signer microservice to Kubernetes
+type: application
+version: 0.7.0
+appVersion: "1.1.13"
+
+maintainers:
+  - name: EnriqueL8
+    email: enrique.lacal@kaleido.io
+  - name: onelapahead
+    email: hayden.fuss@kaleido.io

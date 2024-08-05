@@ -328,7 +328,7 @@ dataexchange:
   image:
     repository: ghcr.io/hyperledger/firefly-dataexchange-https
     pullPolicy: IfNotPresent
-    tag: v1.1.0
+    tag: v1.3.0
 
   imagePullSecrets: []
   nameOverride: ""
@@ -336,8 +336,10 @@ dataexchange:
 
   podAnnotations: {}
 
-  podSecurityContext: {}
-  # fsGroup: 2000
+  podSecurityContext:
+    runAsUser: 1001
+    runAsGroup: 1001
+    fsGroup: 1001
 
   securityContext: {}
     # capabilities:
@@ -402,16 +404,16 @@ dataexchange:
 erc1155:
   enabled: false
 
-  # The Ethconnect URI representing the ERC1155 tokens contract
+  # The address of the deployed ERC1155 contract to use
   contractAddress: "/contracts/erc1155Address"
 
-  # The Ethconnect topic to use for tokens event subscriptions
+  # The Ethconnect URI representing the ERC1155 tokens contract
   ethconnectTopic: "tokensERC1155"
 
   image:
     repository: ghcr.io/hyperledger/firefly-tokens-erc1155
     pullPolicy: IfNotPresent
-    tag: v1.1.5
+    tag: v1.3.2
 
   imagePullSecrets: []
 
@@ -485,7 +487,7 @@ erc20erc721:
   image:
     repository: ghcr.io/hyperledger/firefly-tokens-erc20-erc721
     pullPolicy: IfNotPresent
-    tag: v1.1.4
+    tag: v1.3.2
 
   imagePullSecrets: []
 
@@ -655,4 +657,8 @@ sandbox:
   affinity: {}
 
 evmconnect:
+  podSecurityContext:
+    runAsUser: 1001
+    runAsGroup: 1001
+    fsGroup: 1001
   enabled: false

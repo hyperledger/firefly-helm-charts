@@ -1,0 +1,11 @@
+image:
+  repository: ipfs/kubo
+  pullPolicy: IfNotPresent
+  tag: "v0.27.0"
+
+service:
+  type: ClusterIP
+  apiPort: 5001
+  gatewayPort: 8080
+
+podAnnotations: {}

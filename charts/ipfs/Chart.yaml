@@ -15,14 +15,12 @@
 # limitations under the License.
 
 apiVersion: v2
-name: firefly
+name: ipfs
 description: |
-  A Helm chart for deploying FireFly and its various plugin microservices onto Kubernetes.
-  By default allows the user to deploy FireFly with a single multi-party namespace, with the
-  ability to template additional multi-party or gateway namespaces.
+  A Helm chart for a private IPFS node for use in a FireFly multiparty namespace
 type: application
-appVersion: "1.3.1"
-version: "0.8.0"
+appVersion: "0.27.2"
+version: "0.7.0"
 
 maintainers:
   - name: onelapahead
@@ -31,10 +29,3 @@ maintainers:
     email: peter.broadhurst@kaleido.io
   - name: calbritt
     email: cari.albritton@kaleido.io
-
-dependencies:
-  - name: firefly-evmconnect
-    repository: "file://../firefly-evmconnect"
-    alias: evmconnect
-    condition: evmconnect.enabled
-    version: "0.7.0"
