@@ -37,7 +37,7 @@ signer:
 evmconnect:
   enabled: true
   image:
-    tag: v1.3.4
+    tag: v1.3.14
   config:
     jsonRpcUrl: "http://firefly-signer:8545"
     policyEngine: |
