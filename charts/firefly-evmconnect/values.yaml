@@ -8,7 +8,8 @@ podAnnotations: {}
 
 imagePullSecrets: []
 
-podSecurityContext: {}
+podSecurityContext:
+  fsGroup: 1001
 
 securityContext: {}
 
@@ -36,7 +37,7 @@ persistentVolume:
 image:
   repository: ghcr.io/hyperledger/firefly-evmconnect
   pullPolicy: IfNotPresent
-  # tag: ""
+  tag: "v1.3.14"
 
 # see https://github.com/hyperledger/firefly-evmconnect/blob/main/config.md for more info
 config:

@@ -1,0 +1,48 @@
+config:
+  debugEnabled: true
+  adminEnabled: true
+  metricsEnabled: true
+  preInit: true
+  multipartyEnabled: false
+
+  organizationName: "exampleOrg"
+  organizationKey: "0x75a99473917701038e854ef6999c76cd947c9f9e"
+
+  ethconnectUrl: "http://firefly-evmconnect:5000"
+
+  postgresUrl: "postgres://postgres:firef1y@postgresql.default.svc:5432?sslmode=disable"
+  postgresAutomigrate: true
+
+  ipfsApiUrl: "http://ipfs-ipfs:5001"
+  ipfsGatewayUrl: "http://ipfs-ipfs:8080"
+
+core:
+  metrics:
+    serviceMonitor:
+      enabled: false
+
+dataexchange:
+  certificate:
+    enabled: true
+    issuerRef:
+      kind: ClusterIssuer
+      name: selfsigned-ca
+
+  tlsSecret:
+    enabled: false
+
+signer:
+  enabled: true
+
+evmconnect:
+  enabled: true
+  image:
+    tag: v1.3.14
+  config:
+    jsonRpcUrl: "http://firefly-signer:8545"
+    policyEngine: |
+      policyengine.simple:
+        fixedGasPrice: "0"
+        resubmitInterval: 5m
+        gasOracle:
+          mode: fixed
