@@ -55,6 +55,9 @@ jobs:
     needs: test
     if: github.event_name == 'push' || github.event_name == 'release'
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
     steps:
       - uses: actions/checkout@v2
 
