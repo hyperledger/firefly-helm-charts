@@ -20,10 +20,10 @@
   echo "Visit $FF_URL/api to explore the API via Swagger"
   echo "Visit $FF_URL/ui to use explorer UI"
 2. Assuming the FireFly smart contracts have been properly deployed and registered on the chain, you can register your FireFly node's organization via the API:
-  curl -X POST -d '{}' -H 'Content-Type: application/json" $FF_URL/api/v1/network/register/node/organization
+  curl -X POST -d '{}' -H 'Content-Type: application/json' $FF_URL/api/v1/network/register/node/organization
 3. Wait until your organization then registered, you can confirm its registration by listing the orgs:
   curl -X GET $FF_URL/api/v1/network/organizations
 4. Once the org is registered, you can register the node itself:
-  curl -X POST -d '{}' -H 'Content-Type: application/json" $FF_URL/api/v1/network/register/node
+  curl -X POST -d '{}' -H 'Content-Type: application/json' $FF_URL/api/v1/network/register/node
 5. Lastly, confirm the node has been registered:
   curl -X GET $FF_URL/api/v1/network/nodes
