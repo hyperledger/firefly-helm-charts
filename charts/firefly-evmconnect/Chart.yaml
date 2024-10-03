@@ -5,8 +5,8 @@ description: |
   Requires a running instance of FireFly and a persistent volume for managing its
   transaction state.
 type: application
-version: 0.7.0
-appVersion: "v1.3.14"
+version: 0.8.0
+appVersion: "v1.3.18"
 
 maintainers:
   - name: onelapahead
