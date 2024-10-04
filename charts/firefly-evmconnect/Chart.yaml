@@ -5,6 +5,11 @@ description: |
   Requires a running instance of FireFly and a persistent volume for managing its
   transaction state.
 type: application
+
+# Generally we follow this practice for updates to the chart version number:
+#  - Significant changes to the structure or purpose of the chart (major version update)
+#  - FireFly EVM Connect major release (minor version update)
+#  - Smaller release and updates (patch version updates)
 version: 0.8.0
 appVersion: "v1.3.18"
 
