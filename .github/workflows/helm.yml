@@ -21,25 +21,25 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
       - name: setup helm
-        uses: azure/setup-helm@v1
+        uses: azure/setup-helm@v4.2.0
         with:
-          version: 3.7.2
+          version: v3.14.4
 
       - name: setup chart-testing tool
-        uses: helm/chart-testing-action@v2.2.0
+        uses: helm/chart-testing-action@v2.7.0
 
       - name: lint charts
         run: make lint
 
       - name: setup kind
-        uses: engineerd/setup-kind@v0.5.0
+        uses: engineerd/setup-kind@v0.6.0
         with:
-          version: v0.20.0
+          version: v0.24.0
 
       - name: install k8s deps
         run: make deps
@@ -59,7 +59,7 @@ jobs:
       contents: read
       packages: write
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
 
       - name: chart-version
         run: |
@@ -84,9 +84,9 @@ jobs:
           echo "PUBLISH_VERSION=${{ env.CHART_VERSION }}" >> $GITHUB_ENV
 
       - name: setup helm
-        uses: azure/setup-helm@v1
+        uses: azure/setup-helm@v4.2.0
         with:
-          version: 3.7.2
+          version: v3.14.4
 
       - name: helm publish
         run: |
