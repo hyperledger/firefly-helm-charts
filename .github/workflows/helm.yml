@@ -31,7 +31,7 @@ jobs:
           version: v3.14.4
 
       - name: setup chart-testing tool
-        uses: helm/chart-testing-action@v2.7.0
+        uses: helm/chart-testing-action@v2.6.1
 
       - name: lint charts
         run: make lint
