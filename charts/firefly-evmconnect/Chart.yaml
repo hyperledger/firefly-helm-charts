@@ -16,8 +16,6 @@ appVersion: "v1.3.20"
 maintainers:
   - name: onelapahead
     email: hayden.fuss@kaleido.io
-  - name: drewmarshburn
-    email: drew.marshburn@kaleido.io
   - name: peterbroadhurst
     email: peter.broadhurst@kaleido.io
   - name: calbritt

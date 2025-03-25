@@ -213,3 +213,4 @@ $RECYCLE.BIN/
 # End of https://www.toptal.com/developers/gitignore/api/helm,macos,linux,windows,visualstudiocode,intellij
 
 besu
+besu-chart

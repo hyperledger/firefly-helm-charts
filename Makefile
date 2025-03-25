@@ -23,10 +23,10 @@ lint:
 besu:
 	kubectl --namespace default apply -f  ./values/monitoring/
 	mkdir -p besu
-	git clone --depth 1 https://github.com/Consensys/quorum-kubernetes besu
-	helm upgrade --install genesis ./besu/helm/charts/besu-genesis --namespace default --create-namespace --values ./values/genesis-besu.yml
+	git clone --depth 1 https://github.com/Consensys/quorum-kubernetes besu-chart
+	helm upgrade --install genesis ./besu-chart/helm/charts/besu-genesis --namespace default --create-namespace --values ./values/genesis-besu.yml
 	kubectl --namespace default wait --for=condition=complete job/besu-genesis-init --timeout=600s
-	helm upgrade --install validator-1 ./besu/helm/charts/besu-node --namespace default --values ./values/validator.yml
+	helm upgrade --install validator-1 ./besu-chart/helm/charts/besu-node --namespace default --values ./values/validator.yml
 	kubectl wait --for=condition=ready pod -l app.kubernetes.io/name=besu-statefulset --timeout=600s
 
 deps:
