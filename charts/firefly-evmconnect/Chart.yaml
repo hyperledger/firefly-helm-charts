@@ -10,8 +10,8 @@ type: application
 #  - Significant changes to the structure or purpose of the chart (major version update)
 #  - FireFly EVM Connect major release (minor version update)
 #  - Smaller release and updates (patch version updates)
-version: 0.8.0
-appVersion: "v1.3.18"
+version: 0.8.1
+appVersion: "v1.3.20"
 
 maintainers:
   - name: onelapahead
