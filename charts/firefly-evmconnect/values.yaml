@@ -37,7 +37,7 @@ persistentVolume:
 image:
   repository: ghcr.io/hyperledger/firefly-evmconnect
   pullPolicy: IfNotPresent
-  tag: "v1.3.20"
+  tag: "v1.4.0"
 
 # see https://github.com/hyperledger/firefly-evmconnect/blob/main/config.md for more info
 config:
