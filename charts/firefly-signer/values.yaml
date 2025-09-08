@@ -1,7 +1,7 @@
 image:
   repository: ghcr.io/hyperledger/firefly-signer
   pullPolicy: IfNotPresent
-  tag: "v1.1.20"
+  tag: "v1.1.22"
 
 backend:
   url: http://besu-node-validator-1.default.svc.cluster.local:8545
